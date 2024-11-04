@@ -1,9 +1,13 @@
 import { Image, StyleSheet, Platform } from 'react-native';
+import { registerRootComponent } from 'expo';
 
 import { HelloWave } from '@/components/HelloWave';
 import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
+import App from '../../App';
+
+registerRootComponent(App);
 
 export default function HomeScreen() {
   return (
@@ -68,3 +72,5 @@ const styles = StyleSheet.create({
     position: 'absolute',
   },
 });
+
+

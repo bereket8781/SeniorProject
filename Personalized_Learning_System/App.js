@@ -5,6 +5,7 @@ import SplashScreen from './components/SplashScreen';
 import Register from './components/Register';
 import Login from './components/Login';
 
+
 const Stack = createStackNavigator();
 
 export default function App() {

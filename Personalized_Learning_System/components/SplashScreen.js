@@ -10,21 +10,21 @@ const SplashScreen = ({ navigation }) => {
            activeDot = { <View style = { StyleSheet.activeDot } />}
         >
             <View style = { styles.splashContainer }>
-                <Image source = { require ('./assets/images/SplashScreen.png')} style = { styles.image } />
+                <Image source = { require ('../assets/images/SplashScreen.png')} style = { styles.image } />
                 <Text style = { styles.title }>Better way to learning is calling you!</Text>
                 <Text style = { styles.subtitle}>Discover the best method to improve your learning experience.</Text>
                 <AuthButtons navigation = { navigation } />
             </View>
 
             <View style = { styles.splashContainer }>
-                <Image source = { require ('./assets/images/SplashScreen.png')} style = { styles.image } />
+                <Image source = { require ('../assets/images/SplashScreen.png')} style = { styles.image } />
                 <Text style = { styles.title }>Find yourself by doing what you do</Text>
                 <Text style = { styles.subtitle}>Engage with contents tailered specially for you.</Text>
                 <AuthButtons navigation = { navigation } />
             </View>
 
             <View style = { styles.splashContainer }>
-                <Image source = { require ('./assets/images/SplashScreen.png')} style = { styles.image } />
+                <Image source = { require ('../assets/images/SplashScreen.png')} style = { styles.image } />
                 <Text style = { styles.title }>Its not just learning!</Text>
                 <Text style = { styles.subtitle}>Commit to your goal with us, and we'll help you get there.</Text>
                 <AuthButtons navigation = { navigation } />
