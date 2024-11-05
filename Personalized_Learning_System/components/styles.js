@@ -6,8 +6,20 @@ export default StyleSheet.create ({
         justifyContent: 'center',
         alignItems: 'center',
         paddingHorizontal: 20,
-        backgroundColor: '#F0F04FF',
+        backgroundColor: '#FFFFFF',
+        marginTop: 10,
     },
+
+    skipButton: {
+        position: 'absolute',
+        top: 40,
+        right: 20,
+      },
+
+    skipText: {
+        color: '#4A90E2',
+        fontSize: 16,
+      },
 
     image: {
         width: 250,
@@ -34,31 +46,28 @@ export default StyleSheet.create ({
 
     buttonContainer: {
         width: '100%',
-        flexDirection: 'row',
+        flexDirection: 'column',
         justifyContent: 'space-between',
     },
 
+    button: {
+        width: '100%',
+        paddingVertical: 15,
+        borderRadius: 8,
+        alignItems: 'center',
+        borderWidth: 1,
+        borderColor: '#4A90E2',
+    },
+    
     registerButton: {
-        flex: 1,
-        backgroundColor: '#4A90E2',
-        paddingVertical: 15,
-        borderRadius: 8,
-        marginRight: 10,
-        alignItems: 'center',
+        marginBottom: 10,
     },
-
-    loginButton: {
-        flex: 1,
-        backgroundColor: '#F5A623',
-        paddingVertical: 15,
-        borderRadius: 8,
-        alignItems: 'center',
-    },
-
+    
     buttonText: {
-        color: '#FFFFFF',
-        fontWeight: '600',
+        fontSize: 16,
+        fontWeight: 'bold',
     },
+    
 
     dot: {
         backgroundColor: '#E1E3F2',
