@@ -1,11 +1,14 @@
 import React from 'react';
-import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, Image, TouchableOpacity } from 'react-native';
 import Swiper from 'react-native-swiper';
-import styles from './styles'
+import Svg, { Path } from 'react-native-svg';
+import styles from './styles';
 
 const SplashScreen = ({ navigation }) => {
 
+
     const swiperRef = React.useRef(null);
+    const [currentIndex, setCurrentIndex] = React.useState(0);
 
     const handleSkip = () => {
         if (swiperRef.current) {
@@ -14,53 +17,169 @@ const SplashScreen = ({ navigation }) => {
         navigation.navigate('Home');
     };
 
+    const handleArrowClick = (isLeft) => {
+        if (swiperRef.current) {
+            swiperRef.current.scrollBy(isLeft ? -1 : 1);
+        }
+    };
+
     return (
-        <Swiper
-           ref={swiperRef}
-           loop = { true }
-           dot = { <View style = { StyleSheet.dot } />}
-           activeDot = { <View style = { StyleSheet.activeDot } />}
-           autoplay={true}
-           autoplayTimeout={2}  
-           autoplayDirection={true}
-        >
-            <View style = { styles.splashContainer }>
-                <TouchableOpacity style={styles.skipButton} onPress={() => navigation.navigate('Home')}>
-                  <Text style={styles.skipText}>Skip</Text>
-                </TouchableOpacity>
-                <Image source = { require ('../assets/images/SplashScreen.png')} style = { styles.image } />
-                <Text style = { styles.title }>Better way to learning is calling you!</Text>
-                <Text style = { styles.subtitle}>Discover the best method to improve your learning experience.</Text>
-                <AuthButtons navigation = { navigation } />
-            </View>
-
-            <View style = { styles.splashContainer }>
-                <TouchableOpacity style={styles.skipButton} onPress={() => navigation.navigate('Home')}>
-                  <Text style={styles.skipText}>Skip</Text>
-                </TouchableOpacity>
-                <Image source = { require ('../assets/images/SplashScreen.png')} style = { styles.image } />
-                <Text style = { styles.title }>Find yourself by doing what you do</Text>
-                <Text style = { styles.subtitle}>Engage with contents tailered specially for you.</Text>
-                <AuthButtons navigation = { navigation } />
-            </View>
-
-            <View style = { styles.splashContainer }>
+        <View style={styles.container}>
             <TouchableOpacity 
-                    style={styles.skipButton} 
-                    onPress={handleSkip}
-                >
-                    <Text style={styles.skipText}>Skip</Text>
-                </TouchableOpacity>
-                <Image source = { require ('../assets/images/SplashScreen.png')} style = { styles.image } />
-                <Text style = { styles.title }>Its not just learning!</Text>
-                <Text style = { styles.subtitle}>Commit to your goal with us, and we'll help you get there.</Text>
-                <AuthButtons navigation = { navigation } />
+                style={styles.skipButton} 
+                onPress={handleSkip}
+            >
+                <Text style={styles.skipText}>Skip</Text>
+            </TouchableOpacity>
+
+            <Swiper
+                ref={swiperRef}
+                loop={true}
+                autoplay={true}
+                autoplayTimeout={3}
+                showsButtons={false}
+                onIndexChanged={(index) => setCurrentIndex(index)}
+                style={styles.swiperContainer}
+            >
+                <View style={styles.slideContainer}>
+                    <View style={styles.arrowWrapper}>
+                        <TouchableOpacity onPress={() => handleArrowClick(true)}>
+                            <View style={styles.arrowButton}>
+                                <Svg height="50" width="40" viewBox="0 0 24 24">
+                                    <Path
+                                        d="M15 18l-6-6 6-6"
+                                        stroke="#4A90E2"
+                                        strokeWidth="2"
+                                        fill="none"
+                                    />
+                                </Svg>
+                            </View>
+                        </TouchableOpacity>
+
+                        <View style={styles.imageContainer}>
+                            <Image 
+                                source={require('../assets/images/SplashScreen.png')} 
+                                style={styles.image} 
+                            />
+                        </View>
+
+                        <TouchableOpacity onPress={() => handleArrowClick(false)}>
+                            <View style={styles.arrowButton}>
+                                <Svg height="50" width="40" viewBox="0 0 24 24">
+                                    <Path
+                                        d="M9 18l6-6-6-6"
+                                        stroke="#4A90E2"
+                                        strokeWidth="2"
+                                        fill="none"
+                                    />
+                                </Svg>
+                            </View>
+                        </TouchableOpacity>
+                    </View>
+                    <Text style={styles.title}>Better way to learning is calling you!</Text>
+                    <Text style={styles.subtitle}>Discover the best method to improve your learning experience.</Text>
+                </View>
+
+                <View style={styles.slideContainer}>
+                    <View style={styles.arrowWrapper}>
+                        <TouchableOpacity onPress={() => handleArrowClick(true)}>
+                            <View style={styles.arrowButton}>
+                                <Svg height="50" width="40" viewBox="0 0 24 24">
+                                    <Path
+                                        d="M15 18l-6-6 6-6"
+                                        stroke="#4A90E2"
+                                        strokeWidth="2"
+                                        fill="none"
+                                    />
+                                </Svg>
+                            </View>
+                        </TouchableOpacity>
+
+                        <View style={styles.imageContainer}>
+                            <Image 
+                                source={require('../assets/images/SplashScreen.png')} 
+                                style={styles.image} 
+                            />
+                        </View>
+
+                        <TouchableOpacity onPress={() => handleArrowClick(false)}>
+                            <View style={styles.arrowButton}>
+                                <Svg height="50" width="40" viewBox="0 0 24 24">
+                                    <Path
+                                        d="M9 18l6-6-6-6"
+                                        stroke="#4A90E2"
+                                        strokeWidth="2"
+                                        fill="none"
+                                    />
+                                </Svg>
+                            </View>
+                        </TouchableOpacity>
+                    </View>
+                    <Text style={styles.title}>Find yourself by doing what you do</Text>
+                    <Text style={styles.subtitle}>Engage with contents tailered specially for you.</Text>
+                </View>
+
+                <View style={styles.slideContainer}>
+                    <View style={styles.arrowWrapper}>
+                        <TouchableOpacity onPress={() => handleArrowClick(true)}>
+                            <View style={styles.arrowButton}>
+                                <Svg height="50" width="40" viewBox="0 0 24 24">
+                                    <Path
+                                        d="M15 18l-6-6 6-6"
+                                        stroke="#4A90E2"
+                                        strokeWidth="2"
+                                        fill="none"
+                                    />
+                                </Svg>
+                            </View>
+                        </TouchableOpacity>
+
+                        <View style={styles.imageContainer}>
+                            <Image 
+                                source={require('../assets/images/SplashScreen.png')} 
+                                style={styles.image} 
+                            />
+                        </View>
+
+                        <TouchableOpacity onPress={() => handleArrowClick(false)}>
+                            <View style={styles.arrowButton}>
+                                <Svg height="50" width="40" viewBox="0 0 24 24">
+                                    <Path
+                                        d="M9 18l6-6-6-6"
+                                        stroke="#4A90E2"
+                                        strokeWidth="2"
+                                        fill="none"
+                                    />
+                                </Svg>
+                            </View>
+                        </TouchableOpacity>
+                    </View>
+                    <Text style={styles.title}>Its not just learning!</Text>
+                    <Text style={styles.subtitle}>Commit to your goal with us, and we'll help you get there.</Text>
+                </View>
+            </Swiper>
+
+{/*             <View style={styles.dotsContainer}>
+                {[0, 1, 2].map((index) => (
+                    <View 
+                        key={index}
+                        style={[
+                            styles.dot,
+                            currentIndex === index && styles.activeDot
+                        ]}
+                    />
+                ))}
+            </View> */}
+
+            <View style={styles.fixedButtonsContainer}>
+                <AuthButtons navigation={navigation} />
             </View>
-        </Swiper>
+        </View>
     );
 };
 
-// ... existing code ...
+
+
 
 const AuthButtons = ({ navigation }) => {
     const [selectedButton, setSelectedButton] = React.useState('register');
@@ -107,6 +226,7 @@ const AuthButtons = ({ navigation }) => {
     );
 };
 
-// ... existing code ...
+
+
 
 export default SplashScreen;
