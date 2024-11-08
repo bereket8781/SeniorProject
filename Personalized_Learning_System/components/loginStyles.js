@@ -193,13 +193,19 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     modalContainer: {
-        width: '90%',
+        width: '80%',
         backgroundColor: '#fff',
         borderRadius: 15,
         borderWidth: 1,
         borderColor: '#FFFFFF',
         padding: 20,
         alignItems: 'center',
+    },
+
+    faceIcon: {
+        width: 74,
+        height: 74,
+        marginRight: 12,
     },
     modalTitle: {
         fontSize: 18,
@@ -266,6 +272,28 @@ const styles = StyleSheet.create({
         fontSize: 16,
         color: '#4285F4',
     },
+    modalText: {
+        fontSize: 16,
+        textAlign: 'center',
+        marginBottom: 15,
+    },
+    continueButton: {
+        backgroundColor: '#4267B2',
+        paddingVertical: 10,
+        paddingHorizontal: 30,
+        borderRadius: 5,
+        marginBottom: 10,
+    },
+    continueButtonText: {
+        color: '#fff',
+        fontSize: 16,
+        fontWeight: 'bold',
+    },
+    cancelText: {
+        color: '#888',
+        fontSize: 16,
+        marginBottom: 15,
+    },
     modalFooter: {
         fontSize: 12,
         color: '#888',
@@ -276,11 +304,11 @@ const styles = StyleSheet.create({
     closeButton: {
         paddingVertical: 10,
         paddingHorizontal: 20,
-        backgroundColor: '#4285F4',
+        backgroundColor: '#FFFFFF',
         borderRadius: 5,
     },
     closeButtonText: {
-        color: '#fff',
+        color: '#4285F4',
         fontSize: 16,
     },
 

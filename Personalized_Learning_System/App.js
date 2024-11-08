@@ -6,6 +6,8 @@ import { createStackNavigator } from '@react-navigation/stack';
 import SplashScreen from './components/SplashScreen';
 import Login from './components/Login';
 import Register from './components/Register';
+import ForgotPassword from './components/ForgotPassword';
+import ResetPass from './components/ResetPass';
 
 const Stack = createStackNavigator();
 
@@ -21,6 +23,16 @@ export default function App() {
         <Stack.Screen 
           name="Login" 
           component={Login} 
+          options={{ headerShown: false }}
+        />
+         <Stack.Screen 
+          name="ForgotPassword" 
+          component={ForgotPassword} 
+          options={{ headerShown: false }}
+        />
+         <Stack.Screen 
+          name="ResetPass" 
+          component={ResetPass} 
           options={{ headerShown: false }}
         />
         <Stack.Screen 
