@@ -5,6 +5,8 @@ import SplashScreen from '../components/SplashScreen';
 import Login from '../components/Login';
 import ForgotPassword from '../components/ForgotPassword';
 import ResetPass from '../components/ResetPass';
+import Register from '../components/Register';
+import emailSignup from '../components/EmailSignup';
 
 
 
@@ -35,11 +37,16 @@ export default function App(): JSX.Element {
           component={ResetPass} 
           options={{ headerShown: false }}
         />
-{/*       <Stack.Screen 
+      <Stack.Screen 
         name="Register" 
         component={Register} 
         options={{ headerShown: false }}
-      /> */}
+      /> 
+        <Stack.Screen 
+          name="emailSignup" 
+          component={emailSignup} 
+          options={{ headerShown: false }}
+        />
     </Stack.Navigator>
   
    

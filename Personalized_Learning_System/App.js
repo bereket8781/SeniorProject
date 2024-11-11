@@ -8,6 +8,7 @@ import Login from './components/Login';
 import Register from './components/Register';
 import ForgotPassword from './components/ForgotPassword';
 import ResetPass from './components/ResetPass';
+import emailSignup from './components/EmailSignup';
 
 const Stack = createStackNavigator();
 
@@ -38,6 +39,11 @@ export default function App() {
         <Stack.Screen 
           name="Register" 
           component={Register} 
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen 
+          name="emailSignup" 
+          component={emailSignup} 
           options={{ headerShown: false }}
         />
       </Stack.Navigator>

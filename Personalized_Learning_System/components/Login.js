@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image, Modal } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image, Modal, ScrollView } from 'react-native';
 import styles from "./loginStyles";
 import { Ionicons } from '@expo/vector-icons';
 
@@ -32,6 +32,7 @@ const Login = ({ navigation }) => {
     };
 
     return (
+        <ScrollView contentContainerStyle={styles.scrollContainer}>
         <View style={styles.container}>
             <Text style={styles.title}>Welcome back!</Text>
             <Text style={styles.subtitle}>Sign in to continue!</Text>
@@ -90,7 +91,7 @@ const Login = ({ navigation }) => {
 
             <View style={styles.footer}>
                 <Text style={styles.footerText}>Don't have an account?</Text>
-                <TouchableOpacity onPress={() => navigation.navigate('SignUp')}>
+                <TouchableOpacity onPress={() => navigation.navigate('Register')}>
                     <Text style={styles.signUpText}>Sign Up</Text>
                 </TouchableOpacity>
             </View>
@@ -105,7 +106,7 @@ const Login = ({ navigation }) => {
                 <View style={styles.modalBackground}>
                     <View style={styles.modalContainer}>
                         <Text style={styles.modalTitle}>Choose an account</Text>
-                        <Text style={styles.modalSubtitle}>To continue to TikTak</Text>
+                        <Text style={styles.modalSubtitle}>To continue to EduConnect</Text>
 
                         <View style={styles.accountOption}>
                         <Image source={require('../assets/images/googleAcc.png')} style={styles.socialIcon} />
@@ -121,7 +122,7 @@ const Login = ({ navigation }) => {
                         </TouchableOpacity>
 
                         <Text style={styles.modalFooter}>
-                            To continue, Google will share your name, email address, and profile picture with TikTak.
+                            To continue, Google will share your name, email address, and profile picture with EduConnect.
                         </Text>
 
                         <TouchableOpacity style={styles.closeButton} onPress={toggleGoogleModal}>
@@ -153,12 +154,13 @@ const Login = ({ navigation }) => {
                         </TouchableOpacity>
 
                         <Text style={styles.modalFooter}>
-                            By continuing, TikTak will receive ongoing access to the information you share on Facebook.
+                            By continuing, EduConnect will receive ongoing access to the information you share on Facebook.
                         </Text>
                     </View>
                 </View>
             </Modal>
         </View>
+    </ScrollView>
     );
 };
 

@@ -5,7 +5,7 @@ import styles from './resetStyles';
 
 const ResetPass = ( { navigation }) => {
     const [password, setPassword] = useState('');
-    const [isPasswordVisible, setPasswordVisible] = useState('');
+    const [isPasswordVisible, setPasswordVisible] = useState(false);
     const [passwordError, setPasswordError] = useState('');
 
     const togglePasswordVisibility = () => {
@@ -32,7 +32,7 @@ const ResetPass = ( { navigation }) => {
                 <Ionicons name="arrow-back" size={24} color="black" />
             </TouchableOpacity>
 
-            <Text style = {styles.title}>Enetr new password</Text>
+            <Text style = {styles.title}>Enter new password</Text>
 
             <View style = {styles.passwordContainer}>
                 <TextInput 
@@ -53,12 +53,12 @@ const ResetPass = ( { navigation }) => {
                 </TouchableOpacity>
             </View>
 
-            <Text style = {styles.title}>Enter password again</Text>
+            <Text style = {styles.title}>Comfirm password</Text>
 
             <View style = {styles.passwordContainer}>
                 <TextInput 
                     style = {styles.passwordInput}
-                    placeholder="enter new password"
+                    placeholder="Confirm password"
                     placeholderTextColor="#A9A9A9"
                     onChangeText={setPassword}
                     value={password}
