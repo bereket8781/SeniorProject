@@ -8,16 +8,24 @@ import Login from './components/Login';
 import Register from './components/Register';
 import ForgotPassword from './components/ForgotPassword';
 import ResetPass from './components/ResetPass';
-import emailSignup from './components/EmailSignup';
+import EmailSignup from './components/EmailSignup';
+import LaunchScreen from './components/LaunchScreen';
+import ProfileCompletion from './components/ProfileCompletion';
 
 const Stack = createStackNavigator();
 
 export default function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Splash">
+      <Stack.Navigator initialRouteName="Launch">
+
+      <Stack.Screen 
+          name="Launch" 
+          component={LaunchScreen} 
+          options={{ headerShown: false }}
+        />
         <Stack.Screen 
-          name="Splash" 
+          name="SplashScreen" 
           component={SplashScreen} 
           options={{ headerShown: false }}
         />
@@ -42,8 +50,13 @@ export default function App() {
           options={{ headerShown: false }}
         />
         <Stack.Screen 
-          name="emailSignup" 
-          component={emailSignup} 
+          name="EmailSignup" 
+          component={EmailSignup} 
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen 
+          name="ProfileCompletion" 
+          component={ProfileCompletion} 
           options={{ headerShown: false }}
         />
       </Stack.Navigator>

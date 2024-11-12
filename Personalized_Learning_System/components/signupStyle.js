@@ -43,6 +43,19 @@ export default StyleSheet.create ({
         color: '#000000',
     },
 
+    pickerContainer: {
+        borderWidth: 1,
+        borderColor: '#A9A9A9',
+        borderRadius: 5,
+        marginVertical: 10,
+        paddingHorizontal: 10,
+    },
+    picker: {
+        height: 50,
+        color: '#000000',
+    },
+    
+
     passwordContainer: {
         width: '100%',
         flexDirection: 'row',

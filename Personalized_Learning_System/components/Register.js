@@ -36,7 +36,7 @@ const Register = ({ navigation }) => {
                 <View style = {styles.orLine} />
             </View>
 
-            <TouchableOpacity style = {styles.socialButton} onPress={() => navigation.navigate('emailSignup')}>
+            <TouchableOpacity style = {styles.socialButton} onPress={() => navigation.navigate('EmailSignup')}>
                 <Text  style = {styles.socialButtonText}>Sign up with email</Text>
             </TouchableOpacity>
 

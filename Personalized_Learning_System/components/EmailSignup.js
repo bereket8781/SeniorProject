@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, ScrollView } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import { Picker } from '@react-native-picker/picker';
 import styles from './signupStyle';
 
 const emailSignup = ({ navigation }) => {
     const [fullname, setFullname] = useState('');
-    const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [isPasswordVisible, setPasswordVisible] = useState(false);
     const [passwordError, setPasswordError] = useState(false);
@@ -43,14 +43,27 @@ const emailSignup = ({ navigation }) => {
                     value={fullname}
                 />
 
-                <Text style={styles.subtitle}>User Name</Text>
+{/*                 <Text style={styles.subtitle}>User Name</Text>
                 <TextInput
                     style={styles.input}
                     placeholder="Username"
                     placeholderTextColor="#A9A9A9"
                     onChangeText={setUsername}
                     value={username}
-                />
+                /> */}
+
+{/*                 <Text style={styles.subtitle}>Gender</Text>
+                <View style={styles.pickerContainer}>
+                    <Picker
+                        selectedValue={gender}
+                        onValueChange={(itemValue) => setGender(itemValue)}
+                        style={styles.picker}
+                    >
+                        <Picker.Item label="Select Gender" value="" />
+                        <Picker.Item label="Male" value="male" />
+                        <Picker.Item label="Female" value="female" />
+                    </Picker>
+                </View> */}
 
                 <Text style={styles.subtitle}>Create Password</Text>
                 <View style={styles.passwordContainer}>
@@ -120,7 +133,7 @@ const emailSignup = ({ navigation }) => {
                     </Text>
                 </TouchableOpacity>
 
-                <TouchableOpacity style={styles.continueButton} onPress={handleContinue}>
+                <TouchableOpacity style={styles.continueButton} onPress={() => navigation.navigate('ProfileCompletion')}>
                     <Text style={styles.continueButtonText}>Continue</Text>
                 </TouchableOpacity>
             </View>
@@ -129,4 +142,3 @@ const emailSignup = ({ navigation }) => {
 };
 
 export default emailSignup;
-
