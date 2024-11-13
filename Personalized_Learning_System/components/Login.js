@@ -65,7 +65,7 @@ const Login = ({ navigation }) => {
 
             {passwordError ? <Text style={styles.errorText}>{passwordError}</Text> : null}
 
-            <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
+            <TouchableOpacity style={styles.loginButton}  onPress={() => navigation.navigate('HomePage')}>
                 <Text style={styles.loginButtonText}>Log In</Text>
             </TouchableOpacity>
 

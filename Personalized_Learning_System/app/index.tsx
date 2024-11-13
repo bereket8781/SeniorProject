@@ -9,6 +9,8 @@ import Register from '../components/Register';
 import EmailSignup from '../components/EmailSignup';
 import LaunchScreen from '../components/LaunchScreen';
 import ProfileCompletion from '../components/ProfileCompletion';
+import HomePage from '../components/HomePage';
+import AllCategories from '../components/AllCategories';
 
 
 
@@ -57,6 +59,16 @@ export default function App(): JSX.Element {
         <Stack.Screen 
           name="ProfileCompletion" 
           component={ProfileCompletion} 
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen 
+          name="HomePage" 
+          component={HomePage} 
+          options={{ headerShown: false }}
+        />
+       <Stack.Screen 
+          name="AllCategories" 
+          component={AllCategories} 
           options={{ headerShown: false }}
         />
     </Stack.Navigator>
