@@ -66,7 +66,7 @@ const HomePage = ({ navigation }) => {
             placeholder="Search"
             placeholderTextColor="#666666"
           />
-          <TouchableOpacity style={styles.filterButton}>
+          <TouchableOpacity style={styles.filterButton} onPress={() => navigation.navigate('Filter')}>
             <Feather name="sliders" size={20} color="#666666" />
           </TouchableOpacity>
         </View>

@@ -12,6 +12,7 @@ import ProfileCompletion from '../components/ProfileCompletion';
 import HomePage from '../components/HomePage';
 import AllCategories from '../components/AllCategories';
 import CourseDetails from '../components/CourseDetails';
+import Filter from '../components/Filter';
 
 
 
@@ -75,6 +76,11 @@ export default function App(): JSX.Element {
         <Stack.Screen 
           name="CourseDetails" 
           component={CourseDetails} 
+          options={{ headerShown: false }}
+        />
+         <Stack.Screen 
+          name="Filter" 
+          component={Filter} 
           options={{ headerShown: false }}
         />
     </Stack.Navigator>
