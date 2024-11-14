@@ -13,6 +13,7 @@ import LaunchScreen from './components/LaunchScreen';
 import ProfileCompletion from './components/ProfileCompletion';
 import HomePage from './components/HomePage';
 import AllCategories from './components/AllCategories';
+import CourseDetails from './components/CourseDetails';
 
 const Stack = createStackNavigator();
 
@@ -69,6 +70,11 @@ export default function App() {
         <Stack.Screen 
           name="AllCategories" 
           component={AllCategories} 
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen 
+          name="CourseDetails" 
+          component={CourseDetails} 
           options={{ headerShown: false }}
         />
       </Stack.Navigator>

@@ -19,6 +19,31 @@ const HomePage = ({ navigation }) => {
     'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200&q=80',
   ];
 
+
+  const courses = [
+    {
+      title: 'Design Thinking Fundamental',
+      instructor: 'Robert Green',
+      price: '$190.00',
+      rating: '4.8',
+      image: courseImages[0]
+    },
+    {
+      title: 'Data Structures and Algorithms',
+      instructor: 'Robert Green',
+      price: '$190.00',
+      rating: '4.8',
+      image: courseImages[0]
+    },
+    {
+      title: '3D Illustration Design',
+      instructor: 'John Doe',
+      price: '$250.00',
+      rating: '4.9',
+      image: courseImages[0]
+    }
+  ];
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -70,6 +95,7 @@ const HomePage = ({ navigation }) => {
               <Text style={styles.categoryText}>{category.name}</Text>
             </TouchableOpacity>
           ))}
+
         </ScrollView>
 
         <View style={styles.sectionHeader}>
@@ -80,49 +106,31 @@ const HomePage = ({ navigation }) => {
         </View>
 
         <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.courseRow}>
-          {[
-            {
-              title: 'Design Thinking Fundamental',
-              instructor: 'Robert Green',
-              price: '$190.00',
-              rating: '4.8',
-              image: courseImages[0]
-            },
-            {
-              title: 'Data structures and Algorithms',
-              instructor: 'Robert Green',
-              price: '$190.00',
-              rating: '4.8',
-              image: courseImages[0]
-            },
-            {
-              title: '3D Illustration Design',
-              instructor: 'John Doe',
-              price: '$250.00',
-              rating: '4.9',
-              image: courseImages[0]
-            }
-          ].map((course, index) => (
-            <View key={index} style={styles.courseCard}>
-              <Image source={{ uri: course.image }} style={styles.courseImage} />
-              <View style={styles.ratingBadge}>
-                <Feather name="star" size={14} color="#FFB800" />
-                <Text style={styles.ratingText}>{course.rating}</Text>
+        {courses.map((course, index) => (
+          <TouchableOpacity
+            key={index}
+            style={styles.courseCard}
+            onPress={() => navigation.navigate('CourseDetails', course)}
+          >
+            <Image source={{ uri: course.image }} style={styles.courseImage} />
+            <View style={styles.ratingBadge}>
+              <Feather name="star" size={14} color="#FFB800" />
+              <Text style={styles.ratingText}>{course.rating}</Text>
+            </View>
+            <View style={styles.courseContent}>
+              <Text style={styles.courseTitle}>{course.title}</Text>
+              <View style={styles.instructorRow}>
+                <Feather name="user" size={14} color="#666666" />
+                <Text style={styles.instructorText}>{course.instructor}</Text>
               </View>
-              <View style={styles.courseContent}>
-                <Text style={styles.courseTitle}>{course.title}</Text>
-                <View style={styles.instructorRow}>
-                  <Feather name="user" size={14} color="#666666" />
-                  <Text style={styles.instructorText}>{course.instructor}</Text>
-                </View>
-                <View style={styles.priceRow}>
-                  <Text style={styles.priceText}>{course.price}</Text>
-                  <Text style={styles.newPriceTag}>New Price</Text>
-                </View>
+              <View style={styles.priceRow}>
+                <Text style={styles.priceText}>{course.price}</Text>
+                <Text style={styles.newPriceTag}>New Price</Text>
               </View>
             </View>
-          ))}
-        </ScrollView>
+          </TouchableOpacity>
+        ))}
+      </ScrollView>
 
         <View style={styles.sectionHeader}>
           <Text style={styles.sectionTitle}>Top Mentor</Text>
