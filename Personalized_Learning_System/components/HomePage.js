@@ -7,14 +7,16 @@ import { Feather } from '@expo/vector-icons';
 const HomePage = ({ navigation }) => {
   const courseImages = [
     'https://images.unsplash.com/photo-1531403009284-440f080d1e12?w=500&q=80',
-    'https://images.unsplash.com/photo-1626785774625-0b1c2c4eab67?w=500&q=80'
+    'https://images.unsplash.com/photo-1626785774625-0b1c2c4eab67?w=500&q=80',
   ];
 
   const mentorImages = [
     'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200&q=80',
     'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=200&q=80',
     'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=200&q=80',
-    'https://images.unsplash.com/photo-1519345182560-3f2917c472ef?w=200&q=80'
+    'https://images.unsplash.com/photo-1519345182560-3f2917c472ef?w=200&q=80',
+    'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=200&q=80',
+    'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200&q=80',
   ];
 
   return (
@@ -58,7 +60,8 @@ const HomePage = ({ navigation }) => {
             { name: 'Art', color: '#FF6B00', icon: 'pen-tool' },
             { name: 'Coding', color: '#0056FF', icon: 'code' },
             { name: 'Marketing', color: '#FF3B30', icon: 'trending-up' },
-            { name: 'Business', color: '#34C759', icon: 'briefcase' }
+            { name: 'Business', color: '#34C759', icon: 'briefcase' },
+            { name: 'Marketing', color: '#FF3B30', icon: 'trending-up' },
           ].map((category, index) => (
             <TouchableOpacity key={index} style={styles.category}>
               <View style={[styles.categoryIcon, { backgroundColor: `${category.color}20` }]}>
@@ -129,7 +132,7 @@ const HomePage = ({ navigation }) => {
         </View>
 
         <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.mentors}>
-          {['Esther T.', 'Jenny M.', 'Jacob U.', 'Bessi K.'].map((mentor, index) => (
+          {['Esther T.', 'Jenny M.', 'Jacob U.', 'Bessi K.', 'Jacob U.', 'Esther T.'].map((mentor, index) => (
             <TouchableOpacity key={index} style={styles.mentor}>
               <Image source={{ uri: mentorImages[index] }} style={styles.mentorAvatar} />
               <Text style={styles.mentorName}>{mentor}</Text>
@@ -159,6 +162,28 @@ const HomePage = ({ navigation }) => {
             </View>
             <View style={styles.progressContainer}>
               <Text style={styles.progressText}>20/25</Text>
+              <View style={styles.progressBar}>
+                <View style={styles.progressFill} />
+              </View>
+            </View>
+          </View>
+        </TouchableOpacity>
+
+        <TouchableOpacity style={styles.continueCard}>
+          <Image
+            source={{ uri: 'https://images.unsplash.com/photo-1581291518633-83b4ebd1d83e?w=500&q=80' }}
+            style={styles.continueThumbnail}
+          />
+          <View style={styles.continueContent}>
+            <View>
+              <Text style={styles.continueTitle}>Introduction of Algorithms</Text>
+              <View style={styles.instructorRow}>
+                <Feather name="user" size={14} color="#666666" />
+                <Text style={styles.instructorText}>John Doe</Text>
+              </View>
+            </View>
+            <View style={styles.progressContainer}>
+              <Text style={styles.progressText}>23/25</Text>
               <View style={styles.progressBar}>
                 <View style={styles.progressFill} />
               </View>

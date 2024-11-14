@@ -4,7 +4,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { Picker } from '@react-native-picker/picker';
 import styles from './signupStyle';
 
-const emailSignup = ({ navigation }) => {
+const EmailSignup = ({ navigation }) => {
     const [fullname, setFullname] = useState('');
     const [password, setPassword] = useState('');
     const [isPasswordVisible, setPasswordVisible] = useState(false);
@@ -141,4 +141,4 @@ const emailSignup = ({ navigation }) => {
     );
 };
 
-export default emailSignup;
+export default EmailSignup;
