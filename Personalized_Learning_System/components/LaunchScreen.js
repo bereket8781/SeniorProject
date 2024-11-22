@@ -1,37 +1,37 @@
-import React, { useEffect } from 'react';
-import { View, Text, Image } from 'react-native';
-import styles from './launchStyles';
+import React, { useEffect } from "react";
+import { View, Text, Image } from "react-native";
+import styles from "./launchStyles";
 
 const LaunchScreen = ({ navigation }) => {
-   useEffect (() => {
-        const timer = setTimeout(() => {
-            navigation.replace('SplashScreen');
-        }, 3000);
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      navigation.replace("SplashScreen");
+    }, 3000);
 
-        return () => clearTimeout(timer);
-    }, [navigation]); 
+    return () => clearTimeout(timer);
+  }, [navigation]);
 
-    return (
-        <View style = {styles.container}>
-            <View style = {styles.content}>
-                <Image
-                    source={require('../assets/images/banner.png')}
-                    style = {styles.puzzelPiece}
-                    resizeMode="contain"
-                />
+  return (
+    <View style={styles.container}>
+      <View style={styles.content}>
+        <Image
+          source={require("../assets/images/banner.png")}
+          style={styles.puzzelPiece}
+          resizeMode="contain"
+        />
 
-                <Image 
-                    source={require('../assets/images/logo.jpg')}
-                    style = {styles.logo}
-                    resizeMode="contain"
-                />
+        <Image
+          source={require("../assets/images/logo.jpg")}
+          style={styles.logo}
+          resizeMode="contain"
+        />
 
-                <Text style = {styles.title}>EduConnect</Text>
+        <Text style={styles.title}>EduConnect</Text>
 
-                <Text style = {styles.subtitle}>LEARN FROM HOME</Text>
-            </View>
-        </View>
-    );
+        <Text style={styles.subtitle}>LEARN FROM HOME</Text>
+      </View>
+    </View>
+  );
 };
 
 export default LaunchScreen;

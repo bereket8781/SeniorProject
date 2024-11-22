@@ -1,9 +1,15 @@
-import styles from './splashStyles';
+import styles from "./splashStyles";
 import React, { useState, useEffect, useCallback } from "react";
-import { View, Text, TouchableOpacity, ScrollView, Dimensions } from "react-native";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  ScrollView,
+  Dimensions,
+} from "react-native";
 import { Svg, Rect, Circle, Path } from "react-native-svg";
 
-const { width } = Dimensions.get('window')
+const { width } = Dimensions.get("window");
 
 const slides = [
   {
@@ -21,10 +27,7 @@ const slides = [
         />
         <Rect x="150" y="200" width="100" height="120" fill="#FF69B4" rx="10" />
         <Circle cx="80" cy="280" r="10" fill="#4169E1" />
-        <Path
-          d="M180 150 L220 150 L200 120 Z"
-          fill="#4169E1"
-        />
+        <Path d="M180 150 L220 150 L200 120 Z" fill="#4169E1" />
       </Svg>
     ),
   },
@@ -65,135 +68,150 @@ const slides = [
       </Svg>
     ),
   },
-]
+];
 
 const SplashScreen = ({ navigation }) => {
-    const [currentSlide, setCurrentSlide] = useState(0);
-    const [selectedButton, setSelectedButton] = useState('register');
+  const [currentSlide, setCurrentSlide] = useState(0);
+  const [selectedButton, setSelectedButton] = useState("register");
 
-    const handleButtonChange = () => {
-        setSelectedButton((prev) => (prev === 'register' ? 'login' : 'register'));
-    };
+  const handleButtonChange = () => {
+    setSelectedButton((prev) => (prev === "register" ? "login" : "register"));
+  };
 
-    const nextSlide = useCallback(() => {
-        setCurrentSlide((prev) => (prev === slides.length - 1 ? 0 : prev + 1));
-    }, []);
+  const nextSlide = useCallback(() => {
+    setCurrentSlide((prev) => (prev === slides.length - 1 ? 0 : prev + 1));
+  }, []);
 
-    const prevSlide = useCallback(() => {
-        setCurrentSlide((prev) => (prev === 0 ? slides.length - 1 : prev - 1));
-    }, []);
+  const prevSlide = useCallback(() => {
+    setCurrentSlide((prev) => (prev === 0 ? slides.length - 1 : prev - 1));
+  }, []);
 
-    const goToSlide = (index) => {
-        setCurrentSlide(index);
-    };
+  const goToSlide = (index) => {
+    setCurrentSlide(index);
+  };
 
-    useEffect(() => {
-        const interval = setInterval(() => {
-            nextSlide();
-        }, 5000); // Change slide every 5 seconds
+  useEffect(() => {
+    const interval = setInterval(() => {
+      nextSlide();
+    }, 5000); // Change slide every 5 seconds
 
-        return () => clearInterval(interval);
-    }, [nextSlide]);
+    return () => clearInterval(interval);
+  }, [nextSlide]);
 
-    return (
-        <View style={styles.container}>
-            <View style={styles.skipContainer}>
-                <TouchableOpacity onPress={() => navigation.navigate('Login')} style={styles.skipButton}>
-                    <Text style={styles.skipText}>Skip</Text>
-                </TouchableOpacity>
-            </View>
-            <ScrollView contentContainerStyle={styles.contentContainer}>
-                <View style={styles.swiperContainer}>
-                    <ScrollView
-                        horizontal
-                        pagingEnabled
-                        showsHorizontalScrollIndicator={false}
-                        scrollEnabled={false}
-                        contentOffset={{ x: currentSlide * width, y: 0 }}
-                        style={styles.swiperContent}
-                    >
-                        {slides.map((slide, index) => (
-                            <View key={index} style={styles.slide}>
-                                {slide.svg}
-                            </View>
-                        ))}
-                    </ScrollView>
-                    <TouchableOpacity
-                        style={[styles.navButton, styles.navButtonLeft]}
-                        onPress={prevSlide}
-                    >
-                        <Text style={styles.navButtonText}>{"<"}</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                        style={[styles.navButton, styles.navButtonRight]}
-                        onPress={nextSlide}
-                    >
-                        <Text style={styles.navButtonText}>{">"}</Text>
-                    </TouchableOpacity>
-                </View>
-                <View style={styles.textContainer}>
-                    <Text style={styles.title}>{slides[currentSlide].title}</Text>
-                    <Text style={styles.description}>{slides[currentSlide].description}</Text>
-                    <View style={styles.dotsContainer}>
-                        {slides.map((_, index) => (
-                            <TouchableOpacity
-                                key={index}
-                                style={[
-                                    styles.dot,
-                                    currentSlide === index && styles.activeDot
-                                ]}
-                                onPress={() => goToSlide(index)}
-                            />
-                        ))}
-                    </View>
-                    <View style={styles.buttonContainer}>
-                        <TouchableOpacity
-                            style={[
-                                styles.button,
-                                styles.registerButton,
-                                { backgroundColor: selectedButton === 'register' ? '#4A90E2' : '#FFFFFF' }
-                            ]}
-                            onPress={() => {
-                                handleButtonChange();
-                                navigation.navigate('Register');
-                            }}
-                        >
-                            <Text style={[
-                                styles.buttonText,
-                                { color: selectedButton === 'register' ? '#FFFFFF' : '#4A90E2' }
-                            ]}>Register</Text>
-                        </TouchableOpacity>
-
-                        <TouchableOpacity
-                            style={[
-                                styles.button,
-                                { backgroundColor: selectedButton === 'login' ? '#4A90E2' : '#FFFFFF' }
-                            ]}
-                            onPress={() => {
-                                handleButtonChange();
-                                navigation.navigate('Login');
-                            }}
-                        >
-                            <Text style={[
-                                styles.buttonText,
-                                { color: selectedButton === 'login' ? '#FFFFFF' : '#4A90E2' }
-                            ]}>Log In</Text>
-                        </TouchableOpacity>
-                    </View>
-                </View>
-            </ScrollView>
+  return (
+    <View style={styles.container}>
+      <View style={styles.skipContainer}>
+        <TouchableOpacity
+          onPress={() => navigation.navigate("Login")}
+          style={styles.skipButton}
+        >
+          <Text style={styles.skipText}>Skip</Text>
+        </TouchableOpacity>
+      </View>
+      <ScrollView contentContainerStyle={styles.contentContainer}>
+        <View style={styles.swiperContainer}>
+          <ScrollView
+            horizontal
+            pagingEnabled
+            showsHorizontalScrollIndicator={false}
+            scrollEnabled={false}
+            contentOffset={{ x: currentSlide * width, y: 0 }}
+            style={styles.swiperContent}
+          >
+            {slides.map((slide, index) => (
+              <View key={index} style={styles.slide}>
+                {slide.svg}
+              </View>
+            ))}
+          </ScrollView>
+          <TouchableOpacity
+            style={[styles.navButton, styles.navButtonLeft]}
+            onPress={prevSlide}
+          >
+            <Text style={styles.navButtonText}>{"<"}</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={[styles.navButton, styles.navButtonRight]}
+            onPress={nextSlide}
+          >
+            <Text style={styles.navButtonText}>{">"}</Text>
+          </TouchableOpacity>
         </View>
-    );
+        <View style={styles.textContainer}>
+          <Text style={styles.title}>{slides[currentSlide].title}</Text>
+          <Text style={styles.description}>
+            {slides[currentSlide].description}
+          </Text>
+          <View style={styles.dotsContainer}>
+            {slides.map((_, index) => (
+              <TouchableOpacity
+                key={index}
+                style={[styles.dot, currentSlide === index && styles.activeDot]}
+                onPress={() => goToSlide(index)}
+              />
+            ))}
+          </View>
+          <View style={styles.buttonContainer}>
+            <TouchableOpacity
+              style={[
+                styles.button,
+                styles.registerButton,
+                {
+                  backgroundColor:
+                    selectedButton === "register" ? "#4A90E2" : "#FFFFFF",
+                },
+              ]}
+              onPress={() => {
+                handleButtonChange();
+                navigation.navigate("Register");
+              }}
+            >
+              <Text
+                style={[
+                  styles.buttonText,
+                  {
+                    color:
+                      selectedButton === "register" ? "#FFFFFF" : "#4A90E2",
+                  },
+                ]}
+              >
+                Register
+              </Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={[
+                styles.button,
+                {
+                  backgroundColor:
+                    selectedButton === "login" ? "#4A90E2" : "#FFFFFF",
+                },
+              ]}
+              onPress={() => {
+                handleButtonChange();
+                navigation.navigate("Login");
+              }}
+            >
+              <Text
+                style={[
+                  styles.buttonText,
+                  { color: selectedButton === "login" ? "#FFFFFF" : "#4A90E2" },
+                ]}
+              >
+                Log In
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </ScrollView>
+    </View>
+  );
 };
 
+export default SplashScreen;
 
-
-
-export default SplashScreen; 
-
-
-
-{/* import React, { useState, useEffect, useCallback } from "react"
+{
+  /* import React, { useState, useEffect, useCallback } from "react"
 import { View, Text, TouchableOpacity, ScrollView, Dimensions } from "react-native"
 import { Svg, Rect, Circle, Path } from "react-native-svg"
 
@@ -488,4 +506,5 @@ export default function SplashScreen({ onLogin, onRegister }) {
       </ScrollView>
     </View>
   )
-}  */}
+}  */
+}
