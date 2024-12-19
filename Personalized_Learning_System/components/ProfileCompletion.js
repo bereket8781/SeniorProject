@@ -113,7 +113,7 @@ const ProfileCompletion = ({ navigation }) => {
 
       <TouchableOpacity
         style={styles.createButton}
-        onPress={() => navigation.navigate("Login")}
+        onPress={() => navigation.navigate("LearningAssessmentForm")}
       >
         <Text style={styles.createButtonText}>Create Account</Text>
       </TouchableOpacity>
