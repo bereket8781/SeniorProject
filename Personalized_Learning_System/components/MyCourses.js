@@ -7,7 +7,7 @@ import {
   ScrollView,
   Image,
 } from "react-native";
-import { Search, ChevronLeft, Check } from "lucide-react";
+import { Feather, MaterialIcons } from "@expo/vector-icons"; 
 import styles from "./mycourseStyles";
 
 const courses = [
@@ -35,18 +35,18 @@ const courses = [
   {
     id: 4,
     category: "Web Development",
-    title: "Full Stack Web Deevlopment",
+    title: "Full Stack Web Development",
     progress: "3.2",
     duration: "5 hrs 55 min",
   },
 ];
 
-export default function MyCourses() {
+const MyCourses = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <TouchableOpacity style={styles.backButton}>
-          <ChevronLeft color="#000000" size={24} />
+        <TouchableOpacity onPress={() => navigation.navigate("HomePage")} style={styles.backButton}>
+          <Feather name="chevron-left" color="#000000" size={24} />
         </TouchableOpacity>
         <Text style={styles.headerTitle}>My Courses</Text>
       </View>
@@ -55,10 +55,10 @@ export default function MyCourses() {
         <View style={styles.searchContainer}>
           <View style={styles.searchWrapper}>
             <TextInput placeholder="Search for..." style={styles.searchInput} />
-            <Search style={styles.searchIcon} color="#3b82f6" size={20} />
+            <Feather name="search" style={styles.searchIcon} />
           </View>
 
-          <View style={styles.filter}>
+          <View style={styles.filterContainer}>
             <TouchableOpacity
               style={[styles.filterButton, styles.filterButtonCompleted]}
             >
@@ -78,18 +78,18 @@ export default function MyCourses() {
               <View style={styles.courseImage}>
                 <Image
                   source={{
-                    uri: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200&q=80",
+                    uri: "https://images.unsplash.com/photo-1531403009284-440f080d1e12?w=500&q=80",
                   }}
                   style={{ width: "100%", height: "100%", borderRadius: 8 }}
                 />
               </View>
               <View style={styles.courseContent}>
                 <View style={styles.courseHeader}>
-                  <view>
+                  <View>
                     <Text style={styles.courseCategory}>{course.category}</Text>
                     <Text style={styles.courseTitle}>{course.title}</Text>
-                  </view>
-                  <Check color="#10b981" size={20} />
+                  </View>
+                  <MaterialIcons name="check-circle" color="#10b981" size={20} />
                 </View>
                 <View style={styles.courseFooter}>
                   <View style={styles.courseStats}>
@@ -131,3 +131,4 @@ export default function MyCourses() {
     </View>
   );
 }
+ export default MyCourses;

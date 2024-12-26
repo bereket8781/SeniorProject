@@ -7,19 +7,14 @@ import {
   Image,
   TouchableOpacity,
 } from "react-native";
-import {
-  Search,
-  Filter,
-  Home,
-  Book,
-  Bookmark,
-  MessageCircle,
-  User,
-} from "lucide-react";
+
 import styles from "./homeStyles";
 import { Feather } from "@expo/vector-icons";
+import { useNavigation } from '@react-navigation/native';
 
-const HomePage = ({ navigation }) => {
+const HomePage = () => {
+  const navigation = useNavigation();
+
   const courseImages = [
     "https://images.unsplash.com/photo-1531403009284-440f080d1e12?w=500&q=80",
     "https://images.unsplash.com/photo-1626785774625-0b1c2c4eab67?w=500&q=80",
@@ -262,13 +257,17 @@ const HomePage = ({ navigation }) => {
 
       <View style={styles.bottomNav}>
         {[
-          { icon: "home", label: "Home" },
-          { icon: "book", label: "My Course", onPress: () => navigation.navigate("MyCourses")},
+          { icon: "home", label: "Home"},
+          { icon: "book", label: "My Course", onPress: () => navigation.navigate("MyCourses") },
           { icon: "bookmark", label: "Bookmark" },
           { icon: "message-circle", label: "Chat" },
           { icon: "user", label: "Profile" },
         ].map((item, index) => (
-          <TouchableOpacity key={index} style={styles.navItem}>
+          <TouchableOpacity 
+            key={index} 
+            style={styles.navItem} 
+            onPress={item.onPress}
+          >
             <Feather
               name={item.icon}
               size={24}
@@ -283,4 +282,5 @@ const HomePage = ({ navigation }) => {
     </View>
   );
 };
+
 export default HomePage;
