@@ -1,16 +1,36 @@
 import React, { useState } from "react";
-import styles from "./learningStyles";
 import {
   View,
   Text,
   ScrollView,
   TextInput,
-  TouchableOpacity
+  TouchableOpacity,
+  Platform,
+  SafeAreaView
 } from "react-native";
 import { Picker } from "@react-native-picker/picker";
-import CheckBox from "@react-native-community/checkbox";
+import styles from "./learningStyles";
 
-function LearningAssessmentForm() {
+const CustomCheckbox = ({ value, onValueChange }) => (
+  <TouchableOpacity
+    onPress={() => onValueChange(!value)}
+    style={{
+      width: 24,
+      height: 24,
+      borderWidth: 2,
+      borderColor: '#000',
+      backgroundColor: value ? '#000' : '#fff',
+      marginRight: 10,
+      alignItems: 'center',
+      justifyContent: 'center',
+      borderRadius: 4,
+    }}
+  >
+    {value && <Text style={{ color: '#fff' }}>✓</Text>}
+  </TouchableOpacity>
+);
+
+const LearningAssessmentForm = ({navigation}) => {
   const [formData, setFormData] = useState({
     status: "",
     goals: [],
@@ -32,7 +52,7 @@ function LearningAssessmentForm() {
   });
 
   const handleInputChange = (name, value) => {
-    if (name.startWith("proficiency.")) {
+    if (name.startsWith("proficiency.")) {
       const [, field] = name.split(".");
       setFormData((prev) => ({
         ...prev,
@@ -61,29 +81,34 @@ function LearningAssessmentForm() {
   };
 
   return (
-    <ScrollView style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <View style={styles.header}>
-        <Text style={styles.title}>Learning Assessment Form</Text>
+        <Text style={[styles.title, { color: '#fff' }]}>Learning Assessment Form</Text>
       </View>
-
-      <View style={styles.section}>
-        <Text style={styles.sectionTitle}>General Information</Text>
-        <View style={styles.field}>
-          <Text style={styles.label}>
-            What is your academic or professional status
-          </Text>
-          <Picker
-            selectedValue={formData.status}
-            onValueChange={(value) => handleInputChange("status", value)}
-            style={styles.picker}
-          >
-            <Picker.Item label="Select an option" value="" />
-            <Picker.Item label="High school student" value="highSchool" />
-            <Picker.Item label="University student" value="university" />
-            <Picker.Item label="Working professional" value="working" />
-            <Picker.Item label="Other" value="other" />
-          </Picker>
-        </View>
+      <ScrollView 
+        style={styles.scrollView}
+        contentContainerStyle={styles.contentContainer}
+        showsVerticalScrollIndicator={true}
+        bounces={true}
+      >
+        <View style={styles.section}>
+          <Text style={styles.sectionTitle}>General Information</Text>
+          <View style={styles.field}>
+            <Text style={styles.label}>
+              What is your academic or professional status
+            </Text>
+            <Picker
+              selectedValue={formData.status}
+              onValueChange={(value) => handleInputChange("status", value)}
+              style={styles.picker}
+            >
+              <Picker.Item label="Select an option" value="" />
+              <Picker.Item label="High school student" value="highSchool" />
+              <Picker.Item label="University student" value="university" />
+              <Picker.Item label="Working professional" value="working" />
+              <Picker.Item label="Other" value="other" />
+            </Picker>
+          </View>
 
         <View style={styles.field}>
           <Text style={styles.label}>
@@ -97,7 +122,7 @@ function LearningAssessmentForm() {
             "Build specific projects",
           ].map((goal) => (
             <View key={goal} style={styles.checkboxContainer}>
-              <CheckBox
+              <CustomCheckbox
                 value={formData.goals.includes(goal)}
                 onValueChange={(newValue) =>
                   handleCheckboxChange("goals", goal, newValue)
@@ -126,7 +151,7 @@ function LearningAssessmentForm() {
             "AI/ML",
           ].map((area) => (
             <View key={area} style={styles.checkboxContainer}>
-              <CheckBox
+              <CustomCheckbox
                 value={formData.familiarAreas.includes(area)}
                 onValueChange={(newValue) =>
                   handleCheckboxChange("familiarAreas", area, newValue)
@@ -181,7 +206,7 @@ function LearningAssessmentForm() {
             "Other",
           ].map((tool) => (
             <View key={tool} style={styles.checkboxContainer}>
-              <CheckBox
+              <CustomCheckbox
                 value={formData.priorExperience.includes(tool)}
                 onValueChange={(newValue) =>
                   handleCheckboxChange("priorExperience", tool, newValue)
@@ -209,7 +234,7 @@ function LearningAssessmentForm() {
             "Cloud COmputing",
           ].map((interest) => (
             <View key={interest} style={styles.checkboxContainer}>
-              <CheckBox
+              <CustomCheckbox
                 value={formData.interests.includes(interest)}
                 onValueChange={(newValue) =>
                   handleCheckboxChange("interests", interest, newValue)
@@ -231,7 +256,7 @@ function LearningAssessmentForm() {
             "Written notes and documentation",
           ].map((preference) => (
             <View key={preference} style={styles.checkboxContainer}>
-              <CheckBox
+              <CustomCheckbox
                 value={formData.learningPreferences.includes(preference)}
                 onValueChange={(newValue) =>
                   handleCheckboxChange(
@@ -303,7 +328,7 @@ function LearningAssessmentForm() {
             "Theory-focused",
           ].map((course) => (
             <View key={course} style={styles.checkboxContainer}>
-              <CheckBox
+              <CustomCheckbox
                 value={formData.preferredCourses.includes(course)}
                 onValueChange={(newValue) =>
                   handleCheckboxChange("preferredCourses", course, newValue)
@@ -338,7 +363,7 @@ function LearningAssessmentForm() {
             Enter
           </Text>
           <TextInput
-            style={styles.field}
+            style={styles.textArea}
             multiline
             numberOfLines={4}
             onChangeText={(text) => handleInputChange("urlExplanation", text)}
@@ -358,11 +383,11 @@ function LearningAssessmentForm() {
         </View>
       </View>
 
-      <TouchableOpacity style={styles.submitButton} onPress={handleSubmit}>
+      <TouchableOpacity style={styles.submitButton}  onPress={() => navigation.navigate("HomePage")}>
         <Text style={styles.submitButtonText}>Submit</Text>
       </TouchableOpacity>
     </ScrollView>
-  );
+  </SafeAreaView>
+);
 }
-
 export default LearningAssessmentForm;

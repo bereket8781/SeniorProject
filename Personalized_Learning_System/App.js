@@ -16,6 +16,7 @@ import AllCategories from "./components/AllCategories";
 import CourseDetails from "./components/CourseDetails";
 import Filter from "./components/Filter";
 import LearningAssessmentForm from "./components/LearningAssessmentForm";
+import MyCourses from "./components/MyCourses";
 
 const Stack = createStackNavigator();
 
@@ -64,6 +65,11 @@ export default function App() {
           options={{ headerShown: false }}
         />
         <Stack.Screen
+          name="LearningAssessmentForm"
+          component={LearningAssessmentForm}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
           name="HomePage"
           component={HomePage}
           options={{ headerShown: false }}
@@ -83,11 +89,12 @@ export default function App() {
           component={Filter}
           options={{ headerShown: false }}
         />
-        <Stack.Screen
-          name="LearningAssessmentForm"
-          component={LearningAssessmentForm}
+         <Stack.Screen
+          name="MyCourses"
+          component={MyCourses}
           options={{ headerShown: false }}
         />
+
       </Stack.Navigator>
     </NavigationContainer>
   );

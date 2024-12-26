@@ -263,7 +263,7 @@ const HomePage = ({ navigation }) => {
       <View style={styles.bottomNav}>
         {[
           { icon: "home", label: "Home" },
-          { icon: "book", label: "My Course" },
+          { icon: "book", label: "My Course", onPress: () => navigation.navigate("MyCourses")},
           { icon: "bookmark", label: "Bookmark" },
           { icon: "message-circle", label: "Chat" },
           { icon: "user", label: "Profile" },

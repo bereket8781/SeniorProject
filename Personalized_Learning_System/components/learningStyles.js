@@ -12,6 +12,14 @@ const styles = StyleSheet.create({
         borderBottomLeftRadius: 20,
         borderBottomRightRadius: 20,
     },
+    scrollView: {
+        flex: 1,
+        width: '100%',
+      },
+    contentContainer: {
+        paddingBottom: 80,
+        paddingHorizontal: 16,
+      },
     title: {
         fontSize: 20,
         fontWeight: 'bold',
