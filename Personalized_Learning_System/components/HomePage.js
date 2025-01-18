@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   View,
   Text,
@@ -14,6 +14,7 @@ import { useNavigation } from '@react-navigation/native';
 
 const HomePage = () => {
   const navigation = useNavigation();
+  const [activeTab, setActiveTab] = useState("Home");
 
   const courseImages = [
     "https://images.unsplash.com/photo-1531403009284-440f080d1e12?w=500&q=80",
@@ -52,6 +53,11 @@ const HomePage = () => {
       image: courseImages[0],
     },
   ];
+
+  const handleNavigation = (screen) => {
+    setActiveTab(screen);
+    navigation.navigate(screen);
+  };
 
   return (
     <View style={styles.container}>
@@ -257,23 +263,23 @@ const HomePage = () => {
 
       <View style={styles.bottomNav}>
         {[
-          { icon: "home", label: "Home"},
-          { icon: "book", label: "My Course", onPress: () => navigation.navigate("MyCourses") },
-          { icon: "bookmark", label: "Bookmark" },
-          { icon: "message-circle", label: "Chat" },
-          { icon: "user", label: "Profile" },
+          { icon: "home", label: "Home", screen: "Home" },
+          { icon: "book", label: "My Course", screen: "MyCourses" },
+          { icon: "bookmark", label: "Bookmark", screen: "Bookmark" },
+          { icon: "message-circle", label: "Chat", screen: "Chat" },
+          { icon: "user", label: "Profile", screen: "Profile" },
         ].map((item, index) => (
           <TouchableOpacity 
             key={index} 
             style={styles.navItem} 
-            onPress={item.onPress}
+            onPress={() => handleNavigation(item.screen)}
           >
             <Feather
               name={item.icon}
               size={24}
-              color={index === 0 ? "#0056FF" : "#666666"}
+              color={activeTab === item.screen ? "#0056FF" : "#666666"}
             />
-            <Text style={[styles.navText, index === 0 && styles.navActive]}>
+            <Text style={[styles.navText, activeTab === item.screen && styles.navActive]}>
               {item.label}
             </Text>
           </TouchableOpacity>

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   View,
   Text,
@@ -7,7 +7,7 @@ import {
   ScrollView,
   Image,
 } from "react-native";
-import { Feather, MaterialIcons } from "@expo/vector-icons"; 
+import { Feather, MaterialIcons } from "@expo/vector-icons";
 import styles from "./mycourseStyles";
 
 const courses = [
@@ -42,10 +42,20 @@ const courses = [
 ];
 
 const MyCourses = ({ navigation }) => {
+  const [activeTab, setActiveTab] = useState("MyCourses");
+
+  const handleNavigation = (screen) => {
+    setActiveTab(screen);
+    navigation.navigate(screen);
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <TouchableOpacity onPress={() => navigation.navigate("HomePage")} style={styles.backButton}>
+        <TouchableOpacity
+          onPress={() => navigation.navigate("HomePage")}
+          style={styles.backButton}
+        >
           <Feather name="chevron-left" color="#000000" size={24} />
         </TouchableOpacity>
         <Text style={styles.headerTitle}>My Courses</Text>
@@ -74,7 +84,11 @@ const MyCourses = ({ navigation }) => {
 
         <View style={styles.courseList}>
           {courses.map((course) => (
-            <View key={course.id} style={styles.courseItem}>
+            <TouchableOpacity
+              key={course.id}
+              style={styles.courseItem}
+              onPress={() => navigation.navigate("MyCourseLessons", { course })}
+            >
               <View style={styles.courseImage}>
                 <Image
                   source={{
@@ -103,26 +117,35 @@ const MyCourses = ({ navigation }) => {
                   </TouchableOpacity>
                 </View>
               </View>
-            </View>
+            </TouchableOpacity>
           ))}
         </View>
       </ScrollView>
 
       <View style={styles.bottomNav}>
         {[
-          { icon: "home", label: "Home" },
-          { icon: "book", label: "My Course" },
-          { icon: "bookmark", label: "Bookmark" },
-          { icon: "message-circle", label: "Chat" },
-          { icon: "user", label: "Profile" },
+          { icon: "home", label: "Home", screen: "Home" },
+          { icon: "book", label: "My Course", screen: "MyCourses" },
+          { icon: "bookmark", label: "Bookmark", screen: "Bookmark" },
+          { icon: "message-circle", label: "Chat", screen: "Chat" },
+          { icon: "user", label: "Profile", screen: "Profile" },
         ].map((item, index) => (
-          <TouchableOpacity key={index} style={styles.navItem}>
+          <TouchableOpacity
+            key={index}
+            style={styles.navItem}
+            onPress={() => handleNavigation(item.screen)}
+          >
             <Feather
               name={item.icon}
               size={24}
-              color={index === 0 ? "#0056FF" : "#666666"}
+              color={activeTab === item.screen ? "#0056FF" : "#666666"}
             />
-            <Text style={[styles.navText, index === 0 && styles.navActive]}>
+            <Text
+              style={[
+                styles.navText,
+                activeTab === item.screen && styles.navActive,
+              ]}
+            >
               {item.label}
             </Text>
           </TouchableOpacity>
@@ -130,5 +153,6 @@ const MyCourses = ({ navigation }) => {
       </View>
     </View>
   );
-}
- export default MyCourses;
+};
+
+export default MyCourses;

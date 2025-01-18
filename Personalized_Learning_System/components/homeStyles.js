@@ -232,16 +232,18 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
   },
   navItem: {
-    alignItems: "center",
+    
+    alignItems: 'center',
+    
   },
   navText: {
     fontSize: 10,
-    color: "#666666",
+    color: '#666666',
     marginTop: 5,
   },
   navActive: {
-    color: "#0056FF",
-    fontWeight: "bold",
+    fontWeight: 'bold',
+    color: '#0056FF', // Active text color
   },
 });
 
