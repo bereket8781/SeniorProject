@@ -12,9 +12,11 @@ import styles from "./signupStyle";
 
 const EmailSignup = ({ navigation }) => {
   const [fullname, setFullname] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isPasswordVisible, setPasswordVisible] = useState(false);
-  const [passwordError, setPasswordError] = useState(false);
+  const [passwordError, setPasswordError] = useState("");
+  const [formError, setFormError] = useState("");
   const [isTermsChecked, setTermsChecked] = useState(false);
   const [isUpdatesChecked, setUpdatesChecked] = useState(false);
 
@@ -23,12 +25,21 @@ const EmailSignup = ({ navigation }) => {
   };
 
   const handleContinue = () => {
+    setFormError("");
+
+    if (!fullname || !email || !password) {
+      setFormError("Please fill in all required fields.");
+      return;
+    }
+
     if (password.length < 8) {
       setPasswordError("Password must contain at least 8 characters.");
-    } else {
-      setPasswordError("");
-      // Add further navigation or validation logic here
+      return;
     }
+
+    setPasswordError("");
+
+    navigation.navigate("ProfileCompletion");
   };
 
   return (
@@ -49,27 +60,15 @@ const EmailSignup = ({ navigation }) => {
           value={fullname}
         />
 
-        {/*                 <Text style={styles.subtitle}>User Name</Text>
-                <TextInput
-                    style={styles.input}
-                    placeholder="Username"
-                    placeholderTextColor="#A9A9A9"
-                    onChangeText={setUsername}
-                    value={username}
-                /> */}
-
-        {/*                 <Text style={styles.subtitle}>Gender</Text>
-                <View style={styles.pickerContainer}>
-                    <Picker
-                        selectedValue={gender}
-                        onValueChange={(itemValue) => setGender(itemValue)}
-                        style={styles.picker}
-                    >
-                        <Picker.Item label="Select Gender" value="" />
-                        <Picker.Item label="Male" value="male" />
-                        <Picker.Item label="Female" value="female" />
-                    </Picker>
-                </View> */}
+        <Text style={styles.subtitle}>Email Address</Text>
+        <TextInput
+          style={styles.input}
+          placeholder="Email Address"
+          placeholderTextColor="#A9A9A9"
+          onChangeText={setEmail}
+          value={email}
+          keyboardType="email-address"
+        />
 
         <Text style={styles.subtitle}>Create Password</Text>
         <View style={styles.passwordContainer}>
@@ -117,6 +116,10 @@ const EmailSignup = ({ navigation }) => {
           <Text style={styles.errorText}>{passwordError}</Text>
         ) : null}
 
+        {formError ? (
+          <Text style={styles.errorText}>{formError}</Text>
+        ) : null}
+
         {/* Terms & Conditions Checkbox */}
         <TouchableOpacity
           style={styles.checkboxContainer}
@@ -151,7 +154,7 @@ const EmailSignup = ({ navigation }) => {
 
         <TouchableOpacity
           style={styles.continueButton}
-          onPress={() => navigation.navigate("ProfileCompletion")}
+          onPress={handleContinue}
         >
           <Text style={styles.continueButtonText}>Continue</Text>
         </TouchableOpacity>
