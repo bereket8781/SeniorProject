@@ -8,40 +8,27 @@ import {
   Image,
 } from "react-native";
 import { Feather, MaterialIcons } from "@expo/vector-icons";
-import styles from "./mycourseStyles";
+import styles from "./ongoingStyles";
 
-const courses = [
-  {
-    id: 1,
-    category: "Graphic Design",
-    title: "Graphic Design Advanced",
-    progress: "4.7",
-    duration: "2 hrs 35 min",
-  },
-  {
-    id: 2,
-    category: "Graphic Design",
-    title: "Advanced Diploma in Graphics Design",
-    progress: "4.7",
-    duration: "2 hrs 35 min",
-  },
-  {
-    id: 3,
-    category: "Data Structure and Algorithm",
-    title: "Data Structure Basics",
-    progress: "4.9",
-    duration: "1 hrs 15 min",
-  },
-  {
-    id: 4,
-    category: "Web Development",
-    title: "Full Stack Web Development",
-    progress: "3.2",
-    duration: "5 hrs 55 min",
-  },
-];
+const CourseCard = ({ title, category, progress, timeLeft, lessons, onPress }) => (
+  <TouchableOpacity onPress={onPress} style={styles.card}>
+      <View style={styles.thumbnail} />
+      <View style={styles.content}>
+        <Text style={styles.category}>{category}</Text>
+        <Text style={styles.title}>{title}</Text>
+        <View style={styles.progressContainer}>
+          <View style={[styles.progressBar, { width: `${progress}%` }]} />
+        </View>
+        <View style={styles.meta}>
+          <Text style={styles.metaText}>⭐ {(progress / 20).toFixed(1)}</Text>
+          <Text style={styles.metaText}>{timeLeft}</Text>
+          <Text style={styles.metaText}>{lessons}</Text>
+        </View>
+      </View>
+    </TouchableOpacity>
+  )
 
-const MyCourses = ({ navigation }) => {
+const OngoingCourses = ({ navigation }) => {
   const [activeTab, setActiveTab] = useState("MyCourses");
 
   const handleNavigation = (screen) => {
@@ -71,12 +58,12 @@ const MyCourses = ({ navigation }) => {
           <View style={styles.filterContainer}>
             <TouchableOpacity
               style={[styles.filterButton, styles.filterButtonCompleted]}
+              onPress={() => navigation.navigate('MyCourses')}
             >
               <Text style={styles.filterTextCompleted}>Completed</Text>
             </TouchableOpacity>
             <TouchableOpacity
               style={[styles.filterButton, styles.filterButtonOngoing]}
-              onPress={() => navigation.navigate('OngoingCourses')}
             >
               <Text style={styles.filterTextOngoing}>Ongoing</Text>
             </TouchableOpacity>
@@ -84,49 +71,45 @@ const MyCourses = ({ navigation }) => {
         </View>
 
         <View style={styles.courseList}>
-          {courses.map((course) => (
-            <TouchableOpacity
-              key={course.id}
-              style={styles.courseItem}
-              onPress={() => navigation.navigate("MyCourseLessons", { course })}
-            >
-              <View style={styles.courseImage}>
-                <Image
-                  source={{
-                    uri: "https://images.unsplash.com/photo-1531403009284-440f080d1e12?w=500&q=80",
-                  }}
-                  style={{ width: "100%", height: "100%", borderRadius: 8 }}
-                />
-              </View>
-              <View style={styles.courseContent}>
-                <View style={styles.courseHeader}>
-                  <View>
-                    <Text style={styles.courseCategory}>{course.category}</Text>
-                    <Text style={styles.courseTitle}>{course.title}</Text>
-                  </View>
-                  <MaterialIcons name="check-circle" color="#10b981" size={20} />
-                </View>
-                <View style={styles.courseFooter}>
-                  <View style={styles.courseStats}>
-                    <Text style={styles.courseProgress}>{course.progress}</Text>
-                    <Text style={styles.courseDuration}>{course.duration}</Text>
-                  </View>
-                  <TouchableOpacity>
-                    <Text style={styles.certificateButton}>
-                      VIEW CERTIFICATE
-                    </Text>
-                  </TouchableOpacity>
-                </View>
-              </View>
-            </TouchableOpacity>
-          ))}
+          <CourseCard
+            category="UI/UX Design"
+            title="Intro to UI/UX Design"
+            progress={44}
+            timeLeft="3 hrs 40 Mins"
+            lessons="12/25"
+            onPress={() => navigation.navigate("OngoingLessons", { courseTitle: "Intro to UI/UX" })}
+          />
+          <CourseCard
+            category="Web Development"
+            title="WordPress website Dev.."
+            progress={39}
+            timeLeft="1 hrs 58 Mins"
+            lessons="12/31"
+            onPress={() => navigation.navigate("OngoingLessons", { courseTitle: "WordPress website Dev.." })}
+          />
+          <CourseCard
+            category="UI/UX Design"
+            title="3D Blender and UI/UX"
+            progress={55}
+            timeLeft="2 hrs 46 Mins"
+            lessons="56/98"
+            onPress={() => navigation.navigate("OngoingLessons", { courseTitle: "3D Blender and UI/UX" })}
+          />
+          <CourseCard
+            category="Datastructure and Algorithm"
+            title="Intro to Datastructure"
+            progress={20}
+            timeLeft="1 hrs 58 Mins"
+            lessons="12/31"
+            onPress={() => navigation.navigate("OngoingLessons", { courseTitle: "Intro to Datastructure" })}
+          />
         </View>
       </ScrollView>
 
       <View style={styles.bottomNav}>
         {[
           { icon: "home", label: "Home", screen: "Home" },
-          { icon: "book", label: "My Course", screen: "MyCourses"},
+          { icon: "book", label: "My Course", screen: "MyCourses" },
           { icon: "bookmark", label: "Bookmark", screen: "Bookmark" },
           { icon: "message-circle", label: "Chat", screen: "Chat" },
           { icon: "user", label: "Profile", screen: "Profile" },
@@ -156,4 +139,4 @@ const MyCourses = ({ navigation }) => {
   );
 };
 
-export default MyCourses;
+export default OngoingCourses;

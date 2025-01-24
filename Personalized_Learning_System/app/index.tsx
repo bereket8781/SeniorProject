@@ -16,6 +16,8 @@ import Filter from "../components/Filter";
 import LearningAssessmentForm from "../components/LearningAssessmentForm";
 import MyCourses from "../components/MyCourses";
 import MyCourseLessons from "../components/MyCourseLessons";
+import OngoingCourses from "../components/OngoingCourses";
+import OngoingLessons from "../components/OngoingLessons";
 
 const Stack = createStackNavigator();
 
@@ -95,6 +97,16 @@ export default function App(): JSX.Element {
        <Stack.Screen
           name="MyCourseLessons"
           component={MyCourseLessons}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="OngoingCourses"
+          component={OngoingCourses}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="OngoingLessons"
+          component={OngoingLessons}
           options={{ headerShown: false }}
         />
     </Stack.Navigator>
