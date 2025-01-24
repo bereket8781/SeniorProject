@@ -9,6 +9,9 @@ import {
 import { Ionicons } from "@expo/vector-icons";
 import { Picker } from "@react-native-picker/picker";
 import styles from "./signupStyle";
+import { collection, addDoc } from "firebase/firestore";
+import { db } from "../firebaseConfig";
+import bcrypt from "react-native-bcrypt";
 
 const EmailSignup = ({ navigation }) => {
   const [fullname, setFullname] = useState("");
@@ -24,7 +27,7 @@ const EmailSignup = ({ navigation }) => {
     setPasswordVisible(!isPasswordVisible);
   };
 
-  const handleContinue = () => {
+  const handleContinue = async () => {
     setFormError("");
 
     if (!fullname || !email || !password) {
@@ -39,7 +42,29 @@ const EmailSignup = ({ navigation }) => {
 
     setPasswordError("");
 
-    navigation.navigate("ProfileCompletion");
+    try {
+
+      const salt = bcrypt.genSaltSync(10); 
+      const hashedPassword = bcrypt.hashSync(password, salt); 
+      //const isPasswordValid = bcrypt.compareSync(inputPassword, hashedPassword);
+   
+      await addDoc(collection(db, "Users"), {
+        fullname,
+        email,
+        password: hashedPassword, 
+        updates: isUpdatesChecked,
+        termsAccepted: isTermsChecked,
+      });
+  
+      navigation.navigate("ProfileCompletion", {
+        email, // Pass the email
+        password, // Pass the password
+      });
+    } catch (error) {
+      console.error("Error adding document: ", error);
+      setFormError("Failed to save data. Please try again.");
+    }
+
   };
 
   return (
