@@ -6,10 +6,15 @@ import {
   TextInput,
   TouchableOpacity,
   Platform,
-  SafeAreaView
+  SafeAreaView,
+  Modal,
+  StyleSheet,
 } from "react-native";
 import { Picker } from "@react-native-picker/picker";
 import styles from "./learningStyles";
+import { collection, doc, setDoc, serverTimestamp } from "firebase/firestore";
+import { db, auth } from "../firebaseConfig";
+//import { getAuth } from "firebase/auth";
 
 const CustomCheckbox = ({ value, onValueChange }) => (
   <TouchableOpacity
@@ -51,6 +56,8 @@ const LearningAssessmentForm = ({navigation}) => {
     bigOExplanation: "",
   });
 
+  const [isModalVisible, setModalVisible] = useState(false);
+
   const handleInputChange = (name, value) => {
     if (name.startsWith("proficiency.")) {
       const [, field] = name.split(".");
@@ -75,14 +82,45 @@ const LearningAssessmentForm = ({navigation}) => {
     }));
   };
 
-  const handleSubmit = () => {
-    console.log(formData);
-    alert("Form submitted! check console for data");
+  const handleSubmit = async () => {
+    const userId = firebase.auth().currentUser.uid; 
+    try {
+      const assessmentId = new Date().getTime().toString();
+  
+      // Save the form data to Firestore
+      await setDoc(doc(db, "userAssessments", assessmentId), {
+        userId, 
+        ...formData,
+        timestamp: serverTimestamp(),
+      });
+  
+      alert("Form submitted! Check the console for data.");
+      console.log("Form data saved:", formData);
+    } catch (error) {
+      console.error("Error saving form data: ", error);
+      alert("An error occurred while submitting the form.");
+    }
+  };
+
+  const handleSkip = () => {
+    setModalVisible(true); 
+  };
+
+  const handleConfirmSkip = () => {
+    setModalVisible(false);
+    navigation.navigate("Login"); 
+  };
+
+  const handleCancelSkip = () => {
+    setModalVisible(false); 
   };
 
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
+        <TouchableOpacity onPress={handleSkip} style={styles.skipButton}>
+          <Text style={styles.skipButtonText}>Skip</Text>
+        </TouchableOpacity>
         <Text style={[styles.title, { color: '#fff' }]}>Learning Assessment Form</Text>
       </View>
       <ScrollView 
@@ -383,9 +421,40 @@ const LearningAssessmentForm = ({navigation}) => {
         </View>
       </View>
 
-      <TouchableOpacity style={styles.submitButton}  onPress={() => navigation.navigate("HomePage")}>
+      <TouchableOpacity
+        style={styles.submitButton}
+        onPress={() => {
+         handleSubmit(); // Save form data to Firestore
+        navigation.navigate("HomePage"); // Navigate to the home page
+        }}
+      >
         <Text style={styles.submitButtonText}>Submit</Text>
       </TouchableOpacity>
+
+      {/* Confirmation Modal */}
+      <Modal
+        transparent={true}
+        animationType="slide"
+        visible={isModalVisible}
+        onRequestClose={handleCancelSkip}
+      >
+        <View style={styles.modalContainer}>
+          <View style={styles.modalContent}>
+            <Text style={styles.modalTitle}>Skip Assessment</Text>
+            <Text style={styles.modalMessage}>
+              By skipping this assessment, you will get a general course suggestion. Are you sure you want to skip?
+            </Text>
+            <View style={styles.modalButtons}>
+              <TouchableOpacity onPress={handleConfirmSkip} style={styles.modalButton}>
+                <Text style={styles.modalButtonText}>Yes</Text>
+              </TouchableOpacity>
+              <TouchableOpacity onPress={handleCancelSkip} style={styles.modalButton}>
+                <Text style={styles.modalButtonText}>No</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      </Modal>
     </ScrollView>
   </SafeAreaView>
 );

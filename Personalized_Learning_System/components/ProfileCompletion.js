@@ -47,7 +47,7 @@ const ProfileCompletion = ({ route, navigation }) => {
       const userId = userCredential.user.uid;
 
       // Save additional data to Firestore
-      await setDoc(doc(db, "Users", userId), {
+      await setDoc(doc(db, "users", userId), {
         username,
         email,
         phoneNumber,
@@ -57,7 +57,7 @@ const ProfileCompletion = ({ route, navigation }) => {
       });
 
      // Alert.alert("Success", "Account created successfully!");
-      navigation.navigate("Login");
+      navigation.navigate("LearningAssessmentForm");
     } catch (error) {
       setError(error.message);
     }

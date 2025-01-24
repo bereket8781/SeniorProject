@@ -5,6 +5,57 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: "#ffffff",
     },
+    skipButton: {
+        position: 'absolute',
+        top: 20,
+        right: 10,
+        backgroundColor: '#0056FF',
+        padding: 10,
+        borderRadius: 5,
+      },
+      skipButtonText: {
+        color: '#fff',
+        fontWeight: 'bold',
+      },
+      modalContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: 'rgba(0, 0, 0, 0.5)', // Semi-transparent background
+      },
+      modalContent: {
+        width: '80%',
+        backgroundColor: '#fff',
+        borderRadius: 10,
+        padding: 20,
+        alignItems: 'center',
+      },
+      modalTitle: {
+        fontSize: 18,
+        fontWeight: 'bold',
+        marginBottom: 10,
+      },
+      modalMessage: {
+        textAlign: 'center',
+        marginBottom: 20,
+      },
+      modalButtons: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        width: '100%',
+      },
+      modalButton: {
+        flex: 1,
+        padding: 10,
+        alignItems: 'center',
+        backgroundColor: '#0056FF',
+        borderRadius: 5,
+        marginHorizontal: 5,
+      },
+      modalButtonText: {
+        color: '#fff',
+        fontWeight: 'bold',
+      },
     header: {
         backgroundColor: "#0056ff",
         padding: 20,
