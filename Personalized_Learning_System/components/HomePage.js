@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -10,11 +10,35 @@ import {
 
 import styles from "./homeStyles";
 import { Feather } from "@expo/vector-icons";
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation } from "@react-navigation/native";
+import { auth, db } from "../firebaseConfig";
+import { doc, getDoc } from "firebase/firestore";
 
 const HomePage = () => {
   const navigation = useNavigation();
   const [activeTab, setActiveTab] = useState("Home");
+  const [username, setUsername] = useState("");
+
+  useEffect(() => {
+    // Get current logged-in user from Firebase
+    const getUserData = async () => {
+      try {
+        const user = auth.currentUser;
+        if (user) {
+          const userDoc = await getDoc(doc(db, "users", user.uid));
+          if (userDoc.exists()) {
+            setUsername(userDoc.data().username); // Set the username from Firestore
+          } else {
+            console.error("No user data found");
+          }
+        }
+      } catch (error) {
+        console.error("Error fetching user data:", error.message);
+      }
+    };
+
+    getUserData();
+  }, []);
 
   const courseImages = [
     "https://images.unsplash.com/photo-1531403009284-440f080d1e12?w=500&q=80",
@@ -64,7 +88,7 @@ const HomePage = () => {
       <View style={styles.header}>
         <View style={styles.greeting}>
           <View>
-            <Text style={styles.greetingText}>Hi, John 👋</Text>
+            <Text style={styles.greetingText}>Hi, {username} 👋</Text>
             <Text style={styles.subGreetingText}>Let's start learning!</Text>
           </View>
           <TouchableOpacity>
@@ -173,7 +197,7 @@ const HomePage = () => {
           ))}
         </ScrollView>
 
-        <View style={styles.sectionHeader}>
+        {/*         <View style={styles.sectionHeader}>
           <Text style={styles.sectionTitle}>Top Mentor</Text>
           <TouchableOpacity>
             <Text style={styles.seeAll}>See all</Text>
@@ -201,11 +225,13 @@ const HomePage = () => {
               <Text style={styles.mentorName}>{mentor}</Text>
             </TouchableOpacity>
           ))}
-        </ScrollView>
+        </ScrollView> */}
 
         <View style={styles.sectionHeader}>
           <Text style={styles.sectionTitle}>Continue Learning</Text>
-          <TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => navigation.navigate("OngoingCourses")}
+          >
             <Text style={styles.seeAll}>See all</Text>
           </TouchableOpacity>
         </View>
@@ -263,15 +289,15 @@ const HomePage = () => {
 
       <View style={styles.bottomNav}>
         {[
-          { icon: "home", label: "Home", screen: "Home" },
+          { icon: "home", label: "Home", screen: "HomePage" }, // Use the correct route name for the Home page
           { icon: "book", label: "My Course", screen: "MyCourses" },
           { icon: "bookmark", label: "Bookmark", screen: "Bookmark" },
           { icon: "message-circle", label: "Chat", screen: "Chat" },
           { icon: "user", label: "Profile", screen: "Profile" },
         ].map((item, index) => (
-          <TouchableOpacity 
-            key={index} 
-            style={styles.navItem} 
+          <TouchableOpacity
+            key={index}
+            style={styles.navItem}
             onPress={() => handleNavigation(item.screen)}
           >
             <Feather
@@ -279,7 +305,12 @@ const HomePage = () => {
               size={24}
               color={activeTab === item.screen ? "#0056FF" : "#666666"}
             />
-            <Text style={[styles.navText, activeTab === item.screen && styles.navActive]}>
+            <Text
+              style={[
+                styles.navText,
+                activeTab === item.screen && styles.navActive,
+              ]}
+            >
               {item.label}
             </Text>
           </TouchableOpacity>

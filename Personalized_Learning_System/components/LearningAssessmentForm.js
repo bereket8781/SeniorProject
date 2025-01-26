@@ -83,7 +83,11 @@ const LearningAssessmentForm = ({navigation}) => {
   };
 
   const handleSubmit = async () => {
-    const userId = firebase.auth().currentUser.uid; 
+    const userId = auth.currentUser?.uid;
+    if (!userId) {
+        alert("User is not authenticated.");
+        return;
+    }
     try {
       const assessmentId = new Date().getTime().toString();
   

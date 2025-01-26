@@ -3,13 +3,15 @@ import { View, Text, TextInput, ScrollView, TouchableOpacity, StyleSheet } from 
 import Feather from 'react-native-vector-icons/Feather'; // Import Feather icons
 import styles from './mylessonsStyles';
 
-const MyCourseLessons = ({ route }) => {
+const MyCourseLessons = ({ route, navigation }) => {
     const { course } = route.params;
 
     return (
         <View style={styles.container}>
             <View style={styles.header}>
-                <TouchableOpacity style={styles.backButton}>
+                <TouchableOpacity style={styles.backButton}
+                onPress={() => navigation.goBack()}
+                >
                     <Feather name="chevron-left" size={24} />
                 </TouchableOpacity>
                 <Text style={styles.title}>My Courses</Text>

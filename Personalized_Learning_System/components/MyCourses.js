@@ -76,7 +76,7 @@ const MyCourses = ({ navigation }) => {
             </TouchableOpacity>
             <TouchableOpacity
               style={[styles.filterButton, styles.filterButtonOngoing]}
-              onPress={() => navigation.navigate('OngoingCourses')}
+              onPress={() => navigation.navigate("OngoingCourses")}
             >
               <Text style={styles.filterTextOngoing}>Ongoing</Text>
             </TouchableOpacity>
@@ -104,7 +104,11 @@ const MyCourses = ({ navigation }) => {
                     <Text style={styles.courseCategory}>{course.category}</Text>
                     <Text style={styles.courseTitle}>{course.title}</Text>
                   </View>
-                  <MaterialIcons name="check-circle" color="#10b981" size={20} />
+                  <MaterialIcons
+                    name="check-circle"
+                    color="#10b981"
+                    size={20}
+                  />
                 </View>
                 <View style={styles.courseFooter}>
                   <View style={styles.courseStats}>
@@ -125,8 +129,8 @@ const MyCourses = ({ navigation }) => {
 
       <View style={styles.bottomNav}>
         {[
-          { icon: "home", label: "Home", screen: "Home" },
-          { icon: "book", label: "My Course", screen: "MyCourses"},
+          { icon: "home", label: "Home", screen: "HomePage" }, // Use the correct route name for the Home page
+          { icon: "book", label: "My Course", screen: "MyCourses" },
           { icon: "bookmark", label: "Bookmark", screen: "Bookmark" },
           { icon: "message-circle", label: "Chat", screen: "Chat" },
           { icon: "user", label: "Profile", screen: "Profile" },

@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, TextInput, ScrollView, TouchableOpacity, StyleSheet } from 'react-native';
 import Feather from 'react-native-vector-icons/Feather';
-import styles from './mylessonsStyles';
+import styles from './ongoinglessonsStyles';
 
 const OngoingLessons = ({ route, navigation }) => {
     const { courseTitle } = route.params;
@@ -9,8 +9,10 @@ const OngoingLessons = ({ route, navigation }) => {
     return (
         <View style={styles.container}>
             <View style={styles.header}>
-                <TouchableOpacity style={styles.backButton}>
+                <TouchableOpacity style={styles.backButton}
                 onPress={() => navigation.goBack()}
+                >
+                    <Feather name="chevron-left" size={24} />
                 </TouchableOpacity>
                 <Text style={styles.title}>{courseTitle}</Text>
             </View>
@@ -91,10 +93,9 @@ const OngoingLessons = ({ route, navigation }) => {
             </ScrollView>
 
             <View style={styles.bottomNav}>
-                <Feather name="credit-card" size={24} color="#666" />
                 <TouchableOpacity style={styles.startButton}>
-                    <Text style={styles.startButtonText}>Start Course Again</Text>
-                    <Feather name="chevron-right" size={20} color="#fff" />
+                    <Text style={styles.startButtonText}>Continue Course</Text>
+                    
                 </TouchableOpacity>
             </View>
         </View>
