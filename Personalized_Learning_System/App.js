@@ -20,6 +20,7 @@ import MyCourses from "./components/MyCourses";
 import MyCourseLessons from "./components/MyCourseLessons";
 import OngoingCourses from "./components/OngoingCourses";
 import OngoingLessons from "./components/OngoingLessons";
+import Bookmark from "./components/Bookmark";
 
 const Stack = createStackNavigator();
 
@@ -110,6 +111,11 @@ export default function App() {
         <Stack.Screen
           name="OngoingLessons"
           component={OngoingLessons}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="Bookmark"
+          component={Bookmark}
           options={{ headerShown: false }}
         />
       </Stack.Navigator>
