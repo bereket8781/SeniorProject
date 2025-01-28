@@ -1,9 +1,50 @@
-import React from "react";
-import { View, Text, StyleSheet, TouchableOpacity, Image, ScrollView } from "react-native";
+import React, { useState } from "react";
+import { View, Text, TextInput, TouchableOpacity, Image, ScrollView } from "react-native";
 import { Feather, MaterialIcons } from "@expo/vector-icons";
+
 import styles from "./bookmarkStyles";
 
-const Bookmark = ({ navigation }) =>{
+
+const courses = [
+  {
+    id: 1,
+    title: "Introduction of Figma",
+    instructor: "Jacob Jones",
+    price: "180.00",
+    image: "https://v0.dev/placeholder.svg?height=100&width=100",
+  },
+  {
+    id: 2,
+    title: "Logo Design Basics",
+    instructor: "Eleanor Pena",
+    price: "120.00",
+    image: "https://v0.dev/placeholder.svg?height=100&width=100",
+  },
+  {
+    id: 3,
+    title: "Introduction of Figma",
+    instructor: "Kathryn Murphy",
+    price: "160.00",
+    image: "https://v0.dev/placeholder.svg?height=100&width=100",
+  },
+  {
+    id: 4,
+    title: "User-Centered Design",
+    instructor: "Marvin McKinney",
+    price: "200.00",
+    image: "https://v0.dev/placeholder.svg?height=100&width=100",
+  },
+]
+
+const Bookmark = ({ navigation }) => {
+    const [activeTab, setActiveTab] = useState("MyCourses");
+  
+    const handleNavigation = (screen) => {
+      setActiveTab(screen);
+      navigation.navigate(screen);
+    };
+
+  return (
   <View style={styles.container}>
     <View style={styles.header}>
       <TouchableOpacity
@@ -47,7 +88,7 @@ const Bookmark = ({ navigation }) =>{
             <View style={styles.courseInfo}>
               <View style={styles.courseHeader}>
                 <Text style={styles.courseTitle}>{course.title}</Text>
-                <BookmarkIcon style={styles.bookmarkIcon} />
+                <MaterialIcons name="bookmark" size={24} color="blue" />
               </View>
               <View style={styles.instructorContainer}>
                 <View style={styles.instructorAvatar} />
@@ -91,7 +132,11 @@ const Bookmark = ({ navigation }) =>{
           </TouchableOpacity>
         ))}
       </View>
-  </View>;
-}
+  </View>
+  );
+};
 
 export default Bookmark;
+
+
+

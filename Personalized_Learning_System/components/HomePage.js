@@ -45,14 +45,14 @@ const HomePage = () => {
     "https://images.unsplash.com/photo-1626785774625-0b1c2c4eab67?w=500&q=80",
   ];
 
-  const mentorImages = [
+/*   const mentorImages = [
     "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200&q=80",
     "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=200&q=80",
     "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=200&q=80",
     "https://images.unsplash.com/photo-1519345182560-3f2917c472ef?w=200&q=80",
     "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=200&q=80",
     "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200&q=80",
-  ];
+  ]; */
 
   const courses = [
     {

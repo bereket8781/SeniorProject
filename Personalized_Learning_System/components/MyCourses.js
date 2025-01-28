@@ -129,7 +129,7 @@ const MyCourses = ({ navigation }) => {
 
       <View style={styles.bottomNav}>
         {[
-          { icon: "home", label: "Home", screen: "HomePage" }, // Use the correct route name for the Home page
+          { icon: "home", label: "Home", screen: "HomePage" }, 
           { icon: "book", label: "My Course", screen: "MyCourses" },
           { icon: "bookmark", label: "Bookmark", screen: "Bookmark" },
           { icon: "message-circle", label: "Chat", screen: "Chat" },
