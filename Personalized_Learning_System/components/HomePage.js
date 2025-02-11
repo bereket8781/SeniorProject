@@ -45,15 +45,6 @@ const HomePage = () => {
     "https://images.unsplash.com/photo-1626785774625-0b1c2c4eab67?w=500&q=80",
   ];
 
-/*   const mentorImages = [
-    "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200&q=80",
-    "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=200&q=80",
-    "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=200&q=80",
-    "https://images.unsplash.com/photo-1519345182560-3f2917c472ef?w=200&q=80",
-    "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=200&q=80",
-    "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200&q=80",
-  ]; */
-
   const courses = [
     {
       title: "Design Thinking Fundamental",
@@ -197,36 +188,6 @@ const HomePage = () => {
           ))}
         </ScrollView>
 
-        {/*         <View style={styles.sectionHeader}>
-          <Text style={styles.sectionTitle}>Top Mentor</Text>
-          <TouchableOpacity>
-            <Text style={styles.seeAll}>See all</Text>
-          </TouchableOpacity>
-        </View>
-
-        <ScrollView
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          style={styles.mentors}
-        >
-          {[
-            "Esther T.",
-            "Jenny M.",
-            "Jacob U.",
-            "Bessi K.",
-            "Jacob U.",
-            "Esther T.",
-          ].map((mentor, index) => (
-            <TouchableOpacity key={index} style={styles.mentor}>
-              <Image
-                source={{ uri: mentorImages[index] }}
-                style={styles.mentorAvatar}
-              />
-              <Text style={styles.mentorName}>{mentor}</Text>
-            </TouchableOpacity>
-          ))}
-        </ScrollView> */}
-
         <View style={styles.sectionHeader}>
           <Text style={styles.sectionTitle}>Continue Learning</Text>
           <TouchableOpacity
@@ -289,7 +250,7 @@ const HomePage = () => {
 
       <View style={styles.bottomNav}>
         {[
-          { icon: "home", label: "Home", screen: "HomePage" }, // Use the correct route name for the Home page
+          { icon: "home", label: "Home", screen: "HomePage" }, 
           { icon: "book", label: "My Course", screen: "MyCourses" },
           { icon: "bookmark", label: "Bookmark", screen: "Bookmark" },
           { icon: "message-circle", label: "Chat", screen: "Chat" },
