@@ -254,7 +254,7 @@ const HomePage = () => {
           { icon: "book", label: "My Course", screen: "MyCourses" },
           { icon: "bookmark", label: "Bookmark", screen: "Bookmark" },
           { icon: "message-circle", label: "Chat", screen: "Chat" },
-          { icon: "user", label: "Profile", screen: "Profile" },
+          { icon: "user", label: "Profile", screen: "ProfilePage" },
         ].map((item, index) => (
           <TouchableOpacity
             key={index}

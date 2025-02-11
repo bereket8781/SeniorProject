@@ -19,6 +19,12 @@ import MyCourseLessons from "../components/MyCourseLessons";
 import OngoingCourses from "../components/OngoingCourses";
 import OngoingLessons from "../components/OngoingLessons";
 import Bookmark from "../components/Bookmark";
+import Chat from "../components/Chat";
+import ProfilePage from "../components/ProfilePage";
+import MyProfile from "../components/MyProfile";
+import Settings from "../components/Settings";
+import HelpCenter from "../components/HelpCenter";
+import Privacy from "../components/Privacy";
 
 const Stack = createStackNavigator();
 
@@ -113,6 +119,36 @@ export default function App(): JSX.Element {
         <Stack.Screen
           name="Bookmark"
           component={Bookmark}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="Chat"
+          component={Chat}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="ProfilePage"
+          component={ProfilePage}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="MyProfile"
+          component={MyProfile}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="Settings"
+          component={Settings}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="HelpCenter"
+          component={HelpCenter}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="Privacy"
+          component={Privacy}
           options={{ headerShown: false }}
         />
     </Stack.Navigator>
