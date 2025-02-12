@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import { View, Text, TextInput, TouchableOpacity, Image, ScrollView } from "react-native";
 import { Picker } from "@react-native-picker/picker";
 import DateTimePicker from "@react-native-community/datetimepicker";
-import { launchImageLibrary } from "react-native-image-picker";
+import * as ImagePicker from "react-native-image-picker";
 import { Ionicons } from "@expo/vector-icons";
-import styles from "./profileStyles";
+import styles from "./completeproStyles";
 import { db, auth } from "../firebaseConfig"; 
 import { doc, setDoc } from "firebase/firestore";
 import { createUserWithEmailAndPassword } from "firebase/auth";
@@ -26,8 +26,17 @@ const ProfileCompletion = ({ route, navigation }) => {
   };
 
   const openImagePicker = () => {
-    launchImageLibrary({ mediaType: "photo" }, (response) => {
-      if (response.assets) {
+    const options = {
+      mediaType: "photo",
+      includeBase64: false,
+    };
+
+    ImagePicker.launchImageLibrary(options, (response) => {
+      if (response.didCancel) {
+        console.log("User cancelled image picker");
+      } else if (response.error) {
+        console.log("ImagePicker Error: ", response.error);
+      } else if (response.assets) {
         setProfileImage(response.assets[0].uri);
       }
     });
@@ -56,7 +65,6 @@ const ProfileCompletion = ({ route, navigation }) => {
         profileImage,
       });
 
-     // Alert.alert("Success", "Account created successfully!");
       navigation.navigate("LearningAssessmentForm");
     } catch (error) {
       setError(error.message);
@@ -87,7 +95,7 @@ const ProfileCompletion = ({ route, navigation }) => {
         >
           {profileImage ? (
             <Image
-              source={require("../assets/images/faceAcc.png")}
+              source={{ uri: profileImage }}
               style={styles.profilePicture}
             />
           ) : (

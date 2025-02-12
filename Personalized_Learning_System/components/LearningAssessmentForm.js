@@ -125,7 +125,7 @@ const LearningAssessmentForm = ({navigation}) => {
         <TouchableOpacity onPress={handleSkip} style={styles.skipButton}>
           <Text style={styles.skipButtonText}>Skip</Text>
         </TouchableOpacity>
-        <Text style={[styles.title, { color: '#fff' }]}>Learning Assessment Form</Text>
+        <Text style={[styles.title, { color: '#000' }]}>Learning Assessment Form</Text>
       </View>
       <ScrollView 
         style={styles.scrollView}

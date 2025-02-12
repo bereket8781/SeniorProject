@@ -190,7 +190,7 @@ export default function Chat() {
   const [posts, setPosts] = useState(mockPosts);
   const [page, setPage] = useState(1);
   const navigation = useNavigation(); 
-  const [activeTab, setActiveTab] = useState("Home"); // New state to track active tab
+  const [activeTab, setActiveTab] = useState("Chat"); // New state to track active tab
 
   const loadMorePosts = () => {
     const newPosts = mockPosts.slice(page * 3, (page + 1) * 3);
