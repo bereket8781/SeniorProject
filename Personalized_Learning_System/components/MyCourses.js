@@ -13,15 +13,15 @@ import styles from "./mycourseStyles";
 const courses = [
   {
     id: 1,
-    category: "Graphic Design",
-    title: "Graphic Design Advanced",
+    category: "Computer Graphics",
+    title: "Graphic Design Basics",
     progress: "4.7",
     duration: "2 hrs 35 min",
   },
   {
     id: 2,
-    category: "Graphic Design",
-    title: "Advanced Diploma in Graphics Design",
+    category: "Programming",
+    title: "Object Oriented Programming",
     progress: "4.7",
     duration: "2 hrs 35 min",
   },
@@ -115,11 +115,11 @@ const MyCourses = ({ navigation }) => {
                     <Text style={styles.courseProgress}>{course.progress}</Text>
                     <Text style={styles.courseDuration}>{course.duration}</Text>
                   </View>
-                  <TouchableOpacity>
+              {/*     <TouchableOpacity>
                     <Text style={styles.certificateButton}>
                       VIEW CERTIFICATE
                     </Text>
-                  </TouchableOpacity>
+                  </TouchableOpacity> */}
                 </View>
               </View>
             </TouchableOpacity>

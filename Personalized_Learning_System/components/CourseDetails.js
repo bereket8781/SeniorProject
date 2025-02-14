@@ -24,7 +24,7 @@ const CourseDetails = ({ navigation }) => {
 
       <View style={styles.tutorContainer}>
         <Image
-          source={{ uri: "https://randomuser.me/api/portraits/men/32.jpg" }}
+          source={{ uri: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRId83sNBbXDYVIRLf_OCXk_OfEJ5IH3bq6gA&s" }}
           style={styles.tutorImage}
         />
 
@@ -129,7 +129,7 @@ const CourseDetails = ({ navigation }) => {
       <View style={styles.reviewItem}>
         <View style={styles.reviewHeader}>
           <Image
-            source={{ uri: "https://randomuser.me/api/portraits/women/68.jpg" }}
+            source={{ uri: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQSMw2x6nIzwjuXglTF2sJO1lX2peNTF9w-GA&s" }}
             style={styles.reviewerImage}
           />
 
@@ -154,7 +154,7 @@ const CourseDetails = ({ navigation }) => {
       <View style={styles.reviewItem}>
         <View style={styles.reviewHeader}>
           <Image
-            source={{ uri: "https://randomuser.me/api/portraits/women/45.jpg" }}
+            source={{ uri: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTyGWgTdKY6w2c5c0_tia5Mo8r_We481SiU9g&s" }}
             style={styles.reviewerImage}
           />
 
@@ -184,7 +184,7 @@ const CourseDetails = ({ navigation }) => {
         <View style={styles.header}>
           <Image
             source={{
-              uri: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1471&q=80",
+              uri: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRXevFZuhrqDyR3svHMgdRgkZIQ68XiYeJAFA&s",
             }}
             style={styles.headerImage}
           />

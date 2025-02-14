@@ -75,7 +75,7 @@ function CommentSection({ comments, onAddComment }) {
 
   const handleSubmit = () => {
     if (newComment.trim()) {
-      onAddComment({ author: "Current User", content: newComment.trim() });
+      onAddComment({ author: "Selamawit", content: newComment.trim() });
       setNewComment("");
     }
   };
@@ -165,14 +165,14 @@ function Post({
 const mockPosts = [
   {
     id: 1,
-    author: "Alice",
+    author: "Bereket",
     content: "Hello, Circle!",
     likes: 5,
     comments: [{ author: "Bob", content: "Hi Alice!" }],
   },
   {
     id: 2,
-    author: "Bob",
+    author: "Hermela",
     content: "React is awesome!",
     likes: 10,
     comments: [],
@@ -201,7 +201,7 @@ export default function Chat() {
   const addPost = ({ content, image }) => {
     const newPost = {
       id: posts.length + 1,
-      author: "Current User",
+      author: "Selamawit",
       content,
       image,
       likes: 0,

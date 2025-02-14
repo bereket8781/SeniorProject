@@ -8,31 +8,31 @@ import styles from "./bookmarkStyles";
 const courses = [
   {
     id: 1,
-    title: "Introduction of Figma",
+    title: "Introduction to Python",
     instructor: "Jacob Jones",
     price: "180.00",
-    image: "https://v0.dev/placeholder.svg?height=100&width=100",
+    image: "https://files.oaiusercontent.com/file-8TGUawJ4jv93Z6dac66SSS?se=2025-02-13T17%3A04%3A27Z&sp=r&sv=2024-08-04&sr=b&rscc=max-age%3D604800%2C%20immutable%2C%20private&rscd=attachment%3B%20filename%3Da7841edb-3b0e-4b04-a06a-bdc5d45339aa.webp&sig=la3W2qm8uSaA/7sl1BzEeKhlwC2HF8sRjcxgM41fG/Q%3D",
   },
   {
     id: 2,
-    title: "Logo Design Basics",
+    title: "Web Development Fundamentals",
     instructor: "Eleanor Pena",
     price: "120.00",
-    image: "https://v0.dev/placeholder.svg?height=100&width=100",
+    image: "https://files.oaiusercontent.com/file-8TGUawJ4jv93Z6dac66SSS?se=2025-02-13T17%3A04%3A27Z&sp=r&sv=2024-08-04&sr=b&rscc=max-age%3D604800%2C%20immutable%2C%20private&rscd=attachment%3B%20filename%3Da7841edb-3b0e-4b04-a06a-bdc5d45339aa.webp&sig=la3W2qm8uSaA/7sl1BzEeKhlwC2HF8sRjcxgM41fG/Q%3D",
   },
   {
     id: 3,
-    title: "Introduction of Figma",
+    title: "User-centered Design",
     instructor: "Kathryn Murphy",
     price: "160.00",
-    image: "https://v0.dev/placeholder.svg?height=100&width=100",
+    image: "https://files.oaiusercontent.com/file-LXAnZVa5GdjKZ5ahpJTPK3?se=2025-02-13T17%3A05%3A23Z&sp=r&sv=2024-08-04&sr=b&rscc=max-age%3D604800%2C%20immutable%2C%20private&rscd=attachment%3B%20filename%3D9cc448db-aaec-4257-968b-7cf2a76aa5ce.webp&sig=x0DR4nAX%2Bxc9wK1TEgcYQNNf%2B31nxSh4Fs0YymiMCgY%3D",
   },
   {
     id: 4,
-    title: "User-Centered Design",
+    title: "JavaScript Fundamentals",
     instructor: "Marvin McKinney",
     price: "200.00",
-    image: "https://v0.dev/placeholder.svg?height=100&width=100",
+    image: "https://images.unsplash.com/photo-1531403009284-440f080d1e12?w=500&q=80",
   },
 ]
 
@@ -72,10 +72,10 @@ const Bookmark = ({ navigation }) => {
             <Text style={[styles.categoryText, styles.categoryTextActive]}>Design</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.categoryButton}>
-            <Text style={styles.categoryText}>Coding</Text>
+            <Text style={styles.categoryText}>Programming</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.categoryButton}>
-            <Text style={styles.categoryText}>Marketing</Text>
+            <Text style={styles.categoryText}>Security</Text>
           </TouchableOpacity>
         </ScrollView>
       </View>

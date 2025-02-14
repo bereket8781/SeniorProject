@@ -43,6 +43,7 @@ const HomePage = () => {
   const courseImages = [
     "https://images.unsplash.com/photo-1531403009284-440f080d1e12?w=500&q=80",
     "https://images.unsplash.com/photo-1626785774625-0b1c2c4eab67?w=500&q=80",
+    "https://files.oaiusercontent.com/file-8TGUawJ4jv93Z6dac66SSS?se=2025-02-13T17%3A04%3A27Z&sp=r&sv=2024-08-04&sr=b&rscc=max-age%3D604800%2C%20immutable%2C%20private&rscd=attachment%3B%20filename%3Da7841edb-3b0e-4b04-a06a-bdc5d45339aa.webp&sig=la3W2qm8uSaA/7sl1BzEeKhlwC2HF8sRjcxgM41fG/Q%3D",
   ];
 
   const courses = [
@@ -58,10 +59,10 @@ const HomePage = () => {
       instructor: "Robert Green",
       price: "$190.00",
       rating: "4.8",
-      image: courseImages[0],
+      image: courseImages[2],
     },
     {
-      title: "3D Illustration Design",
+      title: "Network Administration",
       instructor: "John Doe",
       price: "$250.00",
       rating: "4.9",
@@ -85,7 +86,7 @@ const HomePage = () => {
           <TouchableOpacity>
             <Image
               source={{
-                uri: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=100&q=80",
+                uri: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSgvL1falzHMx6Ad2oTvH9y1BeVbQnplBRC8A&s",
               }}
               style={{ width: 40, height: 40, borderRadius: 20 }}
             />
@@ -123,11 +124,11 @@ const HomePage = () => {
           style={styles.categories}
         >
           {[
-            { name: "Art", color: "#FF6B00", icon: "pen-tool" },
+            { name: "Security", color: "#FF6B00", icon: "pen-tool" },
             { name: "Coding", color: "#0056FF", icon: "code" },
-            { name: "Marketing", color: "#FF3B30", icon: "trending-up" },
-            { name: "Business", color: "#34C759", icon: "briefcase" },
-            { name: "Marketing", color: "#FF3B30", icon: "trending-up" },
+            { name: "Testing", color: "#FF3B30", icon: "trending-up" },
+            { name: "AI", color: "#34C759", icon: "briefcase" },
+            { name: "Data Structure", color: "#FF3B30", icon: "trending-up" },
           ].map((category, index) => (
             <TouchableOpacity key={index} style={styles.category}>
               <View
@@ -206,7 +207,7 @@ const HomePage = () => {
           />
           <View style={styles.continueContent}>
             <View>
-              <Text style={styles.continueTitle}>Introduction of Figma</Text>
+              <Text style={styles.continueTitle}>Introduction to Python</Text>
               <View style={styles.instructorRow}>
                 <Feather name="user" size={14} color="#666666" />
                 <Text style={styles.instructorText}>Jacob Jones</Text>

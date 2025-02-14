@@ -128,7 +128,7 @@ const Register = ({ navigation }) => {
               style={styles.faceIcon}
             />
             <Text style={styles.modalText}>
-              You previously logged in to EduConnect with Facebook as @acc123
+              You previously logged in to Facebook as @acc123
             </Text>
             <Text style={styles.modalText}>Would you like to continue?</Text>
 

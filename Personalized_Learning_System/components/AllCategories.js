@@ -12,26 +12,26 @@ import styles from "./categoriesStyles";
 
 const AllCategories = ({ navigation }) => {
   const categories = [
-    { name: "3D Design", icon: require("../assets/images/3Ddesign.png") },
+    { name: "Data Science", icon: require("../assets/images/3Ddesign.png") },
     {
-      name: "Graphic Design",
+      name: "Computer Graphics",
       icon: require("../assets/images/graphicDesign.png"),
     },
     { name: "Web Development", icon: require("../assets/images/webDev.png") },
-    { name: "SEO & Marketing", icon: require("../assets/images/search.png") },
+    { name: "Cyber Security", icon: require("../assets/images/search.png") },
     {
-      name: "Finance & Accounting",
+      name: "Network Administration",
       icon: require("../assets/images/budget.png"),
     },
     {
-      name: "Personal Development",
+      name: "Project Management",
       icon: require("../assets/images/personalDev.png"),
     },
     {
-      name: "Office Productivity",
+      name: "Python Programming",
       icon: require("../assets/images/settings.png"),
     },
-    { name: "HR Management", icon: require("../assets/images/hr.png") },
+    { name: "Machine Learning", icon: require("../assets/images/hr.png") },
     {
       name: "Data Structures & Algorithm",
       icon: require("../assets/images/algorithm.png"),
