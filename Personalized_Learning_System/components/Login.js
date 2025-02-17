@@ -8,9 +8,12 @@ import {
   Image,
   Modal,
   ScrollView,
+  Alert,
 } from "react-native";
 import styles from "./loginStyles";
 import { Ionicons } from "@expo/vector-icons";
+import { collection, getDocs } from "firebase/firestore";
+import { db } from "../firebaseConfig"; // Ensure Firebase is set up
 
 const Login = ({ navigation }) => {
   const [username, setUsername] = useState("");
@@ -24,11 +27,39 @@ const Login = ({ navigation }) => {
     setPasswordVisible(!isPasswordVisible);
   };
 
-  const handleLogin = () => {
+  const handleLogin = async () => {
     if (password.length < 8) {
       setPasswordError("Password should include at least 8 characters");
+      return;
     } else {
       setPasswordError("");
+    }
+
+    try {
+      const usersCollection = collection(db, "users");
+      const querySnapshot = await getDocs(usersCollection);
+
+      let userFound = false;
+
+      querySnapshot.forEach((doc) => {
+        const userData = doc.data();
+        if (userData.username === username) {
+          userFound = true;
+          navigation.navigate("HomePage");
+/*           if (userData.password === password) { // Hash passwords in production
+            navigation.navigate("HomePage");
+          } else {
+            Alert.alert("Login Failed", "Incorrect password. Please try again.");
+          } */
+        }
+      });
+
+      if (!userFound) {
+        Alert.alert("User Not Found", "The username does not exist.");
+      }
+    } catch (error) {
+      console.error("Error fetching users:", error);
+      Alert.alert("Error", "Something went wrong. Please try again later.");
     }
   };
 
@@ -79,10 +110,7 @@ const Login = ({ navigation }) => {
           <Text style={styles.errorText}>{passwordError}</Text>
         ) : null}
 
-        <TouchableOpacity
-          style={styles.loginButton}
-          onPress={() => navigation.navigate("HomePage")}
-        >
+        <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
           <Text style={styles.loginButtonText}>Log In</Text>
         </TouchableOpacity>
 
@@ -90,7 +118,7 @@ const Login = ({ navigation }) => {
           onPress={() => navigation.navigate("ForgotPassword")}
           style={styles.forgotPassword}
         >
-          <Text style={styles.forgotPasswordText}>Forgot Password</Text>
+          <Text style={styles.forgotPasswordText}>Forgot Password?</Text>
         </TouchableOpacity>
 
         <View style={styles.orContainer}>

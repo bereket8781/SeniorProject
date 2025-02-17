@@ -232,9 +232,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
   },
   navItem: {
-    
     alignItems: 'center',
-    
   },
   navText: {
     fontSize: 10,
