@@ -13,32 +13,13 @@ import { Feather } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { auth, db } from "../firebaseConfig";
 import { doc, getDoc } from "firebase/firestore";
+import { useRoute } from "@react-navigation/native";
 
 const HomePage = () => {
+  const route = useRoute();
   const navigation = useNavigation();
   const [activeTab, setActiveTab] = useState("Home");
-  const [username, setUsername] = useState("");
-
-  useEffect(() => {
-    // Get current logged-in user from Firebase
-    const getUserData = async () => {
-      try {
-        const user = auth.currentUser;
-        if (user) {
-          const userDoc = await getDoc(doc(db, "users", user.uid));
-          if (userDoc.exists()) {
-            setUsername(userDoc.data().username); // Set the username from Firestore
-          } else {
-            console.error("No user data found");
-          }
-        }
-      } catch (error) {
-        console.error("Error fetching user data:", error.message);
-      }
-    };
-
-    getUserData();
-  }, []);
+  const [username, setUsername] = useState(route.params?.username || "");
 
   const courseImages = [
     "https://images.unsplash.com/photo-1531403009284-440f080d1e12?w=500&q=80",
@@ -59,7 +40,7 @@ const HomePage = () => {
       instructor: "Robert Green",
       price: "$190.00",
       rating: "4.8",
-      image: courseImages[2],
+      image: courseImages[0],
     },
     {
       title: "Network Administration",

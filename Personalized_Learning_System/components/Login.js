@@ -45,7 +45,7 @@ const Login = ({ navigation }) => {
         const userData = doc.data();
         if (userData.username === username) {
           userFound = true;
-          navigation.navigate("HomePage");
+          navigation.navigate("HomePage", { username});
 /*           if (userData.password === password) { // Hash passwords in production
             navigation.navigate("HomePage");
           } else {
