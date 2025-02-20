@@ -4,7 +4,7 @@ export default StyleSheet.create({
   scrollContainer: {
     flexGrow: 1,
     justifyContent: "center",
-    padding: 1,
+    padding: 0,
   },
 
   container: {

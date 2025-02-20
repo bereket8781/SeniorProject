@@ -13,7 +13,7 @@ import {
 import styles from "./loginStyles";
 import { Ionicons } from "@expo/vector-icons";
 import { collection, getDocs } from "firebase/firestore";
-import { db } from "../firebaseConfig"; // Ensure Firebase is set up
+import { db } from "../firebaseConfig"; 
 
 const Login = ({ navigation }) => {
   const [username, setUsername] = useState("");

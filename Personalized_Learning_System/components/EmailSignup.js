@@ -68,12 +68,12 @@ const EmailSignup = ({ navigation }) => {
   };
 
   return (
-    <ScrollView contentContainerStyle={styles.scrollContainer}>
+
       <View style={styles.container}>
         <TouchableOpacity onPress={() => navigation.goBack()}>
           <Ionicons name="arrow-back" size={24} color="black" />
         </TouchableOpacity>
-
+      <ScrollView contentContainerStyle={styles.scrollContainer}>
         <Text style={styles.title}>Enter your information</Text>
 
         <Text style={styles.subtitle}>Full Name</Text>
@@ -183,8 +183,9 @@ const EmailSignup = ({ navigation }) => {
         >
           <Text style={styles.continueButtonText}>Continue</Text>
         </TouchableOpacity>
+        </ScrollView>
       </View>
-    </ScrollView>
+  
   );
 };
 

@@ -31,21 +31,18 @@ const HomePage = () => {
     {
       title: "Design Thinking Fundamental",
       instructor: "Robert Green",
-      price: "$190.00",
       rating: "4.8",
       image: courseImages[0],
     },
     {
       title: "Data Structures and Algorithms",
       instructor: "Robert Green",
-      price: "$190.00",
       rating: "4.8",
       image: courseImages[0],
     },
     {
       title: "Network Administration",
       instructor: "John Doe",
-      price: "$250.00",
       rating: "4.9",
       image: courseImages[0],
     },
@@ -161,10 +158,10 @@ const HomePage = () => {
                   <Feather name="user" size={14} color="#666666" />
                   <Text style={styles.instructorText}>{course.instructor}</Text>
                 </View>
-                <View style={styles.priceRow}>
+{/*                 <View style={styles.priceRow}>
                   <Text style={styles.priceText}>{course.price}</Text>
                   <Text style={styles.newPriceTag}>New Price</Text>
-                </View>
+                </View> */}
               </View>
             </TouchableOpacity>
           ))}

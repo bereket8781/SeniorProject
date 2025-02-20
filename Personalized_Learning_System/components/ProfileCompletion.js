@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { View, Text, TextInput, TouchableOpacity, Image, ScrollView } from "react-native";
 import { Picker } from "@react-native-picker/picker";
 import DateTimePicker from "@react-native-community/datetimepicker";
-import * as ImagePicker from "react-native-image-picker";
+import * as ImagePicker from "expo-image-picker";
 import { Ionicons } from "@expo/vector-icons";
 import styles from "./completeproStyles";
 import { db, auth } from "../firebaseConfig"; 
@@ -25,21 +25,24 @@ const ProfileCompletion = ({ route, navigation }) => {
     setBirthdate(currentDate);
   };
 
-  const openImagePicker = () => {
-    const options = {
-      mediaType: "photo",
-      includeBase64: false,
-    };
-
-    ImagePicker.launchImageLibrary(options, (response) => {
-      if (response.didCancel) {
-        console.log("User cancelled image picker");
-      } else if (response.error) {
-        console.log("ImagePicker Error: ", response.error);
-      } else if (response.assets) {
-        setProfileImage(response.assets[0].uri);
-      }
+  const openImagePicker = async () => {
+    let permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
+  
+    if (permissionResult.granted === false) {
+      alert("Permission to access media library is required!");
+      return;
+    }
+  
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
     });
+  
+    if (!result.canceled) {
+      setProfileImage(result.assets[0].uri);
+    }
   };
 
   const handleCreateAccount = async () => {

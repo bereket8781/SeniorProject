@@ -68,11 +68,11 @@ const Filter = ({ navigation }) => {
           {renderCheckbox("levels", "Expert")}
         </View>
 
-        <View style={styles.section}>
+{/*         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Price:</Text>
           {renderCheckbox("price", "Paid")}
           {renderCheckbox("price", "Free")}
-        </View>
+        </View> */}
 
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Features:</Text>

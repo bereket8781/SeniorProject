@@ -28,10 +28,10 @@ const AllCategories = ({ navigation }) => {
       icon: require("../assets/images/personalDev.png"),
     },
     {
-      name: "Python Programming",
+      name: "Programming",
       icon: require("../assets/images/settings.png"),
     },
-    { name: "Machine Learning", icon: require("../assets/images/hr.png") },
+    { name: "Artificial Intelligence", icon: require("../assets/images/hr.png") },
     {
       name: "Data Structures & Algorithm",
       icon: require("../assets/images/algorithm.png"),
