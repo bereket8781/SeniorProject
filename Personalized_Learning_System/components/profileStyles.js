@@ -37,14 +37,6 @@ const styles = StyleSheet.create({
     height: 100,
     borderRadius: 50,
   },
-  editButton: {
-    position: "absolute",
-    right: 0,
-    bottom: 0,
-    backgroundColor: "#0056FF",
-    borderRadius: 15,
-    padding: 8,
-  },
   name: {
     fontSize: 24,
     fontWeight: "bold",

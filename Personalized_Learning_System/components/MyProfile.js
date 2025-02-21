@@ -9,19 +9,48 @@ import {
   Platform,
 } from "react-native";
 import { Feather } from "@expo/vector-icons";
-import DatePicker from "react-native-date-picker";
+import DateTimePicker from "@react-native-community/datetimepicker";
 import DropDownPicker from "react-native-dropdown-picker";
+import { Ionicons } from "@expo/vector-icons";
+import * as ImagePicker from "expo-image-picker";
 import styles from "./myproStyles";
 
+  const openImagePicker = async () => {
+    let permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
+  
+    if (permissionResult.granted === false) {
+      alert("Permission to access media library is required!");
+      return;
+    }
+  
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+  
+    if (!result.canceled) {
+      setProfileImage(result.assets[0].uri);
+    }
+  };
+
 const MyProfile = ({navigation}) => {
-  const [date, setDate] = useState(new Date());
-  const [openDatePicker, setOpenDatePicker] = useState(false);
+   const [showDatePicker, setShowDatePicker] = useState(false);
+   const [birthdate, setBirthdate] = useState(new Date());
+   const [profileImage, setProfileImage] = useState("");
   const [genderOpen, setGenderOpen] = useState(false);
   const [gender, setGender] = useState(null);
   const [genderItems, setGenderItems] = useState([
     { label: "Male", value: "male" },
     { label: "Female", value: "female" },
   ]);
+
+  const handleDateChange = (event, selectedDate) => {
+    const currentDate = selectedDate || birthdate;
+    setShowDatePicker(false);
+    setBirthdate(currentDate);
+  };
 
   return (
     <ScrollView style={styles.container}>
@@ -32,17 +61,25 @@ const MyProfile = ({navigation}) => {
         <Text style={styles.headerTitle}>Your Profile</Text>
       </View>
 
-      <View style={styles.content}>
-        <Image
-          source={{
-            uri: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSgvL1falzHMx6Ad2oTvH9y1BeVbQnplBRC8A&s",
-          }}
-          style={styles.profileImage}
-        />
-        <TouchableOpacity style={styles.editButton}>
-          <Feather name="edit-2" color="#fff" size={24} />
+      <TouchableOpacity
+          style={styles.profilePictureContainer}
+          onPress={openImagePicker}
+        >
+          {profileImage ? (
+            <Image
+              source={{ uri: profileImage }}
+              style={styles.profilePicture}
+            />
+          ) : (
+            <Ionicons name="person-circle-outline" size={100} color="#ccc" />
+          )}
+          <Ionicons
+            name="camera"
+            size={20}
+            color="blue"
+            style={styles.cameraIcon}
+          />
         </TouchableOpacity>
-      </View>
 
       <View style={styles.formContainer}>
         {/* Name */}
@@ -79,26 +116,21 @@ const MyProfile = ({navigation}) => {
         </View>
 
         {/* Date Picker */}
-        <View style={styles.inputGroup}>
-          <Text style={styles.label}>Date Of Birth</Text>
-          <TouchableOpacity
-            style={styles.input}
-            onPress={() => setOpenDatePicker(true)}
-          >
-            <Text>{date.toDateString()}</Text>
-          </TouchableOpacity>
-          <DatePicker
-            modal
-            open={openDatePicker}
-            date={date}
+        <TouchableOpacity
+          style={styles.input}
+          onPress={() => setShowDatePicker(true)}
+        >
+          <Text>{birthdate.toDateString()}</Text>
+        </TouchableOpacity>
+
+        {showDatePicker && (
+          <DateTimePicker
+            value={birthdate}
             mode="date"
-            onConfirm={(selectedDate) => {
-              setOpenDatePicker(false);
-              setDate(selectedDate);
-            }}
-            onCancel={() => setOpenDatePicker(false)}
+            display="default"
+            onChange={handleDateChange}
           />
-        </View>
+        )}
 
         {/* Gender Dropdown */}
         <View style={styles.inputGroup}>

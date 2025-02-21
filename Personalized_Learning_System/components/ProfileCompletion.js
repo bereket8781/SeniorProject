@@ -131,7 +131,7 @@ const ProfileCompletion = ({ route, navigation }) => {
 
         <Text style={styles.label}>Birth Date</Text>
         <TouchableOpacity
-          style={styles.input}
+          style={styles.inputDate}
           onPress={() => setShowDatePicker(true)}
         >
           <Text>{birthdate.toDateString()}</Text>

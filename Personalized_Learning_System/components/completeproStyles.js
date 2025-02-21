@@ -65,6 +65,14 @@ const styles = StyleSheet.create({
     marginBottom: 15,
     color: "#000",
   },
+  inputDate: {
+    width: "100%",
+    backgroundColor: "#f5f5f5",
+    padding: 14,
+    borderRadius: 10,
+    fontSize: 16,
+    color: "#444",
+  },
   dropdown: {
     width: "100%",
     height: 50,

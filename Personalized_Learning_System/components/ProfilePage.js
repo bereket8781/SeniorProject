@@ -44,9 +44,6 @@ const ProfilePage = ({ navigation }) => {
               source={{ uri: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSgvL1falzHMx6Ad2oTvH9y1BeVbQnplBRC8A&s" }}
               style={styles.avatar}
             />
-            <TouchableOpacity style={styles.editButton}>
-              <Feather name="edit-2" size={16} color="#ffffff" />
-            </TouchableOpacity>
           </View>
           <Text style={styles.name}>Selamawit Yosef</Text>
         </View>

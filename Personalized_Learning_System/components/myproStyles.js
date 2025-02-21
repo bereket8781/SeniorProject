@@ -21,28 +21,6 @@ const styles = StyleSheet.create({
     textAlign: "center",
     flex: 1,
   },
-  content: {
-    alignItems: "center",
-    marginVertical: 20,
-  },
-  profileImage: {
-    width: 100,
-    height: 100,
-    borderRadius: 50,
-    backgroundColor: "#ccc",
-  },
-  editButton: {
-    position: "absolute",
-    bottom: 0,
-    right: "35%",
-    backgroundColor: "#0066ff",
-    padding: 8,
-    borderRadius: 20,
-    width: 32,
-    height: 32,
-    alignItems: "center",
-    justifyContent: "center",
-  },
   formContainer: {
     marginTop: 10,
   },
@@ -65,6 +43,26 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: "500",
   },
+  profilePictureContainer: {
+    position: "relative", // Allows absolute positioning for the icon
+    alignSelf: "center",
+  },
+  
+  profilePicture: {
+    width: 100,
+    height: 100,
+    borderRadius: 50,
+  },
+  
+  cameraIcon: {
+    position: "absolute",
+    bottom: 0,
+    right: 0,
+    backgroundColor: "white",
+    borderRadius: 50,
+    padding: 5,
+  },
+  
   input: {
     backgroundColor: "#f5f5f5",
     padding: 14,

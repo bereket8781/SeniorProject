@@ -20,6 +20,25 @@ const HomePage = () => {
   const navigation = useNavigation();
   const [activeTab, setActiveTab] = useState("Home");
   const [username, setUsername] = useState(route.params?.username || "");
+  const [profileImage, setProfileImage] = useState(route.params?.profileImage || "");
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const user = auth.currentUser; // Get currently logged-in user
+        if (user) {
+          const userDoc = await getDoc(doc(db, "users", user.uid));
+          if (userDoc.exists()) {
+            const userData = userDoc.data();
+            setProfileImage(userData.profileImage || "https://via.placeholder.com/150"); // Default image if empty
+          }
+        }
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+      }
+    };
+    fetchUserData();
+  }, []);
 
   const courseImages = [
     "https://images.unsplash.com/photo-1531403009284-440f080d1e12?w=500&q=80",
@@ -61,11 +80,9 @@ const HomePage = () => {
             <Text style={styles.greetingText}>Hi, {username} 👋</Text>
             <Text style={styles.subGreetingText}>Let's start learning!</Text>
           </View>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => navigation.navigate("ProfilePage")}>
             <Image
-              source={{
-                uri: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSgvL1falzHMx6Ad2oTvH9y1BeVbQnplBRC8A&s",
-              }}
+              source={{ uri: profileImage }}
               style={{ width: 40, height: 40, borderRadius: 20 }}
             />
           </TouchableOpacity>
