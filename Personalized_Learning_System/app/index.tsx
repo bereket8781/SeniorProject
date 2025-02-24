@@ -26,6 +26,7 @@ import Settings from "../components/Settings";
 import HelpCenter from "../components/HelpCenter";
 import Privacy from "../components/Privacy";
 import CategoryCourses from "../components/CategoryCourses";
+import SearchResult from "../components/SearchResult";
 
 const Stack = createStackNavigator();
 
@@ -82,6 +83,11 @@ export default function App(): JSX.Element {
         component={HomePage}
         options={{ headerShown: false }}
       />
+       <Stack.Screen
+          name="SearchResult"
+          component={SearchResult}
+          options={{ headerShown: false }}
+        />
       <Stack.Screen
         name="AllCategories"
         component={AllCategories}

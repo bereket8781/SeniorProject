@@ -28,6 +28,7 @@ import { Settings } from "react-native";
 import HelpCenter from "./components/HelpCenter";
 import Privacy from "./components/Privacy";
 import CategoryCourses from "./components/CategoryCourses";
+import SearchResult from "./components/SearchResult";
 
 const Stack = createStackNavigator();
 
@@ -83,6 +84,11 @@ export default function App() {
         <Stack.Screen
           name="HomePage"
           component={HomePage}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="SearchResult"
+          component={SearchResult}
           options={{ headerShown: false }}
         />
         <Stack.Screen

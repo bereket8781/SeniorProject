@@ -11,7 +11,7 @@ import styles from "./homeStyles";
 import { Feather } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { auth, db } from "../firebaseConfig";
-import { collection, getDocs } from "firebase/firestore";
+import { collection, query, where, getDocs } from "firebase/firestore";
 import { useRoute } from "@react-navigation/native";
 
 const HomePage = () => {
@@ -24,6 +24,8 @@ const HomePage = () => {
   );
   const [courses, setCourses] = useState([]); // State to store fetched courses
   const [loading, setLoading] = useState(true); // Loading state
+  const [searchKeyword, setSearchKeyword] = useState("");
+  const [filteredCourses, setFilteredCourses] = useState([]);
 
   // Fetch user data
   useEffect(() => {
@@ -74,6 +76,34 @@ const HomePage = () => {
     navigation.navigate(screen);
   };
 
+  const handleSearch = async () => {
+    if (!searchKeyword.trim()) {
+      Alert.alert("Error", "Please enter a search keyword.");
+      return;
+    }
+  
+    try {
+      const coursesCollection = collection(db, "courses");
+      const q = query(
+        coursesCollection,
+        where("title", ">=", searchKeyword),
+        where("title", "<=", searchKeyword + "\uf8ff")
+      );
+      const querySnapshot = await getDocs(q);
+  
+      const coursesData = querySnapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+  
+      setFilteredCourses(coursesData); // Store filtered courses
+      navigation.navigate("SearchResult", { courses: coursesData }); // Navigate to search results page
+    } catch (error) {
+      console.error("Error searching courses:", error);
+      Alert.alert("Error", "Something went wrong. Please try again.");
+    }
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -90,11 +120,15 @@ const HomePage = () => {
           </TouchableOpacity>
         </View>
         <View style={styles.searchContainer}>
-          <Feather name="search" size={20} color="#666666" />
+          <TouchableOpacity style={styles.searchButton} onPress={handleSearch}>
+            <Feather name="search" size={20} color="#666666" />
+          </TouchableOpacity>
           <TextInput
             style={styles.searchInput}
             placeholder="Search"
             placeholderTextColor="#666666"
+            value={searchKeyword}
+            onChangeText={(text) => setSearchKeyword(text)}
           />
           <TouchableOpacity
             style={styles.filterButton}
