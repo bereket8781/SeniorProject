@@ -101,21 +101,13 @@ const styles = StyleSheet.create({
     width: "100%",
     height: 100,
   },
-  ratingBadge: {
-    flexDirection: "row",
-    alignItems: "center",
+  favoriteButton: {
     position: "absolute",
-    top: 10,
-    right: 10,
-    backgroundColor: "#ffffff",
-    borderRadius: 15,
-    paddingVertical: 2,
-    paddingHorizontal: 8,
-  },
-  ratingText: {
-    fontSize: 12,
-    color: "#FFB800",
-    marginLeft: 4,
+    top: 8,
+    right: 8,
+    backgroundColor: "rgba(255, 255, 255, 0.8)",
+    borderRadius: 20,
+    padding: 8,
   },
   courseContent: {
     padding: 10,

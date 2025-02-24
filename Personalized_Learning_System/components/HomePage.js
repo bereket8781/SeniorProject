@@ -26,6 +26,17 @@ const HomePage = () => {
   const [loading, setLoading] = useState(true); // Loading state
   const [searchKeyword, setSearchKeyword] = useState("");
   const [filteredCourses, setFilteredCourses] = useState([]);
+  const [favorites, setFavorites] = useState([]);
+
+const toggleFavorite = (courseId) => {
+  if (favorites.includes(courseId)) {
+    // Remove from favorites
+    setFavorites(favorites.filter((id) => id !== courseId));
+  } else {
+    // Add to favorites
+    setFavorites([...favorites, courseId]);
+  }
+};
 
   // Fetch user data
   useEffect(() => {
@@ -71,6 +82,42 @@ const HomePage = () => {
     fetchCourses();
   }, []);
 
+  useEffect(() => {
+    const saveFavorites = async () => {
+      try {
+        const user = auth.currentUser;
+        if (user) {
+          await setDoc(doc(db, "users", user.uid), {
+            favorites,
+          }, { merge: true });
+        }
+      } catch (error) {
+        console.error("Error saving favorites:", error);
+      }
+    };
+  
+    saveFavorites();
+  }, [favorites]);
+
+  useEffect(() => {
+    const fetchFavorites = async () => {
+      try {
+        const user = auth.currentUser;
+        if (user) {
+          const userDoc = await getDoc(doc(db, "users", user.uid));
+          if (userDoc.exists()) {
+            const userData = userDoc.data();
+            setFavorites(userData.favorites || []);
+          }
+        }
+      } catch (error) {
+        console.error("Error fetching favorites:", error);
+      }
+    };
+  
+    fetchFavorites();
+  }, []);
+
   const handleNavigation = (screen) => {
     setActiveTab(screen);
     navigation.navigate(screen);
@@ -81,7 +128,7 @@ const HomePage = () => {
       Alert.alert("Error", "Please enter a search keyword.");
       return;
     }
-  
+
     try {
       const coursesCollection = collection(db, "courses");
       const q = query(
@@ -90,12 +137,12 @@ const HomePage = () => {
         where("title", "<=", searchKeyword + "\uf8ff")
       );
       const querySnapshot = await getDocs(q);
-  
+
       const coursesData = querySnapshot.docs.map((doc) => ({
         id: doc.id,
         ...doc.data(),
       }));
-  
+
       setFilteredCourses(coursesData); // Store filtered courses
       navigation.navigate("SearchResult", { courses: coursesData }); // Navigate to search results page
     } catch (error) {
@@ -204,12 +251,18 @@ const HomePage = () => {
                   source={{ uri: course.imageUrl }}
                   style={styles.courseImage}
                 />
-                <View style={styles.ratingBadge}>
-                  <Feather name="star" size={14} color="#FFB800" />
-                  <Text style={styles.ratingText}>
-                    {course.rating || "4.5"}
-                  </Text>
-                </View>
+                <TouchableOpacity
+                  style={styles.favoriteButton}
+                  onPress={() => toggleFavorite(course.id)}
+                >
+                  <Feather
+                    name={favorites.includes(course.id) ? "heart" : "heart"}
+                    size={20}
+                    color={
+                      favorites.includes(course.id) ? "#FF3B30" : "#666666"
+                    }
+                  />
+                </TouchableOpacity>
                 <View style={styles.courseContent}>
                   <Text style={styles.courseTitle}>{course.title}</Text>
                   <View style={styles.instructorRow}>
