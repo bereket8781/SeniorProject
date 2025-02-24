@@ -7,12 +7,11 @@ import {
   Image,
   TouchableOpacity,
 } from "react-native";
-
 import styles from "./homeStyles";
 import { Feather } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { auth, db } from "../firebaseConfig";
-import { doc, getDoc } from "firebase/firestore";
+import { collection, getDocs } from "firebase/firestore";
 import { useRoute } from "@react-navigation/native";
 
 const HomePage = () => {
@@ -20,8 +19,13 @@ const HomePage = () => {
   const navigation = useNavigation();
   const [activeTab, setActiveTab] = useState("Home");
   const [username, setUsername] = useState(route.params?.username || "");
-  const [profileImage, setProfileImage] = useState(route.params?.profileImage || "");
+  const [profileImage, setProfileImage] = useState(
+    route.params?.profileImage || ""
+  );
+  const [courses, setCourses] = useState([]); // State to store fetched courses
+  const [loading, setLoading] = useState(true); // Loading state
 
+  // Fetch user data
   useEffect(() => {
     const fetchUserData = async () => {
       try {
@@ -30,7 +34,9 @@ const HomePage = () => {
           const userDoc = await getDoc(doc(db, "users", user.uid));
           if (userDoc.exists()) {
             const userData = userDoc.data();
-            setProfileImage(userData.profileImage || "https://via.placeholder.com/150"); // Default image if empty
+            setProfileImage(
+              userData.profileImage || "https://via.placeholder.com/150"
+            );
           }
         }
       } catch (error) {
@@ -40,32 +46,28 @@ const HomePage = () => {
     fetchUserData();
   }, []);
 
-  const courseImages = [
-    "https://images.unsplash.com/photo-1531403009284-440f080d1e12?w=500&q=80",
-    "https://images.unsplash.com/photo-1626785774625-0b1c2c4eab67?w=500&q=80",
-    "https://files.oaiusercontent.com/file-8TGUawJ4jv93Z6dac66SSS?se=2025-02-13T17%3A04%3A27Z&sp=r&sv=2024-08-04&sr=b&rscc=max-age%3D604800%2C%20immutable%2C%20private&rscd=attachment%3B%20filename%3Da7841edb-3b0e-4b04-a06a-bdc5d45339aa.webp&sig=la3W2qm8uSaA/7sl1BzEeKhlwC2HF8sRjcxgM41fG/Q%3D",
-  ];
+  // Fetch courses from Firestore
+  useEffect(() => {
+    const fetchCourses = async () => {
+      try {
+        const coursesCollection = collection(db, "courses");
+        const querySnapshot = await getDocs(coursesCollection);
 
-  const courses = [
-    {
-      title: "Design Thinking Fundamental",
-      instructor: "Robert Green",
-      rating: "4.8",
-      image: courseImages[0],
-    },
-    {
-      title: "Data Structures and Algorithms",
-      instructor: "Robert Green",
-      rating: "4.8",
-      image: courseImages[0],
-    },
-    {
-      title: "Network Administration",
-      instructor: "John Doe",
-      rating: "4.9",
-      image: courseImages[0],
-    },
-  ];
+        const coursesData = querySnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+
+        setCourses(coursesData); // Set fetched courses to state
+      } catch (error) {
+        console.error("Error fetching courses:", error);
+      } finally {
+        setLoading(false); // Set loading to false
+      }
+    };
+
+    fetchCourses();
+  }, []);
 
   const handleNavigation = (screen) => {
     setActiveTab(screen);
@@ -150,39 +152,41 @@ const HomePage = () => {
           </TouchableOpacity>
         </View>
 
-        <ScrollView
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          style={styles.courseRow}
-        >
-          {courses.map((course, index) => (
-            <TouchableOpacity
-              key={index}
-              style={styles.courseCard}
-              onPress={() => navigation.navigate("CourseDetails", course)}
-            >
-              <Image
-                source={{ uri: course.image }}
-                style={styles.courseImage}
-              />
-              <View style={styles.ratingBadge}>
-                <Feather name="star" size={14} color="#FFB800" />
-                <Text style={styles.ratingText}>{course.rating}</Text>
-              </View>
-              <View style={styles.courseContent}>
-                <Text style={styles.courseTitle}>{course.title}</Text>
-                <View style={styles.instructorRow}>
-                  <Feather name="user" size={14} color="#666666" />
-                  <Text style={styles.instructorText}>{course.instructor}</Text>
+        {loading ? (
+          <Text>...</Text>
+        ) : (
+          <ScrollView
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            style={styles.courseRow}
+          >
+            {courses.map((course, index) => (
+              <TouchableOpacity
+                key={index}
+                style={styles.courseCard}
+                onPress={() => navigation.navigate("CourseDetails", { course })}
+              >
+                <Image
+                  source={{ uri: course.imageUrl }}
+                  style={styles.courseImage}
+                />
+                <View style={styles.ratingBadge}>
+                  <Feather name="star" size={14} color="#FFB800" />
+                  <Text style={styles.ratingText}>
+                    {course.rating || "4.5"}
+                  </Text>
                 </View>
-{/*                 <View style={styles.priceRow}>
-                  <Text style={styles.priceText}>{course.price}</Text>
-                  <Text style={styles.newPriceTag}>New Price</Text>
-                </View> */}
-              </View>
-            </TouchableOpacity>
-          ))}
-        </ScrollView>
+                <View style={styles.courseContent}>
+                  <Text style={styles.courseTitle}>{course.title}</Text>
+                  <View style={styles.instructorRow}>
+                    <Feather name="user" size={14} color="#666666" />
+                    <Text style={styles.instructorText}>{course.provider}</Text>
+                  </View>
+                </View>
+              </TouchableOpacity>
+            ))}
+          </ScrollView>
+        )}
 
         <View style={styles.sectionHeader}>
           <Text style={styles.sectionTitle}>Continue Learning</Text>
@@ -193,6 +197,7 @@ const HomePage = () => {
           </TouchableOpacity>
         </View>
 
+        {/* Continue Learning Section */}
         <TouchableOpacity style={styles.continueCard}>
           <Image
             source={{
@@ -216,37 +221,11 @@ const HomePage = () => {
             </View>
           </View>
         </TouchableOpacity>
-
-        <TouchableOpacity style={styles.continueCard}>
-          <Image
-            source={{
-              uri: "https://images.unsplash.com/photo-1581291518633-83b4ebd1d83e?w=500&q=80",
-            }}
-            style={styles.continueThumbnail}
-          />
-          <View style={styles.continueContent}>
-            <View>
-              <Text style={styles.continueTitle}>
-                Introduction of Algorithms
-              </Text>
-              <View style={styles.instructorRow}>
-                <Feather name="user" size={14} color="#666666" />
-                <Text style={styles.instructorText}>John Doe</Text>
-              </View>
-            </View>
-            <View style={styles.progressContainer}>
-              <Text style={styles.progressText}>23/25</Text>
-              <View style={styles.progressBar}>
-                <View style={styles.progressFill} />
-              </View>
-            </View>
-          </View>
-        </TouchableOpacity>
       </ScrollView>
 
       <View style={styles.bottomNav}>
         {[
-          { icon: "home", label: "Home", screen: "HomePage" }, 
+          { icon: "home", label: "Home", screen: "HomePage" },
           { icon: "book", label: "My Course", screen: "MyCourses" },
           { icon: "bookmark", label: "Bookmark", screen: "Bookmark" },
           { icon: "message-circle", label: "Chat", screen: "Chat" },

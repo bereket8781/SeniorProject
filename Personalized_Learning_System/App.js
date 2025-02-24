@@ -27,6 +27,7 @@ import MyProfile from "./components/MyProfile";
 import { Settings } from "react-native";
 import HelpCenter from "./components/HelpCenter";
 import Privacy from "./components/Privacy";
+import CategoryCourses from "./components/CategoryCourses";
 
 const Stack = createStackNavigator();
 
@@ -87,6 +88,11 @@ export default function App() {
         <Stack.Screen
           name="AllCategories"
           component={AllCategories}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="CategoryCourses"
+          component={CategoryCourses}
           options={{ headerShown: false }}
         />
         <Stack.Screen

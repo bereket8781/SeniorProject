@@ -18,7 +18,7 @@ const AllCategories = ({ navigation }) => {
       icon: require("../assets/images/graphicDesign.png"),
     },
     { name: "Web Development", icon: require("../assets/images/webDev.png") },
-    { name: "Cyber Security", icon: require("../assets/images/search.png") },
+    { name: "Computer Security", icon: require("../assets/images/search.png") },
     {
       name: "Network Administration",
       icon: require("../assets/images/budget.png"),
@@ -33,7 +33,7 @@ const AllCategories = ({ navigation }) => {
     },
     { name: "Artificial Intelligence", icon: require("../assets/images/hr.png") },
     {
-      name: "Data Structures & Algorithm",
+      name: "Data Structure and Algorithms",
       icon: require("../assets/images/algorithm.png"),
     },
   ];
@@ -60,12 +60,25 @@ const AllCategories = ({ navigation }) => {
         </TouchableOpacity>
       </View>
 
-      <ScrollView contentContainerStyle={styles.categoriesContainer}>
+{/*       <ScrollView contentContainerStyle={styles.categoriesContainer}>
         {categories.map((category, index) => (
           <View key={index} style={styles.categoryItem}>
             <Image source={category.icon} style={styles.categoryIcon} />
             <Text style={styles.categoryText}>{category.name}</Text>
           </View>
+        ))}
+      </ScrollView> */}
+
+<ScrollView contentContainerStyle={styles.categoriesContainer}>
+        {categories.map((category, index) => (
+          <TouchableOpacity
+            key={index}
+            style={styles.categoryItem}
+            onPress={() => navigation.navigate('CategoryCourses', { categoryName: category.name })}
+          >
+            <Image source={category.icon} style={styles.categoryIcon} />
+            <Text style={styles.categoryText}>{category.name}</Text>
+          </TouchableOpacity>
         ))}
       </ScrollView>
     </View>
