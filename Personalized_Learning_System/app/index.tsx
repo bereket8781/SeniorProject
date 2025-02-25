@@ -28,6 +28,7 @@ import Privacy from "../components/Privacy";
 import CategoryCourses from "../components/CategoryCourses";
 import SearchResult from "../components/SearchResult";
 import NotificationSettings from "../components/NotificationSettings";
+import PasswordManager from "../components/PasswordManager";
 
 const Stack = createStackNavigator();
 
@@ -157,6 +158,11 @@ export default function App(): JSX.Element {
         <Stack.Screen
           name="NotificationSettings"
           component={NotificationSettings}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="PasswordManager"
+          component={PasswordManager}
           options={{ headerShown: false }}
         />
         <Stack.Screen
