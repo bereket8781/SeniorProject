@@ -11,8 +11,8 @@ const Settings = ({navigation}) => {
       };
 
       const menuItems = [
-        { icon: "user", label: "Notification Settings", screen: "Notification"},
-        { icon: "settings", label: "Password Manager", screen: "Password" },
+        { icon: "settings", label: "Notification Settings", screen: "NotificationSettings" },
+        { icon: "lock", label: "Password Manager", screen: "Password" },
         { icon: "help-circle", label: "Delete Account", screen: "Delete-Account" },
       ];
 

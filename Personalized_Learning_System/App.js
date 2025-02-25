@@ -29,6 +29,7 @@ import HelpCenter from "./components/HelpCenter";
 import Privacy from "./components/Privacy";
 import CategoryCourses from "./components/CategoryCourses";
 import SearchResult from "./components/SearchResult";
+import NotificationSettings from "./components/NotificationSettings";
 
 const Stack = createStackNavigator();
 
@@ -154,6 +155,11 @@ export default function App() {
         <Stack.Screen
           name="Settings"
           component={Settings}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="NotificationSettings"
+          component={NotificationSettings}
           options={{ headerShown: false }}
         />
         <Stack.Screen
