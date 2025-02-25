@@ -1,14 +1,33 @@
 import { useState } from "react";
-import { View, Text, TextInput, TouchableOpacity, Image, ScrollView } from "react-native";
+import { View, Text, TextInput, TouchableOpacity, Image, ScrollView, Alert } from "react-native";
 import { Feather } from "@expo/vector-icons";
 import styles from "./settingsStyles";
 
 const Settings = ({navigation}) => {
     const [activeTab, setActiveTab] = useState("Settings");
     const handleNavigation = (screen) => {
-        setActiveTab(screen);
-        navigation.navigate(screen);
-      };
+      if (screen === "Delete-Account") {
+          Alert.alert(
+              "Delete Account",
+              "Are you sure you want to permanently delete your account? This action cannot be undone.",
+              [
+                  {
+                      text: "No",
+                      onPress: () => console.log("Cancel Pressed"),
+                      style: "cancel"
+                  },
+                  { 
+                      text: "Yes", 
+                      onPress: () => navigation.navigate("Register") 
+                  }
+              ],
+              { cancelable: false }
+          );
+      } else {
+          setActiveTab(screen);
+          navigation.navigate(screen);
+      }
+  };
 
       const menuItems = [
         { icon: "settings", label: "Notification Settings", screen: "NotificationSettings" },

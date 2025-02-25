@@ -1,6 +1,11 @@
 import { StyleSheet } from "react-native";
 
 const styles = StyleSheet.create({
+  scrollContainer: {
+    flexGrow: 1,
+    justifyContent: 'center',
+    paddingBottom: 20, 
+  },
   container: {
     flex: 1,
     paddingTop: 40,
@@ -44,7 +49,7 @@ const styles = StyleSheet.create({
     fontWeight: "500",
   },
   profilePictureContainer: {
-    position: "relative", // Allows absolute positioning for the icon
+    position: "relative", 
     alignSelf: "center",
   },
   
@@ -69,30 +74,35 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     fontSize: 16,
     color: "#444",
+    paddingTop: 14,
   },
-  selectButton: {
-    backgroundColor: "#f5f5f5",
-    padding: 14,
+  label: {
+    alignSelf: "flex-start",
+    fontSize: 14,
+    fontWeight: "bold",
+    color: "#000",
+    marginBottom: 5,
+    paddingTop: 10,
+  },
+  dropdown: {
+    width: "100%",
+    height: 50,
     borderRadius: 10,
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
+    backgroundColor: "#F5F5F5",
+    justifyContent: "center",
+    marginBottom: 15,
   },
-  selectButtonText: {
-    fontSize: 16,
-    color: "#666",
-  },
-  updateButton: {
-    backgroundColor: "#0066ff",
-    padding: 16,
+  button: {
+    backgroundColor: "#007BFF",
+    padding: 15,
     borderRadius: 30,
     alignItems: "center",
-    marginVertical: 30,
+    marginTop: 10,
   },
-  updateButtonText: {
+  buttonText: {
     color: "#fff",
-    fontSize: 18,
-    fontWeight: "600",
+    fontSize: 16,
+    fontWeight: "bold",
   },
   bottomNav: {
     flexDirection: "row",
