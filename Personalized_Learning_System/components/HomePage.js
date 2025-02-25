@@ -5,6 +5,9 @@ import {
   ScrollView,
   TextInput,
   Image,
+  Platform,
+  Alert,
+  KeyboardAvoidingView,
   TouchableOpacity,
 } from "react-native";
 import styles from "./homeStyles";
@@ -28,15 +31,15 @@ const HomePage = () => {
   const [filteredCourses, setFilteredCourses] = useState([]);
   const [favorites, setFavorites] = useState([]);
 
-const toggleFavorite = (courseId) => {
-  if (favorites.includes(courseId)) {
-    // Remove from favorites
-    setFavorites(favorites.filter((id) => id !== courseId));
-  } else {
-    // Add to favorites
-    setFavorites([...favorites, courseId]);
-  }
-};
+  const toggleFavorite = (courseId) => {
+    if (favorites.includes(courseId)) {
+      // Remove from favorites
+      setFavorites(favorites.filter((id) => id !== courseId));
+    } else {
+      // Add to favorites
+      setFavorites([...favorites, courseId]);
+    }
+  };
 
   // Fetch user data
   useEffect(() => {
@@ -87,15 +90,19 @@ const toggleFavorite = (courseId) => {
       try {
         const user = auth.currentUser;
         if (user) {
-          await setDoc(doc(db, "users", user.uid), {
-            favorites,
-          }, { merge: true });
+          await setDoc(
+            doc(db, "users", user.uid),
+            {
+              favorites,
+            },
+            { merge: true }
+          );
         }
       } catch (error) {
         console.error("Error saving favorites:", error);
       }
     };
-  
+
     saveFavorites();
   }, [favorites]);
 
@@ -114,7 +121,7 @@ const toggleFavorite = (courseId) => {
         console.error("Error fetching favorites:", error);
       }
     };
-  
+
     fetchFavorites();
   }, []);
 
@@ -152,194 +159,208 @@ const toggleFavorite = (courseId) => {
   };
 
   return (
-    <View style={styles.container}>
-      <View style={styles.header}>
-        <View style={styles.greeting}>
-          <View>
-            <Text style={styles.greetingText}>Hi, {username} 👋</Text>
-            <Text style={styles.subGreetingText}>Let's start learning!</Text>
-          </View>
-          <TouchableOpacity onPress={() => navigation.navigate("ProfilePage")}>
-            <Image
-              source={{ uri: profileImage }}
-              style={{ width: 40, height: 40, borderRadius: 20 }}
-            />
-          </TouchableOpacity>
-        </View>
-        <View style={styles.searchContainer}>
-          <TouchableOpacity style={styles.searchButton} onPress={handleSearch}>
-            <Feather name="search" size={20} color="#666666" />
-          </TouchableOpacity>
-          <TextInput
-            style={styles.searchInput}
-            placeholder="Search"
-            placeholderTextColor="#666666"
-            value={searchKeyword}
-            onChangeText={(text) => setSearchKeyword(text)}
-          />
-          <TouchableOpacity
-            style={styles.filterButton}
-            onPress={() => navigation.navigate("Filter")}
-          >
-            <Feather name="sliders" size={20} color="#666666" />
-          </TouchableOpacity>
-        </View>
-      </View>
-
-      <ScrollView showsVerticalScrollIndicator={false}>
-        <View style={styles.sectionHeader}>
-          <Text style={styles.sectionTitle}>Categories</Text>
-          <TouchableOpacity
-            onPress={() => navigation.navigate("AllCategories")}
-          >
-            <Text style={styles.seeAll}>See all</Text>
-          </TouchableOpacity>
-        </View>
-
-        <ScrollView
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          style={styles.categories}
-        >
-          {[
-            { name: "Security", color: "#FF6B00", icon: "pen-tool" },
-            { name: "Coding", color: "#0056FF", icon: "code" },
-            { name: "Testing", color: "#FF3B30", icon: "trending-up" },
-            { name: "AI", color: "#34C759", icon: "briefcase" },
-            { name: "Data Structure", color: "#FF3B30", icon: "trending-up" },
-          ].map((category, index) => (
-            <TouchableOpacity key={index} style={styles.category}>
-              <View
-                style={[
-                  styles.categoryIcon,
-                  { backgroundColor: `${category.color}20` },
-                ]}
-              >
-                <Feather
-                  name={category.icon}
-                  size={24}
-                  color={category.color}
-                />
-              </View>
-              <Text style={styles.categoryText}>{category.name}</Text>
+    <KeyboardAvoidingView
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      style={{ flex: 1 }}
+    >
+      <View style={styles.container}>
+        <View style={styles.header}>
+          <View style={styles.greeting}>
+            <View>
+              <Text style={styles.greetingText}>Hi, {username} 👋</Text>
+              <Text style={styles.subGreetingText}>Let's start learning!</Text>
+            </View>
+            <TouchableOpacity
+              onPress={() => navigation.navigate("ProfilePage")}
+            >
+              <Image
+                source={{ uri: profileImage }}
+                style={{ width: 40, height: 40, borderRadius: 20 }}
+              />
             </TouchableOpacity>
-          ))}
-        </ScrollView>
-
-        <View style={styles.sectionHeader}>
-          <Text style={styles.sectionTitle}>Popular Course</Text>
-          <TouchableOpacity>
-            <Text style={styles.seeAll}>See all</Text>
-          </TouchableOpacity>
+          </View>
+          <View style={styles.searchContainer}>
+            <TouchableOpacity
+              style={styles.searchButton}
+              onPress={handleSearch}
+            >
+              <Feather name="search" size={20} color="#666666" />
+            </TouchableOpacity>
+            <TextInput
+              style={styles.searchInput}
+              placeholder="Search"
+              placeholderTextColor="#666666"
+              value={searchKeyword}
+              onChangeText={(text) => setSearchKeyword(text)}
+            />
+            <TouchableOpacity
+              style={styles.filterButton}
+              onPress={() => navigation.navigate("Filter")}
+            >
+              <Feather name="sliders" size={20} color="#666666" />
+            </TouchableOpacity>
+          </View>
         </View>
 
-        {loading ? (
-          <Text>...</Text>
-        ) : (
+        <ScrollView showsVerticalScrollIndicator={false}>
+          <View style={styles.sectionHeader}>
+            <Text style={styles.sectionTitle}>Categories</Text>
+            <TouchableOpacity
+              onPress={() => navigation.navigate("AllCategories")}
+            >
+              <Text style={styles.seeAll}>See all</Text>
+            </TouchableOpacity>
+          </View>
+
           <ScrollView
             horizontal
             showsHorizontalScrollIndicator={false}
-            style={styles.courseRow}
+            style={styles.categories}
           >
-            {courses.map((course, index) => (
-              <TouchableOpacity
-                key={index}
-                style={styles.courseCard}
-                onPress={() => navigation.navigate("CourseDetails", { course })}
-              >
-                <Image
-                  source={{ uri: course.imageUrl }}
-                  style={styles.courseImage}
-                />
-                <TouchableOpacity
-                  style={styles.favoriteButton}
-                  onPress={() => toggleFavorite(course.id)}
+            {[
+              { name: "Security", color: "#FF6B00", icon: "pen-tool" },
+              { name: "Coding", color: "#0056FF", icon: "code" },
+              { name: "Testing", color: "#FF3B30", icon: "trending-up" },
+              { name: "AI", color: "#34C759", icon: "briefcase" },
+              { name: "Data Structure", color: "#FF3B30", icon: "trending-up" },
+            ].map((category, index) => (
+              <TouchableOpacity key={index} style={styles.category}>
+                <View
+                  style={[
+                    styles.categoryIcon,
+                    { backgroundColor: `${category.color}20` },
+                  ]}
                 >
                   <Feather
-                    name={favorites.includes(course.id) ? "heart" : "heart"}
-                    size={20}
-                    color={
-                      favorites.includes(course.id) ? "#FF3B30" : "#666666"
-                    }
+                    name={category.icon}
+                    size={24}
+                    color={category.color}
                   />
-                </TouchableOpacity>
-                <View style={styles.courseContent}>
-                  <Text style={styles.courseTitle}>{course.title}</Text>
-                  <View style={styles.instructorRow}>
-                    <Feather name="user" size={14} color="#666666" />
-                    <Text style={styles.instructorText}>{course.provider}</Text>
-                  </View>
                 </View>
+                <Text style={styles.categoryText}>{category.name}</Text>
               </TouchableOpacity>
             ))}
           </ScrollView>
-        )}
 
-        <View style={styles.sectionHeader}>
-          <Text style={styles.sectionTitle}>Continue Learning</Text>
-          <TouchableOpacity
-            onPress={() => navigation.navigate("OngoingCourses")}
-          >
-            <Text style={styles.seeAll}>See all</Text>
-          </TouchableOpacity>
-        </View>
-
-        {/* Continue Learning Section */}
-        <TouchableOpacity style={styles.continueCard}>
-          <Image
-            source={{
-              uri: "https://images.unsplash.com/photo-1581291518633-83b4ebd1d83e?w=500&q=80",
-            }}
-            style={styles.continueThumbnail}
-          />
-          <View style={styles.continueContent}>
-            <View>
-              <Text style={styles.continueTitle}>Introduction to Python</Text>
-              <View style={styles.instructorRow}>
-                <Feather name="user" size={14} color="#666666" />
-                <Text style={styles.instructorText}>Jacob Jones</Text>
-              </View>
-            </View>
-            <View style={styles.progressContainer}>
-              <Text style={styles.progressText}>20/25</Text>
-              <View style={styles.progressBar}>
-                <View style={styles.progressFill} />
-              </View>
-            </View>
+          <View style={styles.sectionHeader}>
+            <Text style={styles.sectionTitle}>Popular Course</Text>
+            <TouchableOpacity>
+              <Text style={styles.seeAll}>See all</Text>
+            </TouchableOpacity>
           </View>
-        </TouchableOpacity>
-      </ScrollView>
 
-      <View style={styles.bottomNav}>
-        {[
-          { icon: "home", label: "Home", screen: "HomePage" },
-          { icon: "book", label: "My Course", screen: "MyCourses" },
-          { icon: "bookmark", label: "Bookmark", screen: "Bookmark" },
-          { icon: "message-circle", label: "Chat", screen: "Chat" },
-          { icon: "user", label: "Profile", screen: "ProfilePage" },
-        ].map((item, index) => (
-          <TouchableOpacity
-            key={index}
-            style={styles.navItem}
-            onPress={() => handleNavigation(item.screen)}
-          >
-            <Feather
-              name={item.icon}
-              size={24}
-              color={activeTab === item.screen ? "#0056FF" : "#666666"}
-            />
-            <Text
-              style={[
-                styles.navText,
-                activeTab === item.screen && styles.navActive,
-              ]}
+          {loading ? (
+            <Text>...</Text>
+          ) : (
+            <ScrollView
+              horizontal
+              showsHorizontalScrollIndicator={false}
+              style={styles.courseRow}
             >
-              {item.label}
-            </Text>
+              {courses.map((course, index) => (
+                <TouchableOpacity
+                  key={index}
+                  style={styles.courseCard}
+                  onPress={() =>
+                    navigation.navigate("CourseDetails", { course })
+                  }
+                >
+                  <Image
+                    source={{ uri: course.imageUrl }}
+                    style={styles.courseImage}
+                  />
+                  <TouchableOpacity
+                    style={styles.favoriteButton}
+                    onPress={() => toggleFavorite(course.id)}
+                  >
+                    <Feather
+                      name={favorites.includes(course.id) ? "heart" : "heart"}
+                      size={20}
+                      color={
+                        favorites.includes(course.id) ? "#FF3B30" : "#666666"
+                      }
+                    />
+                  </TouchableOpacity>
+                  <View style={styles.courseContent}>
+                    <Text style={styles.courseTitle}>{course.title}</Text>
+                    <View style={styles.instructorRow}>
+                      <Feather name="user" size={14} color="#666666" />
+                      <Text style={styles.instructorText}>
+                        {course.provider}
+                      </Text>
+                    </View>
+                  </View>
+                </TouchableOpacity>
+              ))}
+            </ScrollView>
+          )}
+
+          <View style={styles.sectionHeader}>
+            <Text style={styles.sectionTitle}>Continue Learning</Text>
+            <TouchableOpacity
+              onPress={() => navigation.navigate("OngoingCourses")}
+            >
+              <Text style={styles.seeAll}>See all</Text>
+            </TouchableOpacity>
+          </View>
+
+          {/* Continue Learning Section */}
+          <TouchableOpacity style={styles.continueCard}>
+            <Image
+              source={{
+                uri: "https://images.unsplash.com/photo-1581291518633-83b4ebd1d83e?w=500&q=80",
+              }}
+              style={styles.continueThumbnail}
+            />
+            <View style={styles.continueContent}>
+              <View>
+                <Text style={styles.continueTitle}>Introduction to Python</Text>
+                <View style={styles.instructorRow}>
+                  <Feather name="user" size={14} color="#666666" />
+                  <Text style={styles.instructorText}>Jacob Jones</Text>
+                </View>
+              </View>
+              <View style={styles.progressContainer}>
+                <Text style={styles.progressText}>20/25</Text>
+                <View style={styles.progressBar}>
+                  <View style={styles.progressFill} />
+                </View>
+              </View>
+            </View>
           </TouchableOpacity>
-        ))}
+        </ScrollView>
+
+        <View style={styles.bottomNav}>
+          {[
+            { icon: "home", label: "Home", screen: "HomePage" },
+            { icon: "book", label: "My Course", screen: "MyCourses" },
+            { icon: "bookmark", label: "Bookmark", screen: "Bookmark" },
+            { icon: "message-circle", label: "Chat", screen: "Chat" },
+            { icon: "user", label: "Profile", screen: "ProfilePage" },
+          ].map((item, index) => (
+            <TouchableOpacity
+              key={index}
+              style={styles.navItem}
+              onPress={() => handleNavigation(item.screen)}
+            >
+              <Feather
+                name={item.icon}
+                size={24}
+                color={activeTab === item.screen ? "#0056FF" : "#666666"}
+              />
+              <Text
+                style={[
+                  styles.navText,
+                  activeTab === item.screen && styles.navActive,
+                ]}
+              >
+                {item.label}
+              </Text>
+            </TouchableOpacity>
+          ))}
+        </View>
       </View>
-    </View>
+    </KeyboardAvoidingView>
   );
 };
 
