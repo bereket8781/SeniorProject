@@ -1,16 +1,21 @@
 import { StyleSheet } from "react-native";
 const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      padding: 16,
-      backgroundColor: "#fff",
-      paddingTop: 50,
-    },
-    header: {
-      fontSize: 24,
-      fontWeight: "bold",
-      marginBottom: 16,
-    },
+  container: {
+    flex: 1,
+    padding: 16,
+    backgroundColor: "#fff",
+    paddingTop: 50,
+  },
+  header: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 16,
+  },
+  headerTitle: {
+    fontSize: 20,
+    fontWeight: "bold",
+    marginLeft: 16,
+  },
     courseList: {
       paddingBottom: 16,
     },

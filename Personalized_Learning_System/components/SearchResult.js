@@ -1,7 +1,7 @@
 import React from "react";
 import { View, Text, FlatList, Image, TouchableOpacity } from "react-native";
-import { Feather } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
+import { Ionicons } from "@expo/vector-icons";
 import styles from "./searchStyles";
 
 const SearchResult = ({ route }) => {
@@ -24,7 +24,12 @@ const SearchResult = ({ route }) => {
 
     return (
         <View style={styles.container}>
-            <Text style={styles.header}>Search Results</Text>
+      <View style={styles.header}>
+        <TouchableOpacity onPress={() => navigation.navigate("HomePage")}>
+          <Ionicons name="arrow-back" size={24} color="black" />
+        </TouchableOpacity>
+        <Text style={styles.headerTitle}>Search Result</Text>
+      </View>
             <FlatList
                 data={courses}
                 renderItem={renderCourseItem}
