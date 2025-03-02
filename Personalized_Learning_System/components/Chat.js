@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -11,7 +11,19 @@ import {
 } from "react-native";
 import { Feather } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
+import { db } from "../firebaseConfig"; // Import Firestore
+import {
+  collection,
+  addDoc,
+  getDocs,
+  query,
+  orderBy,
+  doc,
+  updateDoc,
+  arrayUnion,
+  increment,
+} from "firebase/firestore";
 import styles from "./chatStyles";
 
 // Post form component
@@ -43,12 +55,9 @@ function PostForm({ onAddPost }) {
   return (
     <View style={styles.postForm}>
       <View style={styles.inputContainer}>
-        {/* Plus icon inside input */}
         <TouchableOpacity onPress={pickImage} style={styles.plusIcon}>
           <Feather name="plus" size={24} color="#0056FF" />
         </TouchableOpacity>
-
-        {/* Input Field */}
         <TextInput
           style={styles.input}
           value={content}
@@ -56,26 +65,23 @@ function PostForm({ onAddPost }) {
           placeholder="What's on your mind?"
           multiline
         />
-
-        {/* Send button */}
         <TouchableOpacity onPress={handleSubmit} style={styles.sendButton}>
           <Feather name="send" size={24} color="#0056FF" />
         </TouchableOpacity>
       </View>
-
-      {/* Image Preview */}
       {image && <Image source={{ uri: image }} style={styles.previewImage} />}
     </View>
   );
 }
 
 // Comment section component
-function CommentSection({ comments, onAddComment }) {
+function CommentSection({ postId, comments, onAddComment, username }) {
   const [newComment, setNewComment] = useState("");
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (newComment.trim()) {
-      onAddComment({ author: "Selamawit", content: newComment.trim() });
+      const comment = { author: username, content: newComment.trim() }; // Use the logged-in user's username
+      await onAddComment(postId, comment); // Add comment to Firestore
       setNewComment("");
     }
   };
@@ -104,29 +110,16 @@ function CommentSection({ comments, onAddComment }) {
 }
 
 // Post component
-function Post({
-  id,
-  author,
-  content,
-  image,
-  likes: initialLikes,
-  comments: initialComments,
-}) {
-  const [likes, setLikes] = useState(initialLikes);
-  const [comments, setComments] = useState(initialComments);
+function Post({ id, author, content, image, likes, comments, onLike, onAddComment, username }) {
   const [isLiked, setIsLiked] = useState(false);
 
-  const handleLike = () => {
-    setLikes(isLiked ? likes - 1 : likes + 1);
+  const handleLike = async () => {
+    await onLike(id, isLiked ? -1 : 1); // Update likes in Firestore
     setIsLiked(!isLiked);
   };
 
   const handleShare = () => {
     console.log("Sharing post:", id);
-  };
-
-  const addComment = (newComment) => {
-    setComments([...comments, newComment]);
   };
 
   return (
@@ -156,58 +149,107 @@ function Post({
           <Text style={styles.actionText}>Share</Text>
         </TouchableOpacity>
       </View>
-      <CommentSection comments={comments} onAddComment={addComment} />
+      <CommentSection
+        postId={id}
+        comments={comments}
+        onAddComment={onAddComment}
+        username={username} // Pass the logged-in user's username
+      />
     </View>
   );
 }
 
-// Mock data
-const mockPosts = [
-  {
-    id: 1,
-    author: "Bereket",
-    content: "Hello, Circle!",
-    likes: 5,
-    comments: [{ author: "Bob", content: "Hi Alice!" }],
-  },
-  {
-    id: 2,
-    author: "Hermela",
-    content: "React is awesome!",
-    likes: 10,
-    comments: [],
-  },
-  {
-    id: 3,
-    author: "Charlie",
-    content: "Check out this cool UI!",
-    likes: 15,
-    comments: [],
-  },
-];
-
 export default function Chat() {
-  const [posts, setPosts] = useState(mockPosts);
-  const [page, setPage] = useState(1);
-  const navigation = useNavigation(); 
-  const [activeTab, setActiveTab] = useState("Chat"); // New state to track active tab
+  const route = useRoute();
+  const username = route.params?.username || "Guest"; // Get the logged-in user's username
+  const [posts, setPosts] = useState([]);
+  const navigation = useNavigation();
+  const [activeTab, setActiveTab] = useState("Chat");
 
-  const loadMorePosts = () => {
-    const newPosts = mockPosts.slice(page * 3, (page + 1) * 3);
-    setPosts([...posts, ...newPosts]);
-    setPage(page + 1);
+  // Fetch posts from Firestore on component load
+  useEffect(() => {
+    const fetchPosts = async () => {
+      try {
+        const postsCollection = collection(db, "posts");
+        const q = query(postsCollection, orderBy("timestamp", "desc")); // Order by timestamp
+        const querySnapshot = await getDocs(q);
+
+        const postsData = querySnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+
+        setPosts(postsData);
+      } catch (error) {
+        console.error("Error fetching posts:", error);
+      }
+    };
+
+    fetchPosts();
+  }, []);
+
+  // Add a new post to Firestore and local state
+  const addPost = async ({ content, image }) => {
+    try {
+      const newPost = {
+        author: username, // Use the logged-in user's username
+        content,
+        image,
+        likes: 0,
+        comments: [],
+        timestamp: new Date(), // Add a timestamp for ordering
+      };
+
+      // Save to Firestore
+      const docRef = await addDoc(collection(db, "posts"), newPost);
+
+      // Update local state
+      setPosts((prevPosts) => [{ id: docRef.id, ...newPost }, ...prevPosts]);
+    } catch (error) {
+      console.error("Error adding post:", error);
+    }
   };
 
-  const addPost = ({ content, image }) => {
-    const newPost = {
-      id: posts.length + 1,
-      author: "Selamawit",
-      content,
-      image,
-      likes: 0,
-      comments: [],
-    };
-    setPosts([newPost, ...posts]);
+  // Update likes in Firestore
+  const handleLike = async (postId, likeChange) => {
+    try {
+      const postRef = doc(db, "posts", postId);
+      await updateDoc(postRef, {
+        likes: increment(likeChange),
+      });
+
+      // Update local state
+      setPosts((prevPosts) =>
+        prevPosts.map((post) =>
+          post.id === postId
+            ? { ...post, likes: post.likes + likeChange }
+            : post
+        )
+      );
+    } catch (error) {
+      console.error("Error updating likes:", error);
+    }
+  };
+
+  // Add a comment to Firestore
+  const handleAddComment = async (postId, comment) => {
+    try {
+      const postRef = doc(db, "posts", postId);
+      await updateDoc(postRef, {
+        comments: arrayUnion(comment),
+      });
+
+      // Update local state
+      setPosts((prevPosts) =>
+        prevPosts.map((post) =>
+          post.id === postId
+            ? { ...post, comments: [...post.comments, comment] }
+            : post
+        )
+      );
+    } catch (error) {
+      console.error("Error adding comment:", error);
+    }
   };
 
   const handleNavigation = (screen) => {
@@ -224,8 +266,6 @@ export default function Chat() {
         ListHeaderComponent={<PostForm onAddPost={addPost} />}
         data={posts}
         keyExtractor={(item) => item.id.toString()}
-        onEndReached={loadMorePosts}
-        onEndReachedThreshold={0.1}
         renderItem={({ item }) => (
           <Post
             id={item.id}
@@ -234,11 +274,12 @@ export default function Chat() {
             image={item.image}
             likes={item.likes}
             comments={item.comments}
+            onLike={handleLike}
+            onAddComment={handleAddComment}
+            username={username} // Pass the logged-in user's username
           />
         )}
       />
-
-      {/* Bottom Navigation Bar */}
       <View style={styles.bottomNav}>
         {[
           { icon: "home", label: "Home", screen: "HomePage" },

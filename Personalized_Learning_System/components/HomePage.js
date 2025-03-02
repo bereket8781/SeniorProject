@@ -14,7 +14,7 @@ import styles from "./homeStyles";
 import { Feather } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { auth, db } from "../firebaseConfig";
-import { collection, query, where, getDocs } from "firebase/firestore";
+import { collection, query, where, getDocs, doc, getDoc, setDoc } from "firebase/firestore";
 import { useRoute } from "@react-navigation/native";
 
 const HomePage = () => {
@@ -127,7 +127,11 @@ const HomePage = () => {
 
   const handleNavigation = (screen) => {
     setActiveTab(screen);
-    navigation.navigate(screen);
+    if (screen === "Chat") {
+      navigation.navigate("Chat", { username: username });
+    } else {
+      navigation.navigate(screen);
+    }
   };
 
   const handleSearch = async () => {
