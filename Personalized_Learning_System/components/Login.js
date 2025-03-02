@@ -4,24 +4,20 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
-  StyleSheet,
   Image,
-  Modal,
   ScrollView,
   Alert,
 } from "react-native";
 import styles from "./loginStyles";
 import { Ionicons } from "@expo/vector-icons";
-import { collection, getDocs } from "firebase/firestore";
-import { db } from "../firebaseConfig"; 
+import { collection, getDocs, query, where } from "firebase/firestore";
+import { db } from "../firebaseConfig";
 
 const Login = ({ navigation }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [isPasswordVisible, setPasswordVisible] = useState(false);
   const [passwordError, setPasswordError] = useState("");
-  const [isGoogleModalVisible, setIsGoogleModalVisible] = useState(false);
-  const [isFacebookModalVisible, setIsFacebookModalVisible] = useState(false);
 
   const togglePasswordVisibility = () => {
     setPasswordVisible(!isPasswordVisible);
@@ -36,39 +32,66 @@ const Login = ({ navigation }) => {
     }
 
     try {
+      // Step 1: Fetch user data from the "users" collection using the username
       const usersCollection = collection(db, "users");
-      const querySnapshot = await getDocs(usersCollection);
+      const userQuery = query(usersCollection, where("username", "==", username));
+      const userQuerySnapshot = await getDocs(userQuery);
 
-      let userFound = false;
+      if (userQuerySnapshot.empty) {
+        Alert.alert("User Not Found", "The username does not exist.");
+        return;
+      }
 
-      querySnapshot.forEach((doc) => {
-        const userData = doc.data();
-        if (userData.username === username) {
-          userFound = true;
-          navigation.navigate("HomePage", { username});
-/*           if (userData.password === password) { // Hash passwords in production
-            navigation.navigate("HomePage");
-          } else {
-            Alert.alert("Login Failed", "Incorrect password. Please try again.");
-          } */
-        }
+      let userData = null;
+      userQuerySnapshot.forEach((doc) => {
+        userData = doc.data();
       });
 
-      if (!userFound) {
-        Alert.alert("User Not Found", "The username does not exist.");
+      console.log("User data from 'users' collection:", userData); // Debugging
+
+      // Step 2: Fetch profile data from the "Users" collection using the email
+      const UsersCollection = collection(db, "Users");
+      const profileQuery = query(UsersCollection, where("email", "==", userData.email));
+      const profileQuerySnapshot = await getDocs(profileQuery);
+
+      if (profileQuerySnapshot.empty) {
+        Alert.alert("Profile Not Found", "No profile data found for this user.");
+        return;
       }
+
+      let profileData = null;
+      profileQuerySnapshot.forEach((doc) => {
+        profileData = doc.data();
+      });
+
+      console.log("Profile data from 'Users' collection:", profileData); // Debugging
+
+      // Step 3: Fetch profileImage from the "users" collection using the email
+      const profileImageQuery = query(usersCollection, where("email", "==", userData.email));
+      const profileImageQuerySnapshot = await getDocs(profileImageQuery);
+
+      if (profileImageQuerySnapshot.empty) {
+        Alert.alert("Profile Image Not Found", "No profile image found for this user.");
+        return;
+      }
+
+      let profileImageData = null;
+      profileImageQuerySnapshot.forEach((doc) => {
+        profileImageData = doc.data();
+      });
+
+      console.log("Profile image data from 'users' collection:", profileImageData); // Debugging
+
+      // Step 4: Navigate to HomePage with user data
+      navigation.navigate("HomePage", {
+        username: userData.username,
+        profileImage: profileImageData.profileImage || "https://via.placeholder.com/150", // Fallback image
+        fullname: profileData.fullname || "User", // Fallback name
+      });
     } catch (error) {
-      console.error("Error fetching users:", error);
+      console.error("Error fetching user data:", error); // Debugging
       Alert.alert("Error", "Something went wrong. Please try again later.");
     }
-  };
-
-  const toggleGoogleModal = () => {
-    setIsGoogleModalVisible(!isGoogleModalVisible);
-  };
-
-  const toggleFacebookModal = () => {
-    setIsFacebookModalVisible(!isFacebookModalVisible);
   };
 
   return (
@@ -129,7 +152,7 @@ const Login = ({ navigation }) => {
 
         <TouchableOpacity
           style={styles.socialButton}
-          onPress={toggleGoogleModal}
+          onPress={() => Alert.alert("Google Login", "Google login not implemented yet.")}
         >
           <Image
             source={require("../assets/images/googleIcon.jpg")}
@@ -140,7 +163,7 @@ const Login = ({ navigation }) => {
 
         <TouchableOpacity
           style={styles.socialButton}
-          onPress={toggleFacebookModal}
+          onPress={() => Alert.alert("Facebook Login", "Facebook login not implemented yet.")}
         >
           <Image
             source={require("../assets/images/facebookIcon.jpg")}
@@ -155,88 +178,6 @@ const Login = ({ navigation }) => {
             <Text style={styles.signUpText}>Sign Up</Text>
           </TouchableOpacity>
         </View>
-
-        {/* Google Login Modal */}
-        <Modal
-          transparent={true}
-          visible={isGoogleModalVisible}
-          animationType="fade"
-          onRequestClose={toggleGoogleModal}
-        >
-          <View style={styles.modalBackground}>
-            <View style={styles.modalContainer}>
-              <Text style={styles.modalTitle}>Choose an account</Text>
-              <Text style={styles.modalSubtitle}>
-                To continue to EduConnect
-              </Text>
-
-              <View style={styles.accountOption}>
-                <Image
-                  source={require("../assets/images/googleAcc.png")}
-                  style={styles.socialIcon}
-                />
-                <View style={styles.chooseAccount}>
-                  <Text style={styles.accountName}>Account Name</Text>
-                  <Text style={styles.accountEmail}>email@gmail.com</Text>
-                </View>
-              </View>
-
-              <TouchableOpacity style={styles.useAnotherButton}>
-                <Image
-                  source={require("../assets/images/otherAcc.jpg")}
-                  style={styles.socialIcon}
-                />
-                <Text style={styles.useAnotherText}>Use another account</Text>
-              </TouchableOpacity>
-
-              <Text style={styles.modalFooter}>
-                To continue, Google will share your name, email address, and
-                profile picture with EduConnect.
-              </Text>
-
-              <TouchableOpacity
-                style={styles.closeButton}
-                onPress={toggleGoogleModal}
-              >
-                <Text style={styles.closeButtonText}>Close</Text>
-              </TouchableOpacity>
-            </View>
-          </View>
-        </Modal>
-
-        {/* Facebook Login Modal */}
-        <Modal
-          transparent={true}
-          visible={isFacebookModalVisible}
-          animationType="slide"
-          onRequestClose={toggleFacebookModal}
-        >
-          <View style={styles.modalBackground}>
-            <View style={styles.modalContainer}>
-              <Image
-                source={require("../assets/images/faceAcc.png")}
-                style={styles.faceIcon}
-              />
-              <Text style={styles.modalText}>
-                You previously logged in to EduConnect with Facebook as @acc123.
-              </Text>
-              <Text style={styles.modalText}>Would you like to continue?</Text>
-
-              <TouchableOpacity style={styles.continueButton}>
-                <Text style={styles.continueButtonText}>Continue</Text>
-              </TouchableOpacity>
-
-              <TouchableOpacity onPress={toggleFacebookModal}>
-                <Text style={styles.cancelText}>Cancel</Text>
-              </TouchableOpacity>
-
-              <Text style={styles.modalFooter}>
-                By continuing, EduConnect will receive ongoing access to the
-                information you share on Facebook.
-              </Text>
-            </View>
-          </View>
-        </Modal>
       </View>
     </ScrollView>
   );

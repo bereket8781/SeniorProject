@@ -1,11 +1,19 @@
 import React, { useState } from "react";
-import { View, Text, TextInput, TouchableOpacity, Image, ScrollView } from "react-native";
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  Image,
+  ScrollView,
+  ActivityIndicator,
+} from "react-native";
 import { Picker } from "@react-native-picker/picker";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import * as ImagePicker from "expo-image-picker";
 import { Ionicons } from "@expo/vector-icons";
 import styles from "./completeproStyles";
-import { db, auth } from "../firebaseConfig"; 
+import { db, auth } from "../firebaseConfig"; // No need for storage
 import { doc, setDoc } from "firebase/firestore";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 
@@ -17,6 +25,7 @@ const ProfileCompletion = ({ route, navigation }) => {
   const [birthdate, setBirthdate] = useState(new Date());
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [profileImage, setProfileImage] = useState(null);
+  const [uploading, setUploading] = useState(false); // Track upload status
   const [error, setError] = useState("");
 
   const handleDateChange = (event, selectedDate) => {
@@ -27,21 +36,39 @@ const ProfileCompletion = ({ route, navigation }) => {
 
   const openImagePicker = async () => {
     let permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
-  
+
     if (permissionResult.granted === false) {
       alert("Permission to access media library is required!");
       return;
     }
-  
+
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
       aspect: [4, 3],
-      quality: 1,
+      quality: 0.5, // Reduce quality to minimize Base64 size
     });
-  
+
     if (!result.canceled) {
       setProfileImage(result.assets[0].uri);
+    }
+  };
+
+  const convertImageToBase64 = async (uri) => {
+    try {
+      const response = await fetch(uri);
+      const blob = await response.blob();
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          resolve(reader.result); // Base64 string
+        };
+        reader.onerror = reject;
+        reader.readAsDataURL(blob);
+      });
+    } catch (error) {
+      console.error("Error converting image to Base64:", error);
+      throw error;
     }
   };
 
@@ -54,6 +81,14 @@ const ProfileCompletion = ({ route, navigation }) => {
     }
 
     try {
+      setUploading(true); // Start uploading
+
+      // Convert the profile image to Base64
+      let profileImageBase64 = null;
+      if (profileImage) {
+        profileImageBase64 = await convertImageToBase64(profileImage);
+      }
+
       // Create user in Firebase Authentication
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const userId = userCredential.user.uid;
@@ -65,12 +100,15 @@ const ProfileCompletion = ({ route, navigation }) => {
         phoneNumber,
         gender,
         birthdate: birthdate.toISOString(),
-        profileImage,
+        profileImage: profileImageBase64, // Store the Base64 string
       });
 
       navigation.navigate("LearningAssessmentForm");
     } catch (error) {
+      console.error("Error creating account:", error);
       setError(error.message);
+    } finally {
+      setUploading(false); // Stop uploading
     }
   };
 
@@ -162,8 +200,13 @@ const ProfileCompletion = ({ route, navigation }) => {
         <TouchableOpacity
           style={styles.createButton}
           onPress={handleCreateAccount}
+          disabled={uploading} // Disable button while uploading
         >
-          <Text style={styles.createButtonText}>Create Account</Text>
+          {uploading ? (
+            <ActivityIndicator color="#fff" />
+          ) : (
+            <Text style={styles.createButtonText}>Create Account</Text>
+          )}
         </TouchableOpacity>
       </View>
     </ScrollView>

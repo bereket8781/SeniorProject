@@ -9,6 +9,7 @@ import {
   Alert,
   KeyboardAvoidingView,
   TouchableOpacity,
+  ActivityIndicator,
 } from "react-native";
 import styles from "./homeStyles";
 import { Feather } from "@expo/vector-icons";
@@ -22,9 +23,7 @@ const HomePage = () => {
   const navigation = useNavigation();
   const [activeTab, setActiveTab] = useState("Home");
   const [username, setUsername] = useState(route.params?.username || "");
-  const [profileImage, setProfileImage] = useState(
-    route.params?.profileImage || ""
-  );
+  const [profileImage, setProfileImage] = useState(null); // State for Base64 profile image
   const [courses, setCourses] = useState([]); // State to store fetched courses
   const [loading, setLoading] = useState(true); // Loading state
   const [searchKeyword, setSearchKeyword] = useState("");
@@ -50,15 +49,15 @@ const HomePage = () => {
           const userDoc = await getDoc(doc(db, "users", user.uid));
           if (userDoc.exists()) {
             const userData = userDoc.data();
-            setProfileImage(
-              userData.profileImage || "https://via.placeholder.com/150"
-            );
+            setUsername(userData.username || "");
+            setProfileImage(userData.profileImage || null); // Set Base64 profile image
           }
         }
       } catch (error) {
         console.error("Error fetching user data:", error);
       }
     };
+
     fetchUserData();
   }, []);
 
@@ -174,13 +173,22 @@ const HomePage = () => {
               <Text style={styles.greetingText}>Hi, {username} 👋</Text>
               <Text style={styles.subGreetingText}>Let's start learning!</Text>
             </View>
-            <TouchableOpacity
-              onPress={() => navigation.navigate("ProfilePage")}
-            >
-              <Image
-                source={{ uri: profileImage }}
-                style={{ width: 40, height: 40, borderRadius: 20 }}
-              />
+            <TouchableOpacity onPress={() => navigation.navigate("ProfilePage")}>
+              {/* Display the profile image */}
+              {profileImage ? (
+                <Image
+                  source={{ uri: profileImage }} // Use Base64 string directly
+                  style={{ width: 40, height: 40, borderRadius: 20 }}
+                  onError={(e) => {
+                    console.error("Failed to load image:", e.nativeEvent.error); // Debugging
+                  }}
+                />
+              ) : (
+                <Image
+                  source={{ uri: "https://via.placeholder.com/150" }} // Fallback image
+                  style={{ width: 40, height: 40, borderRadius: 20 }}
+                />
+              )}
             </TouchableOpacity>
           </View>
           <View style={styles.searchContainer}>

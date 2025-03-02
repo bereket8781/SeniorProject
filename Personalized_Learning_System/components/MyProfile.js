@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -8,12 +8,15 @@ import {
   ScrollView,
   Platform,
   KeyboardAvoidingView,
+  ActivityIndicator,
 } from "react-native";
 import { Feather } from "@expo/vector-icons";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { Picker } from "@react-native-picker/picker";
 import { Ionicons } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
+import { auth, db } from "../firebaseConfig";
+import { query, collection, where, getDocs } from "firebase/firestore";
 import styles from "./myproStyles";
 
 const openImagePicker = async (setProfileImage) => {
@@ -37,11 +40,77 @@ const openImagePicker = async (setProfileImage) => {
   }
 };
 
-const MyProfile = ({ navigation }) => {
+const MyProfile = ({ navigation, route }) => {
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [birthdate, setBirthdate] = useState(new Date());
   const [profileImage, setProfileImage] = useState("");
+  const [fullname, setFullname] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [email, setEmail] = useState("");
   const [gender, setGender] = useState(null);
+  const [loading, setLoading] = useState(true); // Loading state
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const user = auth.currentUser; // Get currently logged-in user
+        if (user) {
+          const email = user.email; // Use email as the common field
+          if (email) {
+            // Query the "users" collection for the document with the matching email
+            const usersQuery = query(collection(db, "users"), where("email", "==", email));
+            const usersQuerySnapshot = await getDocs(usersQuery);
+
+            if (!usersQuerySnapshot.empty) {
+              const userData = usersQuerySnapshot.docs[0].data();
+
+              // Set all user data
+              setProfileImage(userData.profileImage || "https://via.placeholder.com/150");
+              setPhoneNumber(userData.phoneNumber || "");
+              setEmail(userData.email || "");
+              setGender(userData.gender || null);
+
+              // Convert birthdate string to Date object (if stored as a string in Firestore)
+              if (userData.birthdate) {
+                setBirthdate(new Date(userData.birthdate));
+              }
+            }
+          }
+        }
+      } catch (error) {
+        // Handle error silently
+      } finally {
+        setLoading(false); // Stop loading
+      }
+    };
+
+    fetchUserData();
+  }, []);
+
+  useEffect(() => {
+    const fetchFullname = async () => {
+      try {
+        const user = auth.currentUser; // Get currently logged-in user
+        if (user) {
+          const email = user.email; // Use email as the common field
+          if (email) {
+            // Query the "Users" collection for the document with the matching email
+            const usersQuery = query(collection(db, "Users"), where("email", "==", email));
+            const usersQuerySnapshot = await getDocs(usersQuery);
+
+            if (!usersQuerySnapshot.empty) {
+              const usersData = usersQuerySnapshot.docs[0].data();
+              setFullname(usersData.fullname || ""); // Set full name
+            }
+          }
+        }
+      } catch (error) {
+        // Handle error silently
+      }
+    };
+
+    fetchFullname();
+  }, []);
 
   const handleDateChange = (event, selectedDate) => {
     const currentDate = selectedDate || birthdate;
@@ -50,8 +119,16 @@ const MyProfile = ({ navigation }) => {
   };
 
   const handleUpdateProfile = () => {
-    console.log("Profile updated successfully");
+    // Handle profile update silently
   };
+
+  if (loading) {
+    return (
+      <View style={styles.container}>
+        <ActivityIndicator size="large" color="#0056FF" />
+      </View>
+    );
+  }
 
   return (
     <KeyboardAvoidingView
@@ -100,20 +177,21 @@ const MyProfile = ({ navigation }) => {
               <Text style={styles.label}>Name</Text>
               <TextInput
                 style={styles.input}
-                defaultValue="Selamawit Yosef"
+                value={fullname}
+                onChangeText={setFullname}
                 placeholder="Enter your name"
               />
             </View>
 
             {/* Phone Number */}
             <View style={styles.inputGroup}>
-              <View style={styles.labelContainer}>
-                <Text style={styles.label}>Phone Number</Text>
-              </View>
+              <Text style={styles.label}>Phone Number</Text>
               <TextInput
                 style={styles.input}
-                defaultValue="+251 912 345 678"
+                value={phoneNumber}
+                onChangeText={setPhoneNumber}
                 placeholder="Enter your phone number"
+                keyboardType="phone-pad"
               />
             </View>
 
@@ -122,9 +200,11 @@ const MyProfile = ({ navigation }) => {
               <Text style={styles.label}>Email</Text>
               <TextInput
                 style={styles.input}
-                defaultValue="Selam@gmail.com"
+                value={email}
+                onChangeText={setEmail}
                 placeholder="Enter email"
                 keyboardType="email-address"
+                editable={false} // Email should not be editable
               />
             </View>
 
