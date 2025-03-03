@@ -286,7 +286,7 @@ const HomePage = () => {
                     onPress={() => toggleFavorite(course.id)}
                   >
                     <Feather
-                      name={favorites.includes(course.id) ? "heart" : "heart"}
+                      name={favorites.includes(course.id) ? "bookmark" : "bookmark"}
                       size={20}
                       color={
                         favorites.includes(course.id) ? "#FF3B30" : "#666666"
