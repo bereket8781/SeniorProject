@@ -1,4 +1,5 @@
 import React from "react";
+import { useState } from "react";
 import {
   View,
   Text,
@@ -9,6 +10,13 @@ import {
 } from "react-native";
 import { Feather } from "@expo/vector-icons";
 import styles from "./categoriesStyles";
+import { auth, db } from "../firebaseConfig";
+import {
+  collection,
+  query,
+  where,
+  getDocs,
+} from "firebase/firestore";
 
 const AllCategories = ({ navigation }) => {
   const categories = [
@@ -38,6 +46,37 @@ const AllCategories = ({ navigation }) => {
     },
   ];
 
+    const [searchKeyword, setSearchKeyword] = useState("");
+    const [filteredCourses, setFilteredCourses] = useState([]);
+
+  const handleSearch = async () => {
+    if (!searchKeyword.trim()) {
+      Alert.alert("Error", "Please enter a search keyword.");
+      return;
+    }
+
+    try {
+      const coursesCollection = collection(db, "courses");
+      const q = query(
+        coursesCollection,
+        where("title", ">=", searchKeyword),
+        where("title", "<=", searchKeyword + "\uf8ff")
+      );
+      const querySnapshot = await getDocs(q);
+
+      const coursesData = querySnapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+
+      setFilteredCourses(coursesData); // Store filtered courses
+      navigation.navigate("SearchResult", { courses: coursesData }); // Navigate to search results page
+    } catch (error) {
+      console.error("Error searching courses:", error);
+      Alert.alert("Error", "Something went wrong. Please try again.");
+    }
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -53,21 +92,17 @@ const AllCategories = ({ navigation }) => {
           style={styles.searchInput}
           placeholder="Search"
           placeholderTextColor="#666"
+          value={searchKeyword} // Bind value to state
+          onChangeText={(text) => setSearchKeyword(text)} // Update state on input change
         />
 
-        <TouchableOpacity style={styles.searchButton}>
+        <TouchableOpacity
+          style={styles.searchButton}
+          onPress={handleSearch} // Trigger search on button press
+        >
           <Feather name="search" size={20} color="white" />
         </TouchableOpacity>
       </View>
-
-{/*       <ScrollView contentContainerStyle={styles.categoriesContainer}>
-        {categories.map((category, index) => (
-          <View key={index} style={styles.categoryItem}>
-            <Image source={category.icon} style={styles.categoryIcon} />
-            <Text style={styles.categoryText}>{category.name}</Text>
-          </View>
-        ))}
-      </ScrollView> */}
 
 <ScrollView contentContainerStyle={styles.categoriesContainer}>
         {categories.map((category, index) => (

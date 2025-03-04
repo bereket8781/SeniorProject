@@ -42,7 +42,7 @@ const Bookmark = () => {
 
     console.log("Setting up onSnapshot listener...");
 
-    const unsubscribe = onSnapshot(doc(db, "users", user.uid), (doc) => {
+    const unsubscribe = onSnapshot(doc(db, "users", user.uid), async (doc) => {
       if (doc.exists()) {
         const userData = doc.data();
         const favorites = userData.favorites || [];
@@ -50,29 +50,25 @@ const Bookmark = () => {
         console.log("Favorites:", favorites);
 
         // Fetch all courses and filter based on favorites
-        const fetchCourses = async () => {
-          try {
-            const coursesCollection = collection(db, "courses");
-            const querySnapshot = await getDocs(coursesCollection);
+        try {
+          const coursesCollection = collection(db, "courses");
+          const querySnapshot = await getDocs(coursesCollection);
 
-            const coursesData = querySnapshot.docs
-              .map((doc) => ({
-                id: doc.id,
-                ...doc.data(),
-              }))
-              .filter((course) => favorites.includes(course.id));
+          const coursesData = querySnapshot.docs
+            .map((doc) => ({
+              id: doc.id,
+              ...doc.data(),
+            }))
+            .filter((course) => favorites.includes(course.id));
 
-            console.log("Filtered Courses:", coursesData);
+          console.log("Filtered Courses:", coursesData);
 
-            setFavoriteCourses(coursesData);
-            setLoading(false); // Set loading to false after data is fetched
-          } catch (error) {
-            console.error("Error fetching courses:", error);
-            setLoading(false); // Ensure loading is set to false even if there's an error
-          }
-        };
-
-        fetchCourses();
+          setFavoriteCourses(coursesData);
+          setLoading(false); // Set loading to false after data is fetched
+        } catch (error) {
+          console.error("Error fetching courses:", error);
+          setLoading(false); // Ensure loading is set to false even if there's an error
+        }
       } else {
         console.log("User document does not exist.");
         setLoading(false); // Set loading to false if the document doesn't exist
@@ -202,34 +198,34 @@ const Bookmark = () => {
         </View>
       </Modal>
       <View style={styles.bottomNav}>
-          {[
-            { icon: "home", label: "Home", screen: "HomePage" },
-            { icon: "book", label: "My Course", screen: "MyCourses" },
-            { icon: "bookmark", label: "Bookmark", screen: "Bookmark" },
-            { icon: "message-circle", label: "Chat", screen: "Chat" },
-            { icon: "user", label: "Profile", screen: "ProfilePage" },
-          ].map((item, index) => (
-            <TouchableOpacity
-              key={index}
-              style={styles.navItem}
-              onPress={() => handleNavigation(item.screen)}
+        {[
+          { icon: "home", label: "Home", screen: "HomePage" },
+          { icon: "book", label: "My Course", screen: "MyCourses" },
+          { icon: "bookmark", label: "Bookmark", screen: "Bookmark" },
+          { icon: "message-circle", label: "Chat", screen: "Chat" },
+          { icon: "user", label: "Profile", screen: "ProfilePage" },
+        ].map((item, index) => (
+          <TouchableOpacity
+            key={index}
+            style={styles.navItem}
+            onPress={() => handleNavigation(item.screen)}
+          >
+            <Feather
+              name={item.icon}
+              size={24}
+              color={activeTab === item.screen ? "#0056FF" : "#666666"}
+            />
+            <Text
+              style={[
+                styles.navText,
+                activeTab === item.screen && styles.navActive,
+              ]}
             >
-              <Feather
-                name={item.icon}
-                size={24}
-                color={activeTab === item.screen ? "#0056FF" : "#666666"}
-              />
-              <Text
-                style={[
-                  styles.navText,
-                  activeTab === item.screen && styles.navActive,
-                ]}
-              >
-                {item.label}
-              </Text>
-            </TouchableOpacity>
-          ))}
-        </View>
+              {item.label}
+            </Text>
+          </TouchableOpacity>
+        ))}
+      </View>
     </View>
   );
 };

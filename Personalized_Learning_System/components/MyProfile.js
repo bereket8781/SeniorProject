@@ -16,7 +16,7 @@ import { Picker } from "@react-native-picker/picker";
 import { Ionicons } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
 import { auth, db } from "../firebaseConfig";
-import { query, collection, where, getDocs } from "firebase/firestore";
+import { query, collection, where, getDocs, doc, updateDoc } from "firebase/firestore"; // Add `doc` and `updateDoc` here
 import styles from "./myproStyles";
 
 const openImagePicker = async (setProfileImage) => {
@@ -118,8 +118,40 @@ const MyProfile = ({ navigation, route }) => {
     setBirthdate(currentDate);
   };
 
-  const handleUpdateProfile = () => {
-    // Handle profile update silently
+  const handleUpdateProfile = async () => {
+    try {
+      const user = auth.currentUser; // Get currently logged-in user
+      if (user) {
+        const email = user.email; // Use email as the common field
+        if (email) {
+          // Query the "users" collection for the document with the matching email
+          const usersQuery = query(collection(db, "users"), where("email", "==", email));
+          const usersQuerySnapshot = await getDocs(usersQuery);
+
+          if (!usersQuerySnapshot.empty) {
+            const userDocRef = doc(db, "users", usersQuerySnapshot.docs[0].id); // Get the document reference
+
+            // Prepare the updated data
+            const updatedData = {
+              fullname: fullname,
+              phoneNumber: phoneNumber,
+              birthdate: birthdate.toISOString(), // Convert Date to string
+              gender: gender,
+              profileImage: profileImage,
+            };
+
+            // Update the document in Firestore
+            await updateDoc(userDocRef, updatedData);
+
+            // Optionally, show a success message or navigate back
+            alert("Profile updated successfully!");
+          }
+        }
+      }
+    } catch (error) {
+      console.error("Error updating profile: ", error);
+      alert("Failed to update profile. Please try again.");
+    }
   };
 
   if (loading) {

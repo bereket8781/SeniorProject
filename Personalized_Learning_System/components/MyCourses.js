@@ -1,13 +1,23 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, ScrollView, TouchableOpacity, TextInput, Image } from "react-native";
+import {
+  View,
+  Text,
+  ScrollView,
+  TouchableOpacity,
+  TextInput,
+  Image,
+  Alert,
+} from "react-native";
 import { db, auth } from "../firebaseConfig"; // Import Firebase db and auth
-import { collection, onSnapshot } from "firebase/firestore"; // Import Firestore functions
+import { collection, onSnapshot, query, where, getDocs } from "firebase/firestore"; // Import Firestore functions
 import { Feather, MaterialIcons } from "@expo/vector-icons";
 import styles from "./mycourseStyles";
 
 const MyCourses = ({ navigation }) => {
   const [activeTab, setActiveTab] = useState("MyCourses");
   const [completedCourses, setCompletedCourses] = useState([]);
+  const [searchKeyword, setSearchKeyword] = useState("");
+  const [filteredCourses, setFilteredCourses] = useState([]);
 
   // Fetch completed courses from Firestore
   useEffect(() => {
@@ -32,6 +42,34 @@ const MyCourses = ({ navigation }) => {
     navigation.navigate(screen);
   };
 
+  const handleSearch = async () => {
+    if (!searchKeyword.trim()) {
+      Alert.alert("Error", "Please enter a search keyword.");
+      return;
+    }
+
+    try {
+      const coursesCollection = collection(db, "courses");
+      const q = query(
+        coursesCollection,
+        where("title", ">=", searchKeyword),
+        where("title", "<=", searchKeyword + "\uf8ff")
+      );
+      const querySnapshot = await getDocs(q);
+
+      const coursesData = querySnapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+
+      setFilteredCourses(coursesData); // Store filtered courses
+      navigation.navigate("SearchResult", { courses: coursesData }); // Navigate to search results page
+    } catch (error) {
+      console.error("Error searching courses:", error);
+      Alert.alert("Error", "Something went wrong. Please try again.");
+    }
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -47,8 +85,16 @@ const MyCourses = ({ navigation }) => {
       <ScrollView>
         <View style={styles.searchContainer}>
           <View style={styles.searchWrapper}>
-            <TextInput placeholder="Search for..." style={styles.searchInput} />
-            <Feather name="search" style={styles.searchIcon} />
+            <TextInput
+              placeholder="Search for..."
+              style={styles.searchInput}
+              value={searchKeyword}
+              onChangeText={(text) => setSearchKeyword(text)}
+              onSubmitEditing={handleSearch} // Trigger search on "Enter"
+            />
+            <TouchableOpacity onPress={handleSearch}>
+              <Feather name="search" style={styles.searchIcon} />
+            </TouchableOpacity>
           </View>
 
           <View style={styles.filterContainer}>
@@ -60,7 +106,7 @@ const MyCourses = ({ navigation }) => {
             </TouchableOpacity>
             <TouchableOpacity
               style={[styles.filterButton, styles.filterButtonOngoing]}
-              onPress={() => setActiveTab("Ongoing")}
+              onPress={() => navigation.navigate("OngoingCourses")}
             >
               <Text style={styles.filterTextOngoing}>Ongoing</Text>
             </TouchableOpacity>
@@ -110,7 +156,7 @@ const MyCourses = ({ navigation }) => {
 
       <View style={styles.bottomNav}>
         {[
-          { icon: "home", label: "Home", screen: "HomePage" }, 
+          { icon: "home", label: "Home", screen: "HomePage" },
           { icon: "book", label: "My Course", screen: "MyCourses" },
           { icon: "bookmark", label: "Bookmark", screen: "Bookmark" },
           { icon: "message-circle", label: "Chat", screen: "Chat" },

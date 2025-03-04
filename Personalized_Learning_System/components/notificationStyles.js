@@ -8,13 +8,10 @@ const styles = StyleSheet.create({
         paddingTop: 30,
     },
     header: {
-        backgroundColor: "#ffffff",
-        padding: 20,
-        paddingTop: 50,
-        borderBottomLeftRadius: 20,
-        borderBottomRightRadius: 20,
-        flexDirection: "row",
-        alignItems: "center",
+      flexDirection: "row",
+      alignItems: "center",
+      marginBottom: 16,
+      paddingTop: 30,
       },
       backButton: {
         padding: 8,

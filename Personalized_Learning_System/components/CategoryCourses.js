@@ -36,15 +36,12 @@ const CategoryCourses = ({ route, navigation }) => {
   const renderCourseItem = ({ item }) => (
     <TouchableOpacity
       style={styles.courseItem}
-      onPress={() => navigation.navigate('CourseDetails', { course: item })}
+      onPress={() => navigation.navigate('CourseDetails', { course: item })} // Navigate to CourseDetails
     >
       <Image source={{ uri: item.imageUrl }} style={styles.courseImage} />
       <View style={styles.courseDetails}>
         <Text style={styles.courseTitle}>{item.title}</Text>
         <Text style={styles.courseProvider}>{item.provider}</Text>
-        <TouchableOpacity onPress={() => Linking.openURL(item.url)}>
-           <Text style={styles.courseUrl}>{item.url}</Text>
-        </TouchableOpacity>
       </View>
     </TouchableOpacity>
   );

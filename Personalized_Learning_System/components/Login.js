@@ -47,7 +47,7 @@ const Login = ({ navigation }) => {
         userData = doc.data();
       });
 
-      console.log("User data from 'users' collection:", userData); // Debugging
+      //console.log("User data from 'users' collection:", userData); // Debugging
 
       // Step 2: Fetch profile data from the "Users" collection using the email
       const UsersCollection = collection(db, "Users");
@@ -80,7 +80,7 @@ const Login = ({ navigation }) => {
         profileImageData = doc.data();
       });
 
-      console.log("Profile image data from 'users' collection:", profileImageData); // Debugging
+      //console.log("Profile image data from 'users' collection:", profileImageData); // Debugging
 
       // Step 4: Navigate to HomePage with user data
       navigation.navigate("HomePage", {

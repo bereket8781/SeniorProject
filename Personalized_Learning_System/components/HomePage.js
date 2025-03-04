@@ -316,40 +316,6 @@ const HomePage = () => {
               )}
             />
           )}
-
-          {/*           <View style={styles.sectionHeader}>
-            <Text style={styles.sectionTitle}>Continue Learning</Text>
-            <TouchableOpacity
-              onPress={() => navigation.navigate("OngoingCourses")}
-            >
-              <Text style={styles.seeAll}>See all</Text>
-            </TouchableOpacity>
-          </View> */}
-
-          {/* Continue Learning Section */}
-          {/*   <TouchableOpacity style={styles.continueCard}>
-            <Image
-              source={{
-                uri: "https://images.unsplash.com/photo-1581291518633-83b4ebd1d83e?w=500&q=80",
-              }}
-              style={styles.continueThumbnail}
-            />
-            <View style={styles.continueContent}>
-              <View>
-                <Text style={styles.continueTitle}>Introduction to Python</Text>
-                <View style={styles.instructorRow}>
-                  <Feather name="user" size={14} color="#666666" />
-                  <Text style={styles.instructorText}>Jacob Jones</Text>
-                </View>
-              </View>
-              <View style={styles.progressContainer}>
-                <Text style={styles.progressText}>20/25</Text>
-                <View style={styles.progressBar}>
-                  <View style={styles.progressFill} />
-                </View>
-              </View>
-            </View>
-          </TouchableOpacity> */}
         </ScrollView>
 
         <View style={styles.bottomNav}>
