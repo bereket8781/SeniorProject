@@ -770,16 +770,1075 @@ const courses = [
     },
 ];
 
-const addCourses = async () => {
+const quizzes = {
+    "Java Programming for Beginners": [
+        {
+            question: "What is Java?",
+            options: ["A programming language", "A fruit", "A country", "A city"],
+            answer: "A programming language"
+        },
+        {
+            question: "What is the latest version of Java?",
+            options: ["Java 8", "Java 9", "Java 10", "Java 11"],
+            answer: "Java 11"
+        },
+        {
+            question: "What is the main feature of Java?",
+            options: ["Object Oriented", "Procedural", "Functional", "Logical"],
+            answer: "Object Oriented"
+        },
+        {
+            question: "What is the main function of Java?",
+            options: ["To create web applications", "To create mobile applications", "To create desktop applications", "To create enterprise applications"],
+            answer: "To create enterprise applications"
+        },
+        {
+            question: "What is the main advantage of Java?",
+            options: ["Platform independent", "Platform dependent", "Platform specific", "Platform neutral"],
+            answer: "Platform independent"
+        }
+    ],
+    "OOPs in Java Programming": [
+        {
+            question: "What is OOP?",
+            options: ["Object Oriented Programming", "Object Oriented Protocol", "Object Oriented Process", "Object Oriented Procedure"],
+            answer: "Object Oriented Programming"
+        },
+        {
+            question: "What is the main feature of OOP?",
+            options: ["Encapsulation", "Inheritance", "Polymorphism", "Abstraction"],
+            answer: "Encapsulation"
+        },
+        {
+            question: "What is the main advantage of OOP?",
+            options: ["Reusability", "Readability", "Maintainability", "Scalability"],
+            answer: "Reusability"
+        },
+        {
+            question: "What is the main principle of OOP?",
+            options: ["DRY", "KISS", "YAGNI", "SOLID"],
+            answer: "SOLID"
+        },
+        {
+            question: "What is the main concept of OOP?",
+            options: ["Class and Object", "Function and Procedure", "Variable and Constant", "Module and Package"],
+            answer: "Class and Object"
+        }
+    ],
+
+    "Inroduction to Java Spring Framework": [
+        {
+            question: "What is Spring Framework?",
+            options: ["A programming language", "A fruit", "A country", "A city"],
+            answer: "A programming language"
+        },
+        {
+            question: "What is the main feature of Spring Framework?",
+            options: ["Dependency Injection", "Inversion of Control", "Aspect Oriented Programming", "Data Access"],
+            answer: "Dependency Injection"
+        },
+        {
+            question: "What is the main advantage of Spring Framework?",
+            options: ["Loose Coupling", "Tight Coupling", "High Cohesion", "Low Cohesion"],
+            answer: "Loose Coupling"
+        },
+        {
+            question: "What is the main function of Spring Framework?",
+            options: ["To create web applications", "To create mobile applications", "To create desktop applications", "To create enterprise applications"],
+            answer: "To create enterprise applications"
+        },
+        {
+            question: "What is the main advantage of Spring Framework?",
+            options: ["Platform independent", "Platform dependent", "Platform specific", "Platform neutral"],
+            answer: "Platform independent"
+        }
+    ],
+
+    "Beginner in Advanced Swift Programming for IOS": [
+        {
+            question: "What is Swift?",
+            options: ["A programming language", "A mobile app", "A database configuration", "A web server"],
+            answer: "A programming language"
+        },
+        {
+            question: "What is the latest version of Swift?",
+            options: ["Swift 3", "Swift 4", "Swift 5", "Swift 6"],
+            answer: "Swift 5"
+        },
+        {
+            question: "What is the main feature of Swift?",
+            options: ["Object Oriented", "Procedural", "Functional", "Logical"],
+            answer: "Object Oriented"
+        },
+        {
+            question: "What is the main function of Swift?",
+            options: ["To create web applications", "To create mobile applications", "To create desktop applications", "To create enterprise applications"],
+            answer: "To create enterprise applications"
+        },
+        {
+            question: "What is the main advantage of Swift?",
+            options: ["Platform independent", "Platform dependent", "Platform specific", "Platform neutral"],
+            answer: "Platform independent"
+        }
+    ],
+
+    "App Development using Dart Programming language": [
+        {
+            question: "In Dart, which feature allows you to define a function inside another function and access variables from the outer function?",
+            options:["Static methods", "Anonymous functions", "Closures", "Mixins"],
+            answer:"Closures"
+        },
+        {
+            question: "What is the purpose of the FutureOr<T> type in Dart?",
+            options:["It represents a value that is always asynchronous", "It allows a function to return either a Future<T> or T synchronously", "It is a replacement for async and await", "It forces a function to execute synchronously"],
+            answer:"It allows a function to return either a Future<T> or T synchronously"
+        },
+        {
+            question: "How does Dart handle memory management for objects that are no longer in use?",
+            options:["Reference counting", "Manual garbage collection", "Automatic garbage collection using generational GC", "Stack-based memory deallocation"],
+            answer:"Automatic garbage collection using generational GC"
+        },
+        {
+            question: " In Flutter development with Dart, what is the difference between Stream and Future?",
+            options:["A Future represents multiple values over time, while a Stream completes after one value","A Stream represents multiple values over time, while a Future completes with a single value","Both Stream and Future work identically in async programming","A Stream is always synchronous, while a Future is asynchronous"],
+            answer:"A Stream represents multiple values over time, while a Future completes with a single value"
+        },
+        {
+            question: "What is the primary benefit of using extension methods in Dart?",
+            options:["They allow modifying existing classes without changing their source code","They replace the need for mixins","They improve runtime performance by inlining functions"," They enable direct memory access to private fields"],
+            answer:"They allow modifying existing classes without changing their source code"
+        }
+    ],
+
+    "Master PLC Programming": [
+            {
+                "question": "Which of the following best describes the function of a watchdog timer in a PLC?",
+                "options": [
+                    "Ensures the PLC completes a scan cycle within a defined time limit",
+                    "Monitors the external sensors for faults",
+                    "Provides real-time clock synchronization",
+                    "Stores historical data logs"
+                ],
+                "answer": "Ensures the PLC completes a scan cycle within a defined time limit"
+            },
+            {
+                "question": "In ladder logic programming, what is the primary function of a 'seal-in' circuit?",
+                "options": [
+                    "To latch an output even after the input signal is removed",
+                    "To detect and correct logic errors",
+                    "To prevent unauthorized access to PLC memory",
+                    "To reset the PLC in case of power failure"
+                ],
+                "answer": "To latch an output even after the input signal is removed"
+            },
+            {
+                "question": "Which type of PLC memory is used to retain program data even when power is lost?",
+                "options": [
+                    "RAM",
+                    "ROM",
+                    "EEPROM",
+                    "Cache Memory"
+                ],
+                "answer": "EEPROM"
+            },
+            {
+                "question": "What is the primary advantage of using Function Block Diagram (FBD) over Ladder Logic in PLC programming?",
+                "options": [
+                    "It is easier to debug complex control algorithms",
+                    "It reduces the need for memory usage",
+                    "It allows direct hardware-level programming",
+                    "It eliminates the need for input/output (I/O) modules"
+                ],
+                "answer": "It is easier to debug complex control algorithms"
+            },
+            {
+                "question": "Which of the following communication protocols is MOST commonly used in industrial PLC networks?",
+                "options": [
+                    "Ethernet/IP",
+                    "HTTP",
+                    "SMTP",
+                    "Bluetooth"
+                ],
+                "answer": "Ethernet/IP"
+            }  
+    ],
+
+    "Python for Data Science": [
+        {
+            "question": "Which library is commonly used for data manipulation in Python?",
+            "options": ["Matplotlib", "NumPy", "Pandas", "Seaborn"],
+            "answer": "Pandas"
+        },
+        {
+            "question": "What is the primary data structure in Pandas?",
+            "options": ["Array", "DataFrame", "List", "Tuple"],
+            "answer": "DataFrame"
+        },
+        {
+            "question": "Which function is used to read a CSV file into a Pandas DataFrame?",
+            "options": ["read_csv()", "import_csv()", "load_csv()", "open_csv()"],
+            "answer": "read_csv()"
+        },
+        {
+            "question": "What library is primarily used for numerical computing in Python?",
+            "options": ["Scikit-learn", "TensorFlow", "NumPy", "BeautifulSoup"],
+            "answer": "NumPy"
+        },
+        {
+            "question": "Which command is used to display the first few rows of a DataFrame?",
+            "options": ["df.top()", "df.head()", "df.start()", "df.show()"],
+            "answer": "df.head()"
+        }
+    ],
+
+    "The Data Scientist’s Toolbox": [
+        {
+            "question": "Which of the following is a popular programming language for data science?",
+            "options": ["Java", "C++", "Python", "Swift"],
+            "answer": "Python"
+        },
+        {
+            "question": "Which library is commonly used for data manipulation in Python?",
+            "options": ["TensorFlow", "Matplotlib", "Pandas", "Seaborn"],
+            "answer": "Pandas"
+        },
+        {
+            "question": "What is Jupyter Notebook mainly used for?",
+            "options": ["Video editing", "Web development", "Data analysis and visualization", "Mobile app development"],
+            "answer": "Data analysis and visualization"
+        },
+        {
+            "question": "Which tool is used for big data processing?",
+            "options": ["Excel", "Apache Spark", "SQLite", "Photoshop"],
+            "answer": "Apache Spark"
+        },
+        {
+            "question": "Which of the following is a popular machine learning library in Python?",
+            "options": ["NumPy", "Scikit-learn", "Flask", "Bootstrap"],
+            "answer": "Scikit-learn"
+        }
+    ],
+
+    "Getting and Cleaning Data": [
+        {
+            "question": "Which of the following is NOT a common step in data cleaning?",
+            "options": [
+                "Handling missing values",
+                "Removing duplicate records",
+                "Adding random noise to the dataset",
+                "Standardizing data formats"
+            ],
+            "answer": "Adding random noise to the dataset"
+        },
+        {
+            "question": "What is the primary purpose of data normalization?",
+            "options": [
+                "To reduce the size of the dataset",
+                "To ensure data follows a Gaussian distribution",
+                "To scale features to a common range",
+                "To remove duplicate data entries"
+            ],
+            "answer": "To scale features to a common range"
+        },
+        {
+            "question": "Which function in Python's Pandas library is used to handle missing values by replacing them with a specific value?",
+            "options": [
+                "dropna()",
+                "fillna()",
+                "replace()",
+                "interpolate()"
+            ],
+            "answer": "fillna()"
+        },
+        {
+            "question": "When merging two datasets in Pandas, which type of join returns only the matching records from both datasets?",
+            "options": [
+                "Left Join",
+                "Right Join",
+                "Inner Join",
+                "Outer Join"
+            ],
+            "answer": "Inner Join"
+        },
+        {
+            "question": "Which of the following techniques is used to detect and remove outliers from a dataset?",
+            "options": [
+                "Applying Min-Max scaling",
+                "Using Z-score or IQR method",
+                "One-hot encoding categorical variables",
+                "Filling missing values with mean"
+            ],
+            "answer": "Using Z-score or IQR method"
+        }
+    ],
+
+    "Mastering Data Analysis in Excel": [
+        {
+            "question": "Which Excel function is used to find the average of a range of cells while applying a condition?",
+            "options": ["AVERAGE", "IF", "AVERAGEIF", "SUMIF"],
+            "answer": "AVERAGEIF"
+        },
+        {
+            "question": "Which feature in Excel allows you to summarize large amounts of data by dragging and dropping fields?",
+            "options": ["Data Validation", "Pivot Table", "Conditional Formatting", "VLOOKUP"],
+            "answer": "Pivot Table"
+        },
+        {
+            "question": "What does the function =INDEX(A2:A10, MATCH(50, B2:B10, 0)) do?",
+            "options": [
+                "Finds the value 50 in column A and returns the corresponding value from column B",
+                "Finds the value 50 in column B and returns the corresponding value from column A",
+                "Looks up the value 50 in column A and returns its position",
+                "Sorts column A based on the values in column B"
+            ],
+            "answer": "Finds the value 50 in column B and returns the corresponding value from column A"
+        },
+        {
+            "question": "Which of the following is the correct way to remove duplicates in an Excel dataset?",
+            "options": [
+                "Use the Remove Duplicates feature under the Data tab",
+                "Apply Conditional Formatting",
+                "Use the VLOOKUP function",
+                "Manually delete rows one by one"
+            ],
+            "answer": "Use the Remove Duplicates feature under the Data tab"
+        },
+        {
+            "question": "Which Excel function is best for searching and retrieving data from a table based on a lookup value?",
+            "options": ["VLOOKUP", "HLOOKUP", "INDEX-MATCH", "All of the above"],
+            "answer": "All of the above"
+        }
+    ],
+
+    "Data Science in Real Life": [
+        {
+            "question": "Which technique is commonly used in credit card fraud detection?",
+            "options": ["Logistic Regression", "K-Means Clustering", "Apriori Algorithm", "Random Forest"],
+            "answer": "Random Forest"
+        },
+        {
+            "question": "Which metric is most useful for evaluating an imbalanced classification problem, such as detecting rare diseases?",
+            "options": ["Accuracy", "Mean Squared Error", "F1-Score", "R-squared"],
+            "answer": "F1-Score"
+        },
+        {
+            "question": "In recommendation systems (e.g., Netflix suggestions), which algorithm is commonly used to predict user preferences?",
+            "options": ["Principal Component Analysis (PCA)", "Collaborative Filtering", "K-Means Clustering", "Linear Regression"],
+            "answer": "Collaborative Filtering"
+        },
+        {
+            "question": "Which machine learning model is best suited for predicting house prices based on features like location, size, and amenities?",
+            "options": ["Decision Tree", "K-Means Clustering", "Naive Bayes", "K-Nearest Neighbors"],
+            "answer": "Decision Tree"
+        },
+        {
+            "question": "What is a common challenge in training machine learning models with real-world data?",
+            "options": ["Having too much labeled data", "Data being perfectly clean and structured", "Data being noisy and incomplete", "Algorithms running too fast"],
+            "answer": "Data being noisy and incomplete"
+        }
+    ],
+
+    "Data Science with Scala": [
+        {
+            "question": "Which of the following libraries in Scala is most commonly used for distributed data processing?",
+            "options": ["Akka", "Spark", "ScalaFX", "Play Framework"],
+            "answer": "Spark"
+        },
+        {
+            "question": "In Scala, which data structure is used to represent a mutable collection that can grow or shrink?",
+            "options": ["List", "ArrayBuffer", "Vector", "Set"],
+            "answer": "ArrayBuffer"
+        },
+        {
+            "question": "Which of the following is a feature of Scala that allows functions to be passed as arguments to other functions?",
+            "options": ["Pattern Matching", "First-Class Functions", "Immutable Collections", "Lazy Evaluation"],
+            "answer": "First-Class Functions"
+        },
+        {
+            "question": "In Scala, what is the purpose of the 'future' construct in concurrency programming?",
+            "options": ["To create asynchronous tasks", "To manage the lifecycle of threads", "To create infinite loops", "To execute code in parallel"],
+            "answer": "To create asynchronous tasks"
+        },
+        {
+            "question": "In Scala, which of the following methods is used to group and aggregate data in a dataset?",
+            "options": ["map", "reduce", "groupBy", "filter"],
+            "answer": "groupBy"
+        }
+    ],
+
+    "Rendering and graphics": [
+        {
+            "question": "What is the primary function of a graphics rendering engine?",
+            "options": ["To store images", "To display and process visual content", "To encode audio", "To manage network traffic"],
+            "answer": "To display and process visual content"
+        },
+        {
+            "question": "Which of the following is a commonly used rendering technique in 3D graphics?",
+            "options": ["Ray tracing", "Image processing", "Audio encoding", "Network communication"],
+            "answer": "Ray tracing"
+        },
+        {
+            "question": "In 3D graphics, what does the term 'polygon' refer to?",
+            "options": ["A tool for animation", "A point on a 3D surface", "A flat 2D shape", "A geometric shape made up of vertices and edges"],
+            "answer": "A geometric shape made up of vertices and edges"
+        },
+        {
+            "question": "What is the purpose of texture mapping in 3D rendering?",
+            "options": ["To create a 3D model", "To apply a color or image to a 3D object", "To add depth to a 2D surface", "To reduce rendering time"],
+            "answer": "To apply a color or image to a 3D object"
+        },
+        {
+            "question": "Which rendering technique is known for simulating light rays to create realistic lighting and shadows?",
+            "options": ["Rasterization", "Ray tracing", "Vectorization", "Texturing"],
+            "answer": "Ray tracing"
+        }
+    ],
+
+    "UI/UX basics": [
+        {
+            "question": "What does UI stand for in design?",
+            "options": ["User Interface", "Unified Interface", "User Interaction", "Universal Interface"],
+            "answer": "User Interface"
+        },
+        {
+            "question": "What is the primary goal of UX design?",
+            "options": ["To make interfaces look visually appealing", "To enhance the user experience", "To improve product functionality", "To create complex designs"],
+            "answer": "To enhance the user experience"
+        },
+        {
+            "question": "Which of the following is a principle of UX design?",
+            "options": ["Consistency", "Clutter", "Unpredictability", "Overcomplication"],
+            "answer": "Consistency"
+        },
+        {
+            "question": "What is wireframing in UI/UX design?",
+            "options": ["The process of creating high-fidelity designs", "A method of prototyping and testing features", "A low-fidelity visual representation of a product", "The final design of a product"],
+            "answer": "A low-fidelity visual representation of a product"
+        },
+        {
+            "question": "Which color contrast is best for accessibility in UI design?",
+            "options": ["High contrast", "Low contrast", "Monochromatic", "Gradient contrast"],
+            "answer": "High contrast"
+        }
+    ],
+
+    "C# GUI": [
+        {
+            question: "Which of the following is used to create a GUI in C#?",
+            options: ["Console", "Windows Forms", "C# Command Line", "ASP.NET"],
+            answer: "Windows Forms"
+        },
+        {
+            question: "What is the default control for accepting text input from the user in C#?",
+            options: ["Button", "TextBox", "Label", "CheckBox"],
+            answer: "TextBox"
+        },
+        {
+            question: "Which event is triggered when a user clicks a button in a C# Windows Form?",
+            options: ["ButtonClick", "Click", "ButtonPressed", "OnClick"],
+            answer: "Click"
+        },
+        {
+            question: "Which property of a Button control is used to change its text in C#?",
+            options: ["Text", "Label", "ButtonText", "Content"],
+            answer: "Text"
+        },
+        {
+            question: "What is the purpose of the 'Form' class in C#?",
+            options: ["To represent a data model", "To handle GUI components", "To manage the application's main window", "To handle database operations"],
+            answer: "To manage the application's main window"
+        }
+    ],
+
+    "Build a modern UI using Chakara UI": [
+        {
+            question: "What is Chakra UI?",
+            options: [
+                "A JavaScript framework",
+                "A CSS framework",
+                "A React component library",
+                "A state management tool"
+            ],
+            answer: "A React component library"
+        },
+        {
+            question: "Which of the following Chakra UI components is used to create a responsive container?",
+            options: [
+                "Box",
+                "Flex",
+                "Container",
+                "Grid"
+            ],
+            answer: "Container"
+        },
+        {
+            question: "How do you customize the default Chakra UI theme?",
+            options: [
+                "By modifying the global CSS",
+                "By using the theme object and extending it",
+                "By using inline styles",
+                "By importing custom CSS files"
+            ],
+            answer: "By using the theme object and extending it"
+        },
+        {
+            question: "Which Chakra UI component is commonly used for form inputs?",
+            options: [
+                "Button",
+                "TextField",
+                "Input",
+                "Label"
+            ],
+            answer: "Input"
+        },
+        {
+            question: "What is the purpose of Chakra UI's 'useBreakpointValue' hook?",
+            options: [
+                "To manage form inputs",
+                "To handle user authentication",
+                "To make components responsive",
+                "To manage application state"
+            ],
+            answer: "To make components responsive"
+        }
+    ],
+
+    "Graphics Design Master Class": [
+        {
+            question: "What is the primary purpose of using the RGB color model in graphic design?",
+            options: ["To create vibrant digital images", "To print images", "To adjust brightness in images", "To maintain color consistency in print"],
+            answer: "To create vibrant digital images"
+        },
+        {
+            question: "Which of the following is an example of a vector graphic?",
+            options: ["JPEG", "PNG", "SVG", "GIF"],
+            answer: "SVG"
+        },
+        {
+            question: "What does 'kerning' refer to in typography?",
+            options: ["Spacing between lines of text", "Spacing between individual characters", "The size of the text", "The font style used in a design"],
+            answer: "Spacing between individual characters"
+        },
+        {
+            question: "Which software is commonly used for creating vector illustrations?",
+            options: ["Adobe Photoshop", "CorelDRAW", "Adobe Illustrator", "GIMP"],
+            answer: "Adobe Illustrator"
+        },
+        {
+            question: "What does 'contrast' in design primarily refer to?",
+            options: ["The balance of elements in a design", "The difference in visual elements to make them stand out", "The uniformity of colors used", "The consistency in typography"],
+            answer: "The difference in visual elements to make them stand out"
+        }
+    ],
+
+    "User Experience Design Essentials": [
+        {
+            question: "What is the primary goal of User Experience (UX) Design?",
+            options: ["To make products visually appealing", "To create a seamless and intuitive user experience", "To develop advanced features", "To focus on backend development"],
+            answer: "To create a seamless and intuitive user experience"
+        },
+        {
+            question: "Which of the following is a key principle in UX design?",
+            options: ["Functionality is more important than aesthetics", "Consistency improves usability", "Design should be complex for versatility", "Speed should be the only priority"],
+            answer: "Consistency improves usability"
+        },
+        {
+            question: "What does 'user research' in UX design help to understand?",
+            options: ["User preferences and behaviors", "How to increase website traffic", "How to optimize backend code", "How to add advanced features"],
+            answer: "User preferences and behaviors"
+        },
+        {
+            question: "Which of the following is an example of a usability testing method?",
+            options: ["A/B testing", "User surveys", "Wireframing", "Rapid prototyping"],
+            answer: "A/B testing"
+        },
+        {
+            question: "What is the purpose of creating personas in UX design?",
+            options: ["To represent the average user", "To design for a broad audience", "To create fictional characters that represent different user types", "To focus on the visual design aspect"],
+            answer: "To create fictional characters that represent different user types"
+        }
+    ],
+
+    "Web Accessibility Development": [
+        {
+            "question": "What is web accessibility?",
+            "options": [
+                "The process of making websites more visually appealing.",
+                "Designing websites that are usable by people with various disabilities.",
+                "Optimizing websites for mobile devices.",
+                "Making websites faster to load."
+            ],
+            "answer": "Designing websites that are usable by people with various disabilities."
+        },
+        {
+            "question": "Which of the following is a guideline for web accessibility?",
+            "options": [
+                "Avoid using any form of text content.",
+                "Ensure that all images have descriptive alt text.",
+                "Use only flash-based elements for media.",
+                "Avoid providing text alternatives for audio content."
+            ],
+            "answer": "Ensure that all images have descriptive alt text."
+        },
+        {
+            "question": "What does WCAG stand for?",
+            "options": [
+                "Web Content Accessibility Guidelines",
+                "Web Common Accessible Guide",
+                "World Code for Accessible Groups",
+                "Wide Classification of Accessible Graphics"
+            ],
+            "answer": "Web Content Accessibility Guidelines"
+        },
+        {
+            "question": "Which of the following tools can be used to test web accessibility?",
+            "options": [
+                "Google Analytics",
+                "Color Contrast Analyzer",
+                "Chrome Developer Tools",
+                "Screencast-o-matic"
+            ],
+            "answer": "Color Contrast Analyzer"
+        },
+        {
+            "question": "Why is keyboard navigation important for web accessibility?",
+            "options": [
+                "Because not all users can use a mouse.",
+                "Because it improves the visual design of websites.",
+                "Because it reduces the number of clicks required to navigate.",
+                "Because it increases page load times."
+            ],
+            "answer": "Because not all users can use a mouse."
+        }
+    ],
+
+    "Project Management 101: PMP certification training": [
+        {
+            "question": "What is the primary purpose of project management?",
+            "options": ["To complete the project on time", "To manage resources", "To deliver the project successfully within scope, time, and cost", "To reduce project costs"],
+            "answer": "To deliver the project successfully within scope, time, and cost"
+        },
+        {
+            "question": "Which of the following is NOT one of the five process groups in project management?",
+            "options": ["Initiating", "Planning", "Executing", "Selling"],
+            "answer": "Selling"
+        },
+        {
+            "question": "What is a Work Breakdown Structure (WBS)?",
+            "options": ["A list of all the stakeholders", "A hierarchical decomposition of the total scope of work", "A document detailing the project budget", "A list of risks in the project"],
+            "answer": "A hierarchical decomposition of the total scope of work"
+        },
+        {
+            "question": "Which of the following is an example of a project constraint?",
+            "options": ["Project manager's leadership style", "Stakeholder preferences", "Project schedule", "Team member performance"],
+            "answer": "Project schedule"
+        },
+        {
+            "question": "In which process group does project performance monitoring and controlling occur?",
+            "options": ["Initiating", "Planning", "Executing", "Monitoring and Controlling"],
+            "answer": "Monitoring and Controlling"
+        }
+    ],
+
+    "Introduction to cyber security": [
+        {
+            "question": "What is the primary goal of Cyber Security?",
+            "options": [
+                "To protect information from unauthorized access",
+                "To increase the speed of internet browsing",
+                "To monitor employee behavior on computers",
+                "To improve the efficiency of computer networks"
+            ],
+            "answer": "To protect information from unauthorized access"
+        },
+        {
+            "question": "Which of the following is an example of a phishing attack?",
+            "options": [
+                "A fake email asking you to update your account details",
+                "A software update alert from your operating system",
+                "A pop-up advertising a new software tool",
+                "A warning about low disk space on your computer"
+            ],
+            "answer": "A fake email asking you to update your account details"
+        },
+        {
+            "question": "What is the term for a software program designed to gain unauthorized access to a computer system?",
+            "options": [
+                "Malware",
+                "Firewall",
+                "Antivirus",
+                "Encryption"
+            ],
+            "answer": "Malware"
+        },
+        {
+            "question": "Which of the following is a good practice for creating strong passwords?",
+            "options": [
+                "Use a mix of uppercase, lowercase, numbers, and special characters",
+                "Use your birthdate for easy recall",
+                "Use the same password for all your accounts",
+                "Only use passwords that are 4 digits long"
+            ],
+            "answer": "Use a mix of uppercase, lowercase, numbers, and special characters"
+        },
+        {
+            "question": "What does 'HTTPS' in a website address signify?",
+            "options": [
+                "The website is encrypted for secure communication",
+                "The website contains free content",
+                "The website has a high page rank",
+                "The website is hosted on a secure server"
+            ],
+            "answer": "The website is encrypted for secure communication"
+        }
+    ],
+
+    "Prompt Engineering for AI Applications": [
+        {
+            question: "What is prompt engineering in the context of AI?",
+            options: [
+                "Designing software applications for AI",
+                "Creating structured inputs to guide AI responses",
+                "Training AI models on large datasets",
+                "Testing the performance of AI algorithms"
+            ],
+            answer: "Creating structured inputs to guide AI responses"
+        },
+        {
+            question: "Which of the following is essential when crafting effective prompts for AI models?",
+            options: [
+                "Including as much irrelevant information as possible",
+                "Being clear and specific in your instructions",
+                "Making the prompt as short as possible",
+                "Avoiding examples or clarifications"
+            ],
+            answer: "Being clear and specific in your instructions"
+        },
+        {
+            question: "What type of AI models benefit most from prompt engineering?",
+            options: [
+                "Traditional rule-based systems",
+                "Large language models like GPT",
+                "Reinforcement learning models",
+                "Image recognition models"
+            ],
+            answer: "Large language models like GPT"
+        },
+        {
+            question: "Which technique can improve the effectiveness of a prompt in getting desired outputs?",
+            options: [
+                "Using ambiguous language",
+                "Incorporating examples and constraints in the prompt",
+                "Minimizing the length of the prompt",
+                "Relying solely on AI model training data"
+            ],
+            answer: "Incorporating examples and constraints in the prompt"
+        },
+        {
+            question: "Why is iterating on prompts important for AI applications?",
+            options: [
+                "It ensures the prompt is short and concise",
+                "It helps refine the prompt to generate better, more accurate responses",
+                "It eliminates the need for AI model training",
+                "It reduces computational power usage"
+            ],
+            answer: "It helps refine the prompt to generate better, more accurate responses"
+        }
+    ],
+
+    "Azure AI Agent Service": [
+        {
+            "question": "What is Azure AI Agent Service?",
+            "options": [
+                "A cloud service for running AI models",
+                "A tool for building chatbots",
+                "A service for deploying machine learning models",
+                "A service for creating predictive analytics models"
+            ],
+            "answer": "A cloud service for running AI models"
+        },
+        {
+            "question": "Which programming languages can be used with Azure AI Agent Service?",
+            "options": [
+                "Python and C#",
+                "JavaScript and Java",
+                "Java and C++",
+                "C# and Ruby"
+            ],
+            "answer": "Python and C#"
+        },
+        {
+            "question": "What is the primary use of Azure AI Agent Service?",
+            "options": [
+                "Running real-time data pipelines",
+                "Building and managing AI agents for automation",
+                "Creating visualizations of AI models",
+                "Developing mobile applications"
+            ],
+            "answer": "Building and managing AI agents for automation"
+        },
+        {
+            "question": "Which Azure service is commonly integrated with the Azure AI Agent Service for data storage?",
+            "options": [
+                "Azure Blob Storage",
+                "Azure Databricks",
+                "Azure Data Lake Storage",
+                "Azure Cosmos DB"
+            ],
+            "answer": "Azure Blob Storage"
+        },
+        {
+            "question": "How can developers monitor the performance of AI agents in Azure AI Agent Service?",
+            "options": [
+                "Using Azure Monitor",
+                "Using Azure Sentinel",
+                "Using Power BI",
+                "Using Azure Logic Apps"
+            ],
+            "answer": "Using Azure Monitor"
+        }
+    ],
+
+    "Computer Networking - Local Area Networks and the OSI Model": [
+        {
+            question: "What is the primary function of a Local Area Network (LAN)?",
+            options: ["To connect devices across a large geographical area", "To connect devices within a limited area like a building or campus", "To connect devices on different continents", "To store and retrieve data from remote servers"],
+            answer: "To connect devices within a limited area like a building or campus"
+        },
+        {
+            question: "Which layer of the OSI model is responsible for end-to-end communication and error recovery?",
+            options: ["Network layer", "Data Link layer", "Transport layer", "Physical layer"],
+            answer: "Transport layer"
+        },
+        {
+            question: "Which of the following is true about a switch in a LAN?",
+            options: ["It operates at the physical layer", "It forwards data based on IP addresses", "It operates at the Data Link layer and forwards frames", "It only operates within a single computer"],
+            answer: "It operates at the Data Link layer and forwards frames"
+        },
+        {
+            question: "Which OSI layer is responsible for routing data between devices across different networks?",
+            options: ["Physical layer", "Network layer", "Session layer", "Presentation layer"],
+            answer: "Network layer"
+        },
+        {
+            question: "Which of the following protocols operates at the Data Link layer in the OSI model?",
+            options: ["IP", "ARP", "TCP", "HTTP"],
+            answer: "ARP"
+        }
+    ],
+
+    "Advanced Project Management-Measuring Project Performance": [
+        {
+            "question": "What is the primary purpose of measuring project performance?",
+            "options": ["To assess team satisfaction", "To evaluate project progress and success", "To calculate project costs", "To identify risks"],
+            "answer": "To evaluate project progress and success"
+        },
+        {
+            "question": "Which of the following is a key performance indicator (KPI) for project performance?",
+            "options": ["Time spent on project meetings", "Project scope changes", "Cost variance", "Number of tasks completed"],
+            "answer": "Cost variance"
+        },
+        {
+            "question": "What does Earned Value Management (EVM) help assess in project performance?",
+            "options": ["Team productivity", "Project quality", "Cost and schedule performance", "Stakeholder satisfaction"],
+            "answer": "Cost and schedule performance"
+        },
+        {
+            "question": "Which method involves comparing actual project performance with the baseline to identify variances?",
+            "options": ["Benchmarking", "Critical Path Analysis", "Variance Analysis", "Root Cause Analysis"],
+            "answer": "Variance Analysis"
+        },
+        {
+            "question": "What is the formula for calculating Schedule Performance Index (SPI)?",
+            "options": ["SPI = EV / PV", "SPI = PV / EV", "SPI = EV / AC", "SPI = AC / EV"],
+            "answer": "SPI = EV / PV"
+        }
+    ],
+
+    "Web Accessibility": [
+        {
+            "question": "What is web accessibility?",
+            "options": ["Ensuring websites are visually appealing", "Making websites usable for all people, including those with disabilities", "Creating websites that work only on mobile devices", "Designing websites to load faster"],
+            "answer": "Making websites usable for all people, including those with disabilities"
+        },
+        {
+            "question": "Which of the following is an example of an assistive technology for web accessibility?",
+            "options": ["Screen readers", "High-definition monitors", "Web browsers", "HTML5 video players"],
+            "answer": "Screen readers"
+        },
+        {
+            "question": "Why is providing text alternatives for non-text content important in web accessibility?",
+            "options": ["To improve website performance", "To provide access to people who cannot see the content", "To make the website look more professional", "To reduce the file size of images"],
+            "answer": "To provide access to people who cannot see the content"
+        },
+        {
+            "question": "Which HTML tag is used to provide text alternatives for images?",
+            "options": ["<alt>", "<img>", "<a>", "<alt-text>"],
+            "answer": "<img>"
+        },
+        {
+            "question": "What does the acronym WCAG stand for in the context of web accessibility?",
+            "options": ["Web Content Accessibility Guidelines", "World Coding and Accessibility Guidelines", "Web Communication and Accessibility Group", "Wide Compatibility Accessibility Grid"],
+            "answer": "Web Content Accessibility Guidelines"
+        }
+    ],
+
+    "Computer Networking - Wired and Wireless Networks and Protocols": [
+        {
+            "question": "What is the main difference between wired and wireless networks?",
+            "options": [
+                "Wired networks are slower than wireless networks.",
+                "Wireless networks require cables for connectivity.",
+                "Wired networks use physical cables to transmit data, while wireless networks use radio waves.",
+                "Wireless networks are only used for mobile devices."
+            ],
+            "answer": "Wired networks use physical cables to transmit data, while wireless networks use radio waves."
+        },
+        {
+            "question": "Which of the following protocols is used to ensure secure communication over a wireless network?",
+            "options": [
+                "HTTP",
+                "FTP",
+                "WPA2",
+                "TCP"
+            ],
+            "answer": "WPA2"
+        },
+        {
+            "question": "What is the maximum data transfer rate of a typical Ethernet cable (Cat 5e)?",
+            "options": [
+                "100 Mbps",
+                "1 Gbps",
+                "10 Gbps",
+                "100 Gbps"
+            ],
+            "answer": "1 Gbps"
+        },
+        {
+            "question": "Which of the following is a characteristic of a Wi-Fi network?",
+            "options": [
+                "It requires a direct physical connection between devices.",
+                "It uses infrared signals for communication.",
+                "It allows devices to connect wirelessly through radio waves.",
+                "It is only used for local area networks (LANs)."
+            ],
+            "answer": "It allows devices to connect wirelessly through radio waves."
+        },
+        {
+            "question": "Which of the following networking protocols is responsible for routing data between devices on different networks?",
+            "options": [
+                "TCP",
+                "IP",
+                "UDP",
+                "SMTP"
+            ],
+            "answer": "IP"
+        }
+    ],
+
+    "Fundamentals of Data structure in C": [
+        {
+            question: "What is the primary function of a stack data structure?",
+            options: ["Store elements in a linear fashion", "Allow access to elements randomly", "Follow Last-In, First-Out (LIFO) principle", "Follow First-In, First-Out (FIFO) principle"],
+            answer: "Follow Last-In, First-Out (LIFO) principle"
+        },
+        {
+            question: "Which of the following is the correct way to declare a linked list node in C?",
+            options: ["struct node { int data; struct node* next; }", "node { int data; node* next; }", "struct node { int data; }", "struct node { int data, next; }"],
+            answer: "struct node { int data; struct node* next; }"
+        },
+        {
+            question: "What is the time complexity of accessing an element in an array by index?",
+            options: ["O(1)", "O(n)", "O(log n)", "O(n^2)"],
+            answer: "O(1)"
+        },
+        {
+            question: "Which of the following operations is not possible in a queue?",
+            options: ["Enqueue", "Dequeue", "Random access", "Peek"],
+            answer: "Random access"
+        },
+        {
+            question: "In a binary search tree, what is the property of each node?",
+            options: ["The left child is greater than the node", "The left child is smaller than the node", "The right child is greater than the node", "Both left and right children are equal to the node"],
+            answer: "The left child is smaller than the node"
+        }
+    ],
+
+    "Trust and security with Google Cloud": [
+        {
+            "question": "Which Google Cloud service provides a centralized view of security and compliance status?",
+            "options": ["Google Cloud Armor", "Google Cloud Security Command Center", "Google Identity", "Google Cloud Key Management"],
+            "answer": "Google Cloud Security Command Center"
+        },
+        {
+            "question": "What is the purpose of Google Cloud's Identity-Aware Proxy (IAP)?",
+            "options": ["Protect data in transit", "Control access to applications", "Encrypt data at rest", "Monitor cloud security events"],
+            "answer": "Control access to applications"
+        },
+        {
+            "question": "Which encryption method does Google Cloud use to secure data at rest by default?",
+            "options": ["AES-128", "AES-256", "RSA-2048", "Triple DES"],
+            "answer": "AES-256"
+        },
+        {
+            "question": "What is Google Cloud's primary service for managing identity and access?",
+            "options": ["Google Identity", "Cloud Identity Platform", "Google Cloud IAM", "Cloud Security Command Center"],
+            "answer": "Google Cloud IAM"
+        },
+        {
+            "question": "Which feature of Google Cloud helps ensure compliance with security frameworks like GDPR and HIPAA?",
+            "options": ["Google Cloud Armor", "Google Cloud Security Center", "Google Cloud Compliance", "Google Cloud Identity & Access Management"],
+            "answer": "Google Cloud Compliance"
+        }
+    ]
+}
+
+const addCourse = async () => {
     try {
         for (const course of courses) {
-            const docRef = await db.collection('courses').add(course);
-            console.log(`Course added with ID: ${docRef.id}`);
+            const quizzesForCourse = quizzes[course.title] || []; // Get quizzes for the course
+            console.log("Quizzes for course:", quizzesForCourse); // Debugging line
+
+            const courseRef = db.collection('courses').where('title', '==', course.title);
+            const snapshot = await courseRef.get();
+
+            if (snapshot.empty) {
+                // Course does not exist, add it with quizzes
+                const docRef = await db.collection('courses').add({
+                    ...course,
+                    quizzes: quizzesForCourse
+                });
+                console.log(`Course added with ID: ${docRef.id}`);
+            } else {
+                // Course exists, update it with quizzes
+                snapshot.forEach(async (doc) => {
+                    const existingCourse = doc.data();
+                    const existingQuizzes = existingCourse.quizzes || []; // Get existing quizzes or default to empty array
+
+                    // Merge new quizzes with existing quizzes, avoiding duplicates
+                    const updatedQuizzes = [...existingQuizzes];
+                    for (const newQuiz of quizzesForCourse) {
+                        const isDuplicate = existingQuizzes.some(
+                            (existingQuiz) => existingQuiz.question === newQuiz.question
+                        );
+                        if (!isDuplicate) {
+                            updatedQuizzes.push(newQuiz);
+                        }
+                    }
+
+                    // Update the course with the merged quizzes
+                    await db.collection('courses').doc(doc.id).update({
+                        quizzes: updatedQuizzes
+                    });
+                    console.log(`Quizzes updated for existing course: ${course.title}`);
+                });
+            }
         }
-        console.log("All courses added successfully!");
+        console.log("All courses processed successfully!");
     } catch (error) {
-        console.error("Error adding courses: ", error);
+        console.error("Error processing courses: ", error);
     }
 };
 
-addCourses();
+
+addCourse();
