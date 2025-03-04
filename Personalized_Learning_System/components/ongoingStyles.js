@@ -3,149 +3,58 @@ import { StyleSheet } from "react-native";
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#FFFFFF",
-  },
-  header: {
-    flexDirection: "row",
-    alignItems: "center",
-    paddingHorizontal: 16,
-    paddingTop: 50,
-    paddingBottom: 16,
-    backgroundColor: "#FFFFFF",
-  },
-  backButton: {
-    padding: 8,
-    marginRight: 8,
-  },
-  headerTitle: {
-    fontSize: 16,
-    fontWeight: "500",
-    color: "#000000",
-  },
-  searchContainer: {
-    paddingHorizontal: 16,
-    paddingBottom: 16,
-  },
-  searchWrapper: {
-    position: "relative",
-    marginBottom: 16,
-  },
-  searchInput: {
-    width: "100%",
-    height: 40,
-    paddingHorizontal: 16,
-    backgroundColor: "#F5F5F5",
-    borderRadius: 8,
-    fontSize: 14,
-    color: "#666666",
-  },
-  searchIcon: {
-    position: "absolute",
-    right: 12,
-    top: 10,
-    backgroundColor: "#4A90FF",
-    borderRadius: 6,
-    padding: 4,
-  },
-  filterContainer: {
-    flexDirection: "row",
-    gap: 8,
-    paddingHorizontal: 16,
-    marginBottom: 16,
-  },
-  filterButton: {
-    flex: 1,
-    paddingVertical: 8,
-    borderRadius: 6,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  filterButtonCompleted: {
-    backgroundColor: "#F0F0F0",
-  },
-  filterButtonOngoing: {
-    backgroundColor: "#4A90FF",
-  },
-  filterTextCompleted: {
-    color: "#FFFFFF",
-    fontSize: 14,
-    fontWeight: "500",
-  },
-  filterTextOngoing: {
-    color: "#FFFFFF",
-    fontSize: 14,
-    fontWeight: "500",
-  },
-  courseList: {
-    flex: 1,
-    paddingHorizontal: 16,
+    backgroundColor: "#F5F5F5", // Light gray background
+    padding: 16, // Add padding around the container
+    paddingTop: 50, // Add padding to the top of the container
   },
   card: {
-    backgroundColor: "white",
-    borderRadius: 12,
-    padding: 12,
-    marginBottom: 12,
-    flexDirection: "row",
-    gap: 12,
-  },
-  thumbnail: {
-    width: 80,
-    height: 80,
-    backgroundColor: "#000",
-    borderRadius: 8,
-  },
-  content: {
-    flex: 1,
-  },
-  category: {
-    color: "#FF6B00",
-    fontSize: 12,
-    marginBottom: 4,
+    backgroundColor: "#FFFFFF", // White background for cards
+    borderRadius: 8, // Rounded corners
+    padding: 16, // Padding inside the card
+    marginBottom: 16, // Space between cards
+    shadowColor: "#000", // Shadow for a card-like effect
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3, // Elevation for Android
   },
   title: {
-    fontSize: 14,
-    marginBottom: 8,
-    fontWeight: "500",
+    fontSize: 18, // Larger font size for the title
+    fontWeight: "bold", // Bold text for the title
+    color: "#333333", // Dark gray text color
+    marginBottom: 8, // Space below the title
   },
-  progressContainer: {
-    height: 4,
-    backgroundColor: "#E5E7EB",
-    borderRadius: 2,
-    marginBottom: 8,
+  category: {
+    fontSize: 14, // Smaller font size for the category
+    color: "#666666", // Medium gray text color
+    marginBottom: 12, // Space below the category
   },
-  progressBar: {
-    height: "100%",
-    backgroundColor: "#FF6B00",
-    borderRadius: 2,
+  progress: {
+    fontSize: 14, // Font size for progress text
+    color: "#0056FF", // Blue color for progress text
+    fontWeight: "500", // Medium font weight
   },
-  meta: {
-    flexDirection: "row",
-    justifyContent: "space-between",
+  continueButton: {
+    backgroundColor: "#0056FF", // Blue background for the button
+    padding: 10, // Padding inside the button
+    borderRadius: 8, // Rounded corners
+    alignItems: "center", // Center the text
+    marginTop: 12, // Space above the button
   },
-  metaText: {
-    fontSize: 12,
-    color: "#6B7280",
+  continueButtonText: {
+    color: "#FFFFFF", // White text color
+    fontWeight: "bold", // Bold text
   },
-  bottomNav: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    backgroundColor: "#ffffff",
-    paddingVertical: 10,
-    borderTopWidth: 1,
-    borderColor: "#E6E6E6",
-    paddingHorizontal: 20,
+  completeButton: {
+    backgroundColor: "#10B981", // Green background for the button
+    padding: 10, // Padding inside the button
+    borderRadius: 8, // Rounded corners
+    alignItems: "center", // Center the text
+    marginTop: 12, // Space above the button
   },
-  navItem: {
-    alignItems: "center",
-  },
-  navText: {
-    fontSize: 10,
-    color: "#666666",
-    marginTop: 5,
-  },
-  navActive: {
-    color: "#0056FF",
-    fontWeight: "bold",
+  completeButtonText: {
+    color: "#FFFFFF", // White text color
+    fontWeight: "bold", // Bold text
   },
 });
 

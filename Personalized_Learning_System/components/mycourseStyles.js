@@ -1,126 +1,119 @@
 import { StyleSheet } from "react-native";
 
 const styles = StyleSheet.create({
+  // Container
   container: {
     flex: 1,
-    backgroundColor: "#FFFFFF",
+    backgroundColor: "#F5F5F5", // Light gray background
+    paddingTop: 50, // Add padding to the top of the container
   },
+
+  // Header
   header: {
     flexDirection: "row",
     alignItems: "center",
-    paddingHorizontal: 16,
-    paddingTop: 50,
-    paddingBottom: 16,
-    backgroundColor: "#FFFFFF",
+    padding: 16,
+    backgroundColor: "#FFFFFF", // White background
+    borderBottomWidth: 1,
+    borderBottomColor: "#E0E0E0", // Light gray border
   },
   backButton: {
-    padding: 8,
-    marginRight: 8,
+    marginRight: 16,
   },
   headerTitle: {
-    fontSize: 16,
-    fontWeight: "500",
-    color: "#000000",
+    fontSize: 20,
+    fontWeight: "bold",
+    color: "#000000", // Black text
   },
+
+  // Search Container
   searchContainer: {
-    paddingHorizontal: 16,
-    paddingBottom: 16,
+    padding: 16,
+    backgroundColor: "#FFFFFF", // White background
   },
   searchWrapper: {
-    position: "relative",
-    marginBottom: 16,
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "#F0F0F0", // Light gray background
+    borderRadius: 8,
+    paddingHorizontal: 16,
+    paddingVertical: 8,
   },
   searchInput: {
-    width: "100%",
-    height: 40,
-    paddingHorizontal: 16,
-    backgroundColor: "#F5F5F5",
-    borderRadius: 8,
-    fontSize: 14,
-    color: "#666666",
+    flex: 1,
+    fontSize: 16,
+    color: "#333333", // Dark gray text
   },
   searchIcon: {
-    position: "absolute",
-    right: 12,
-    top: 10,
-    backgroundColor: "#4A90FF",
-    borderRadius: 6,
-    padding: 4,
+    fontSize: 20,
+    color: "#666666", // Medium gray icon
   },
+
+  // Filter Container
   filterContainer: {
     flexDirection: "row",
-    gap: 8,
-    paddingHorizontal: 16,
-    marginBottom: 16,
+    justifyContent: "space-between",
+    marginTop: 16,
   },
   filterButton: {
     flex: 1,
-    paddingVertical: 8,
-    borderRadius: 6,
+    padding: 12,
+    borderRadius: 8,
     alignItems: "center",
-    justifyContent: "center",
+    marginHorizontal: 4,
   },
   filterButtonCompleted: {
-    backgroundColor: "#4A90FF",
+    backgroundColor: "#10B981", // Green background for completed filter
   },
   filterButtonOngoing: {
-    backgroundColor: "#F0F0F0",
+    backgroundColor: "#3B82F6", // Blue background for ongoing filter
   },
   filterTextCompleted: {
-    color: "#FFFFFF",
-    fontSize: 14,
-    fontWeight: "500",
+    color: "#FFFFFF", // White text
+    fontWeight: "bold",
   },
   filterTextOngoing: {
-    color: "#666666",
-    fontSize: 14,
-    fontWeight: "500",
+    color: "#FFFFFF", // White text
+    fontWeight: "bold",
   },
+
+  // Course List
   courseList: {
-    paddingHorizontal: 16,
+    padding: 16,
   },
   courseItem: {
-    backgroundColor: "#FFFFFF",
-    paddingVertical: 12,
-    flexDirection: "row",
-    borderBottomWidth: 1,
-    borderBottomColor: "#F0F0F0",
+    backgroundColor: "#FFFFFF", // White background
+    borderRadius: 8,
+    marginBottom: 16,
+    shadowColor: "#000", // Shadow for a card-like effect
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3, // Elevation for Android
   },
   courseImage: {
-    width: 60,
-    height: 60,
-    borderRadius: 8,
-    backgroundColor: "#000000",
-    marginRight: 12,
+    height: 150,
+    borderTopLeftRadius: 8,
+    borderTopRightRadius: 8,
+    overflow: "hidden",
   },
   courseContent: {
-    flex: 1,
-    justifyContent: "space-between",
+    padding: 16,
   },
   courseHeader: {
     flexDirection: "row",
     justifyContent: "space-between",
-    alignItems: "flex-start",
-  },
-  courseInfo: {
-    flex: 1,
-    marginRight: 8,
+    alignItems: "center",
+    marginBottom: 12,
   },
   courseCategory: {
-    fontSize: 12,
-    color: "#FF6B00",
-    marginBottom: 4,
+    fontSize: 14,
+    color: "#666666", // Medium gray text
   },
   courseTitle: {
-    fontSize: 14,
-    fontWeight: "500",
-    color: "#000000",
-    marginBottom: 8,
-  },
-  checkIcon: {
-    width: 20,
-    height: 20,
-    tintColor: "#0C8B6C",
+    fontSize: 18,
+    fontWeight: "bold",
+    color: "#333333", // Dark gray text
   },
   courseFooter: {
     flexDirection: "row",
@@ -132,40 +125,40 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   courseProgress: {
-    fontSize: 12,
-    fontWeight: "500",
-    color: "#666666",
+    fontSize: 14,
+    color: "#0056FF", // Blue text
     marginRight: 8,
   },
   courseDuration: {
-    fontSize: 12,
-    color: "#666666",
+    fontSize: 14,
+    color: "#666666", // Medium gray text
   },
   certificateButton: {
-    color: "#0C8B6C",
-    fontSize: 12,
-    fontWeight: "500",
+    fontSize: 14,
+    color: "#10B981", // Green text
+    fontWeight: "bold",
   },
+
+  // Bottom Navigation
   bottomNav: {
     flexDirection: "row",
-    justifyContent: "space-between",
-    backgroundColor: "#ffffff",
-    paddingVertical: 10,
+    justifyContent: "space-around",
+    alignItems: "center",
+    paddingVertical: 12,
+    backgroundColor: "#FFFFFF", // White background
     borderTopWidth: 1,
-    borderColor: "#E6E6E6",
-    paddingHorizontal: 20,
+    borderTopColor: "#E0E0E0", // Light gray border
   },
   navItem: {
     alignItems: "center",
   },
   navText: {
-    fontSize: 10,
-    color: "#666666",
-    marginTop: 5,
+    fontSize: 12,
+    color: "#666666", // Medium gray text
+    marginTop: 4,
   },
   navActive: {
-    color: "#0056FF",
-    fontWeight: "bold",
+    color: "#0056FF", // Blue text for active tab
   },
 });
 

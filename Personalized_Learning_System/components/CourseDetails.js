@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   View,
   Text,
@@ -6,16 +6,38 @@ import {
   ScrollView,
   Linking,
   TouchableOpacity,
-  StyleSheet,
+  Alert,
 } from "react-native";
 import { Feather } from "@expo/vector-icons";
+import { db, auth } from "../firebaseConfig"; // Import Firebase db and auth
+import { doc, setDoc, serverTimestamp } from "firebase/firestore"; // Import Firestore functions
 import styles from "./courseStyles";
 
 const CourseDetails = ({ route, navigation }) => {
   const { course } = route.params; // Get the course data from navigation params
+  const [isEnrolled, setIsEnrolled] = useState(false);
 
-  const handleEnroll = () => {
-    Linking.openURL(course.url); // Open the course URL in a browser
+  const handleEnroll = async () => {
+    try {
+      const userId = auth.currentUser.uid; // Get current user ID
+      const courseRef = doc(db, "userCourses", userId, "ongoingCourses", course.id.toString());
+
+      // Save course to Firestore with a timestamp
+      await setDoc(courseRef, {
+        ...course,
+        enrolledAt: serverTimestamp(), // Use serverTimestamp from Firebase v9
+        progress: 0, // Initial progress
+      });
+
+      setIsEnrolled(true);
+      Alert.alert("Success", "You have successfully enrolled in this course!");
+
+      // Redirect user to the course URL
+      Linking.openURL(course.url);
+    } catch (error) {
+      console.error("Error enrolling in course: ", error);
+      Alert.alert("Error", "An error occurred while enrolling in this course. Please try again later.");
+    }
   };
 
   return (
@@ -54,7 +76,9 @@ const CourseDetails = ({ route, navigation }) => {
 
         {/* Enroll Button */}
         <TouchableOpacity style={styles.enrollButton} onPress={handleEnroll}>
-          <Text style={styles.enrollButtonText}>Enroll Now</Text>
+          <Text style={styles.enrollButtonText}>
+            {isEnrolled ? "Enrolled" : "Enroll Now"}
+          </Text>
         </TouchableOpacity>
       </View>
     </ScrollView>
