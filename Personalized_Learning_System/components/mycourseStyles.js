@@ -1,21 +1,18 @@
 import { StyleSheet } from "react-native";
 
 const styles = StyleSheet.create({
-  // Container
   container: {
     flex: 1,
-    backgroundColor: "#F5F5F5", // Light gray background
-    paddingTop: 50, // Add padding to the top of the container
+    backgroundColor: "#F5F5F5",
+    paddingTop: 50,
   },
-
-  // Header
   header: {
     flexDirection: "row",
     alignItems: "center",
     padding: 16,
-    backgroundColor: "#FFFFFF", // White background
+    backgroundColor: "#FFFFFF",
     borderBottomWidth: 1,
-    borderBottomColor: "#E0E0E0", // Light gray border
+    borderBottomColor: "#E0E0E0",
   },
   backButton: {
     marginRight: 16,
@@ -23,18 +20,16 @@ const styles = StyleSheet.create({
   headerTitle: {
     fontSize: 20,
     fontWeight: "bold",
-    color: "#000000", // Black text
+    color: "#000000",
   },
-
-  // Search Container
   searchContainer: {
     padding: 16,
-    backgroundColor: "#FFFFFF", // White background
+    backgroundColor: "#FFFFFF",
   },
   searchWrapper: {
     flexDirection: "row",
     alignItems: "center",
-    backgroundColor: "#F0F0F0", // Light gray background
+    backgroundColor: "#F0F0F0",
     borderRadius: 8,
     paddingHorizontal: 16,
     paddingVertical: 8,
@@ -42,14 +37,12 @@ const styles = StyleSheet.create({
   searchInput: {
     flex: 1,
     fontSize: 16,
-    color: "#333333", // Dark gray text
+    color: "#333333",
   },
   searchIcon: {
     fontSize: 20,
-    color: "#666666", // Medium gray icon
+    color: "#666666",
   },
-
-  // Filter Container
   filterContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
@@ -63,102 +56,83 @@ const styles = StyleSheet.create({
     marginHorizontal: 4,
   },
   filterButtonCompleted: {
-    backgroundColor: "#10B981", // Green background for completed filter
+    backgroundColor: "#10B981",
   },
   filterButtonOngoing: {
-    backgroundColor: "#3B82F6", // Blue background for ongoing filter
+    backgroundColor: "#3B82F6",
   },
   filterTextCompleted: {
-    color: "#FFFFFF", // White text
+    color: "#FFFFFF",
     fontWeight: "bold",
   },
   filterTextOngoing: {
-    color: "#FFFFFF", // White text
+    color: "#FFFFFF",
     fontWeight: "bold",
   },
-
-  // Course List
   courseList: {
     padding: 16,
   },
   courseItem: {
-    backgroundColor: "#FFFFFF", // White background
+    backgroundColor: "#FFFFFF",
     borderRadius: 8,
     marginBottom: 16,
-    shadowColor: "#000", // Shadow for a card-like effect
+    shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 4,
-    elevation: 3, // Elevation for Android
+    elevation: 3,
   },
-  courseImage: {
+  courseImageContainer: {
+    position: "relative",
     height: 150,
     borderTopLeftRadius: 8,
     borderTopRightRadius: 8,
     overflow: "hidden",
   },
-  courseContent: {
+  courseImage: {
+    width: "100%",
+    height: "100%",
+  },
+  checkCircle: {
+    position: "absolute",
+    top: 8,
+    right: 8,
+    backgroundColor: "rgba(255, 255, 255, 0.8)",
+    borderRadius: 12,
+    padding: 4,
+  },
+  courseDetails: {
     padding: 16,
-  },
-  courseHeader: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    marginBottom: 12,
-  },
-  courseCategory: {
-    fontSize: 14,
-    color: "#666666", // Medium gray text
   },
   courseTitle: {
     fontSize: 18,
     fontWeight: "bold",
-    color: "#333333", // Dark gray text
+    color: "#333333",
+    marginBottom: 4,
   },
-  courseFooter: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-  },
-  courseStats: {
-    flexDirection: "row",
-    alignItems: "center",
-  },
-  courseProgress: {
+  courseProvider: {
     fontSize: 14,
-    color: "#0056FF", // Blue text
-    marginRight: 8,
+    color: "#666666",
   },
-  courseDuration: {
-    fontSize: 14,
-    color: "#666666", // Medium gray text
-  },
-  certificateButton: {
-    fontSize: 14,
-    color: "#10B981", // Green text
-    fontWeight: "bold",
-  },
-
-  // Bottom Navigation
   bottomNav: {
     flexDirection: "row",
     justifyContent: "space-around",
     alignItems: "center",
     paddingVertical: 12,
-    backgroundColor: "#FFFFFF", // White background
+    backgroundColor: "#FFFFFF",
     borderTopWidth: 1,
-    borderTopColor: "#E0E0E0", // Light gray border
+    borderTopColor: "#E0E0E0",
   },
   navItem: {
     alignItems: "center",
   },
   navText: {
     fontSize: 12,
-    color: "#666666", // Medium gray text
+    color: "#666666",
     marginTop: 4,
   },
   navActive: {
-    color: "#0056FF", // Blue text for active tab
+    color: "#0056FF",
   },
 });
 

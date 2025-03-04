@@ -7,6 +7,7 @@ import {
   Image,
   Platform,
   Alert,
+  FlatList,
   KeyboardAvoidingView,
   TouchableOpacity,
   ActivityIndicator,
@@ -15,7 +16,15 @@ import styles from "./homeStyles";
 import { Feather } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { auth, db } from "../firebaseConfig";
-import { collection, query, where, getDocs, doc, getDoc, setDoc } from "firebase/firestore";
+import {
+  collection,
+  query,
+  where,
+  getDocs,
+  doc,
+  getDoc,
+  setDoc,
+} from "firebase/firestore";
 import { useRoute } from "@react-navigation/native";
 
 const HomePage = () => {
@@ -173,7 +182,9 @@ const HomePage = () => {
               <Text style={styles.greetingText}>Hi, {username} 👋</Text>
               <Text style={styles.subGreetingText}>Let's start learning!</Text>
             </View>
-            <TouchableOpacity onPress={() => navigation.navigate("ProfilePage")}>
+            <TouchableOpacity
+              onPress={() => navigation.navigate("ProfilePage")}
+            >
               {/* Display the profile image */}
               {profileImage ? (
                 <Image
@@ -255,69 +266,68 @@ const HomePage = () => {
           </ScrollView>
 
           <View style={styles.sectionHeader}>
-            <Text style={styles.sectionTitle}>Popular Course</Text>
-            <TouchableOpacity>
+            <Text style={styles.sectionTitle}>Popular Courses</Text>
+            <TouchableOpacity onPress={() => navigation.navigate("AllCourses")}>
               <Text style={styles.seeAll}>See all</Text>
             </TouchableOpacity>
           </View>
 
           {loading ? (
-            <Text>...</Text>
+            <ActivityIndicator size="large" color="#0056FF" />
           ) : (
-            <ScrollView
-              horizontal
-              showsHorizontalScrollIndicator={false}
-              style={styles.courseRow}
-            >
-              {courses.map((course, index) => (
+            <FlatList
+              data={courses}
+              keyExtractor={(item) => item.id}
+              numColumns={2} // This makes it a grid with 2 columns
+              contentContainerStyle={styles.courseGrid}
+              renderItem={({ item }) => (
                 <TouchableOpacity
-                  key={index}
                   style={styles.courseCard}
                   onPress={() =>
-                    navigation.navigate("CourseDetails", { course })
+                    navigation.navigate("CourseDetails", { course: item })
                   }
                 >
                   <Image
-                    source={{ uri: course.imageUrl }}
+                    source={{ uri: item.imageUrl }}
                     style={styles.courseImage}
                   />
                   <TouchableOpacity
                     style={styles.favoriteButton}
-                    onPress={() => toggleFavorite(course.id)}
+                    onPress={() => toggleFavorite(item.id)}
                   >
                     <Feather
-                      name={favorites.includes(course.id) ? "bookmark" : "bookmark"}
+                      name={
+                        favorites.includes(item.id) ? "bookmark" : "bookmark"
+                      }
                       size={20}
                       color={
-                        favorites.includes(course.id) ? "#FF3B30" : "#666666"
+                        favorites.includes(item.id) ? "#FF3B30" : "#666666"
                       }
                     />
                   </TouchableOpacity>
                   <View style={styles.courseContent}>
-                    <Text style={styles.courseTitle}>{course.title}</Text>
+                    <Text style={styles.courseTitle}>{item.title}</Text>
                     <View style={styles.instructorRow}>
                       <Feather name="user" size={14} color="#666666" />
-                      <Text style={styles.instructorText}>
-                        {course.provider}
-                      </Text>
+                      <Text style={styles.instructorText}>{item.provider}</Text>
                     </View>
                   </View>
                 </TouchableOpacity>
-              ))}
-            </ScrollView>
+              )}
+            />
           )}
 
-          <View style={styles.sectionHeader}>
+          {/*           <View style={styles.sectionHeader}>
             <Text style={styles.sectionTitle}>Continue Learning</Text>
             <TouchableOpacity
               onPress={() => navigation.navigate("OngoingCourses")}
             >
               <Text style={styles.seeAll}>See all</Text>
             </TouchableOpacity>
-          </View>
+          </View> */}
 
           {/* Continue Learning Section */}
-          <TouchableOpacity style={styles.continueCard}>
+          {/*   <TouchableOpacity style={styles.continueCard}>
             <Image
               source={{
                 uri: "https://images.unsplash.com/photo-1581291518633-83b4ebd1d83e?w=500&q=80",
@@ -339,7 +349,7 @@ const HomePage = () => {
                 </View>
               </View>
             </View>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
         </ScrollView>
 
         <View style={styles.bottomNav}>

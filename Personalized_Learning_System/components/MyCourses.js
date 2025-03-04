@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, ScrollView, TouchableOpacity, TextInput,Image } from "react-native";
+import { View, Text, ScrollView, TouchableOpacity, TextInput, Image } from "react-native";
 import { db, auth } from "../firebaseConfig"; // Import Firebase db and auth
 import { collection, onSnapshot } from "firebase/firestore"; // Import Firestore functions
 import { Feather, MaterialIcons } from "@expo/vector-icons";
@@ -60,7 +60,7 @@ const MyCourses = ({ navigation }) => {
             </TouchableOpacity>
             <TouchableOpacity
               style={[styles.filterButton, styles.filterButtonOngoing]}
-              onPress={() => navigation.navigate("OngoingCourses")}
+              onPress={() => setActiveTab("Ongoing")}
             >
               <Text style={styles.filterTextOngoing}>Ongoing</Text>
             </TouchableOpacity>
@@ -76,32 +76,24 @@ const MyCourses = ({ navigation }) => {
                 style={styles.courseItem}
                 onPress={() => navigation.navigate("MyCourseLessons", { course })}
               >
-                <View style={styles.courseImage}>
+                <View style={styles.courseImageContainer}>
                   <Image
                     source={{
-                      uri: "https://images.unsplash.com/photo-1531403009284-440f080d1e12?w=500&q=80",
+                      uri: course.image || "https://images.unsplash.com/photo-1531403009284-440f080d1e12?w=500&q=80",
                     }}
-                    style={{ width: "100%", height: "100%", borderRadius: 8 }}
+                    style={styles.courseImage}
                   />
-                </View>
-                <View style={styles.courseContent}>
-                  <View style={styles.courseHeader}>
-                    <View>
-                      <Text style={styles.courseCategory}>{course.category}</Text>
-                      <Text style={styles.courseTitle}>{course.title}</Text>
-                    </View>
+                  <View style={styles.checkCircle}>
                     <MaterialIcons
                       name="check-circle"
                       color="#10b981"
-                      size={20}
+                      size={24}
                     />
                   </View>
-                  <View style={styles.courseFooter}>
-                    <View style={styles.courseStats}>
-                      <Text style={styles.courseProgress}>{course.progress}</Text>
-                      <Text style={styles.courseDuration}>{course.duration}</Text>
-                    </View>
-                  </View>
+                </View>
+                <View style={styles.courseDetails}>
+                  <Text style={styles.courseTitle}>{course.title}</Text>
+                  <Text style={styles.courseProvider}>{course.provider}</Text>
                 </View>
               </TouchableOpacity>
             ))}
