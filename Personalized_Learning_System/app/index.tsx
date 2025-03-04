@@ -30,6 +30,7 @@ import SearchResult from "../components/SearchResult";
 import NotificationSettings from "../components/NotificationSettings";
 import PasswordManager from "../components/PasswordManager";
 import FilteredCourses from "../components/FilteredCourses";
+import Quizzes from "../components/Quizzes";
 
 const Stack = createStackNavigator();
 
@@ -119,6 +120,11 @@ export default function App(): JSX.Element {
         <Stack.Screen
           name="MyCourses"
           component={MyCourses}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="Quizzes"
+          component={Quizzes}
           options={{ headerShown: false }}
         />
        <Stack.Screen
