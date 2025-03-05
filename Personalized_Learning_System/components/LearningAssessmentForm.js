@@ -98,7 +98,7 @@ const LearningAssessmentForm = ({navigation}) => {
         timestamp: serverTimestamp(),
       });
   
-      alert("Form submitted! Check the console for data.");
+      alert("Form submitted!");
       console.log("Form data saved:", formData);
     } catch (error) {
       console.error("Error saving form data: ", error);
