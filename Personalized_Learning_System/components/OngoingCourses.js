@@ -48,7 +48,7 @@ const OngoingCourses = ({ navigation }) => {
     try {
       const userId = auth.currentUser.uid; // Get current user ID
       const ongoingCourseRef = doc(db, "userCourses", userId, "ongoingCourses", course.id);
-      navigation.navigate("Quizzes", { courseId: course.id, courseTitle: course.title });
+      navigation.navigate("Quizzes", { courseId: course.id, courseTitle: course.title, enrolledAt: course.enrolledAt });
       const completedCourseRef = doc(db, "userCourses", userId, "completedCourses", course.id);
 
       // Calculate time spent on the course
