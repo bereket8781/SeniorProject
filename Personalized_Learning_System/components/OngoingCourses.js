@@ -1,15 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { View, Text, ScrollView, TouchableOpacity, Alert, Linking } from "react-native";
-import { db, auth } from "../firebaseConfig"; // Import Firebase db and auth
-import { collection, doc, onSnapshot, updateDoc, deleteDoc, setDoc } from "firebase/firestore"; // Import Firestore functions
+import { db, auth } from "../firebaseConfig";
+import { collection, doc, onSnapshot, updateDoc, deleteDoc, setDoc } from "firebase/firestore";
 import styles from "./ongoingStyles";
 
 const OngoingCourses = ({ navigation }) => {
   const [ongoingCourses, setOngoingCourses] = useState([]);
 
-  // Fetch ongoing courses from Firestore
   useEffect(() => {
-    const userId = auth.currentUser.uid; // Get current user ID
+    const userId = auth.currentUser.uid;
     const userCoursesRef = collection(db, "userCourses", userId, "ongoingCourses");
 
     const unsubscribe = onSnapshot(userCoursesRef, (querySnapshot) => {
@@ -23,51 +22,49 @@ const OngoingCourses = ({ navigation }) => {
     return () => unsubscribe();
   }, []);
 
-  // Function to handle continuing a course
   const handleContinueCourse = async (course) => {
     try {
-      const userId = auth.currentUser.uid; // Get current user ID
+      const userId = auth.currentUser.uid;
       const courseRef = doc(db, "userCourses", userId, "ongoingCourses", course.id);
+      const newProgress = Math.min(course.progress + 10, 100);
+      await updateDoc(courseRef, { progress: newProgress });
 
-      // Update progress (e.g., increment by 10% for demonstration)
-      const newProgress = Math.min(course.progress + 10, 100); // Ensure progress doesn't exceed 100%
-      await updateDoc(courseRef, {
-        progress: newProgress,
-      });
-
-      // Redirect user to the course page
-      Linking.openURL(course.url);
+      // Navigate to quiz if progress is 100%, otherwise open course URL
+      if (newProgress === 100) {
+        navigation.navigate("Quizzes", { courseId: course.id, courseTitle: course.title, enrolledAt: course.enrolledAt });
+      } else {
+        Linking.openURL(course.url);
+      }
     } catch (error) {
-      console.error("Error updating progress:", error);
-      Alert.alert("Error", "Failed to update progress.");
+      console.error("Error continuing course:", error);
+      Alert.alert("Error", "Failed to continue course.");
     }
   };
 
-  // Function to mark a course as completed
   const handleMarkComplete = async (course) => {
     try {
-      const userId = auth.currentUser.uid; // Get current user ID
+/*       if (course.progress < 100) {
+        Alert.alert("Incomplete", "Please complete the course before marking it as done.");
+        return;
+      } */
+
+      const userId = auth.currentUser.uid;
       const ongoingCourseRef = doc(db, "userCourses", userId, "ongoingCourses", course.id);
-      navigation.navigate("Quizzes", { courseId: course.id, courseTitle: course.title, enrolledAt: course.enrolledAt });
       const completedCourseRef = doc(db, "userCourses", userId, "completedCourses", course.id);
 
-      // Calculate time spent on the course
-      const enrolledAt = course.enrolledAt.toDate(); // Convert Firestore timestamp to JavaScript Date
-      const completedAt = new Date(); // Current timestamp
-      const timeSpent = completedAt - enrolledAt; // Time spent in milliseconds
+      const enrolledAt = course.enrolledAt?.toDate?.() || new Date();
+      const completedAt = new Date();
+      const timeSpent = completedAt - enrolledAt;
 
-      // Save the completed course with time spent and progress set to 100%
       await setDoc(completedCourseRef, {
         ...course,
-        userId: userId, // Save the user ID with the completed course
-        progress: 100, // Set progress to 100%
-        completedAt: completedAt,
-        timeSpent: timeSpent,
+        userId,
+        progress: 100,
+        completedAt,
+        timeSpent,
       });
 
-      // Remove the course from ongoingCourses
       await deleteDoc(ongoingCourseRef);
-
       Alert.alert("Success", "Course marked as completed!");
     } catch (error) {
       console.error("Error marking course as completed:", error);
@@ -84,7 +81,6 @@ const OngoingCourses = ({ navigation }) => {
             <Text style={styles.category}>{course.category}</Text>
             <Text>Progress: {course.progress}%</Text>
 
-            {/* Continue Course Button */}
             <TouchableOpacity
               style={styles.continueButton}
               onPress={() => handleContinueCourse(course)}
@@ -92,7 +88,6 @@ const OngoingCourses = ({ navigation }) => {
               <Text style={styles.continueButtonText}>Continue Course</Text>
             </TouchableOpacity>
 
-            {/* Mark as Completed Button */}
             <TouchableOpacity
               style={styles.completeButton}
               onPress={() => handleMarkComplete(course)}

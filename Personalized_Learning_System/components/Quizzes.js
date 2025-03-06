@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { View, Text, ScrollView, TouchableOpacity, Alert } from "react-native";
 import { db, auth } from "../firebaseConfig";
-import { doc, getDoc, setDoc } from "firebase/firestore";
+import { doc, getDoc, setDoc, serverTimestamp } from "firebase/firestore";
 import styles from "./quizzesStyles";
 
 const Quizzes = ({ route, navigation }) => {
@@ -10,7 +10,6 @@ const Quizzes = ({ route, navigation }) => {
   const [userAnswers, setUserAnswers] = useState({});
   const [score, setScore] = useState(0);
 
-  // Fetch quizzes for the course
   useEffect(() => {
     const fetchQuizzes = async () => {
       const courseRef = doc(db, "courses", courseId);
@@ -19,11 +18,9 @@ const Quizzes = ({ route, navigation }) => {
         setQuizzes(courseDoc.data().quizzes || []);
       }
     };
-
     fetchQuizzes();
   }, [courseId]);
 
-  // Handle user's answer selection
   const handleAnswerSelect = (questionIndex, selectedAnswer) => {
     setUserAnswers((prevAnswers) => ({
       ...prevAnswers,
@@ -31,40 +28,40 @@ const Quizzes = ({ route, navigation }) => {
     }));
   };
 
-  // Submit the quiz and calculate the score
   const handleSubmitQuiz = async () => {
     let correctAnswers = 0;
     quizzes.forEach((quiz, index) => {
-      if (userAnswers[index] === quiz.answer) {
-        correctAnswers++;
-      }
+      if (userAnswers[index] === quiz.answer) correctAnswers++;
     });
-  
+
     const totalQuestions = quizzes.length;
-    const quizScore = (correctAnswers / totalQuestions) * 100;
+    const quizScore = totalQuestions > 0 ? (correctAnswers / totalQuestions) * 100 : 0;
     setScore(quizScore);
-  
-    // Fetch the course details from Firestore
+
     const courseRef = doc(db, "courses", courseId);
     const courseDoc = await getDoc(courseRef);
-  
+
     if (courseDoc.exists()) {
       const courseData = courseDoc.data();
-  
-      // Save the quiz result and all course details to completedCourses collection
+      const enrolledAt = courseData.enrolledAt || null;
+      const enrolledAtDate = enrolledAt?.toDate?.() || new Date();
+      const completedAtDate = new Date();
+      const timeSpent = completedAtDate - enrolledAtDate;
+
       const userId = auth.currentUser.uid;
       const completedCourseRef = doc(db, "userCourses", userId, "completedCourses", courseId);
-  
+
       await setDoc(completedCourseRef, {
         courseId,
         courseTitle,
         quizScore,
-        completedAt: new Date(),
-        userId, // Include the user ID
-        progress: 100, // Set progress to 100%
-        timeSpent: courseData.timeSpent || 0, // Include time spent (if available)
+        enrolledAt: enrolledAt || serverTimestamp(),
+        completedAt: completedAtDate,
+        userId,
+        progress: 100,
+        timeSpent,
       });
-  
+
       Alert.alert("Quiz Submitted", `Your score: ${quizScore.toFixed(2)}%`);
       navigation.navigate("MyCourses");
     } else {

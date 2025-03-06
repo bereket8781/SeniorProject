@@ -182,7 +182,7 @@ const ProfilePage = ({ navigation }) => {
         </View>
       </Modal>
 
-      <View style={styles.bottomNav}>
+{/*       <View style={styles.bottomNav}>
         {[
           { icon: "home", label: "Home", screen: "HomePage" },
           { icon: "book", label: "My Course", screen: "MyCourses" },
@@ -210,7 +210,7 @@ const ProfilePage = ({ navigation }) => {
             </Text>
           </TouchableOpacity>
         ))}
-      </View>
+      </View> */}
     </View>
   );
 };

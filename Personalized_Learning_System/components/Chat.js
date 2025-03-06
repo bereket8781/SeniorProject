@@ -8,11 +8,13 @@ import {
   TouchableOpacity,
   Image,
   FlatList,
+  KeyboardAvoidingView,
+  Platform,
 } from "react-native";
 import { Feather } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
 import { useNavigation, useRoute } from "@react-navigation/native";
-import { db } from "../firebaseConfig"; // Import Firestore
+import { db } from "../firebaseConfig";
 import {
   collection,
   addDoc,
@@ -26,7 +28,6 @@ import {
 } from "firebase/firestore";
 import styles from "./chatStyles";
 
-// Post form component
 function PostForm({ onAddPost }) {
   const [content, setContent] = useState("");
   const [image, setImage] = useState(null);
@@ -74,14 +75,13 @@ function PostForm({ onAddPost }) {
   );
 }
 
-// Comment section component
 function CommentSection({ postId, comments, onAddComment, username }) {
   const [newComment, setNewComment] = useState("");
 
   const handleSubmit = async () => {
     if (newComment.trim()) {
-      const comment = { author: username, content: newComment.trim() }; // Use the logged-in user's username
-      await onAddComment(postId, comment); // Add comment to Firestore
+      const comment = { author: username, content: newComment.trim() };
+      await onAddComment(postId, comment);
       setNewComment("");
     }
   };
@@ -109,12 +109,11 @@ function CommentSection({ postId, comments, onAddComment, username }) {
   );
 }
 
-// Post component
 function Post({ id, author, content, image, likes, comments, onLike, onAddComment, username }) {
   const [isLiked, setIsLiked] = useState(false);
 
   const handleLike = async () => {
-    await onLike(id, isLiked ? -1 : 1); // Update likes in Firestore
+    await onLike(id, isLiked ? -1 : 1);
     setIsLiked(!isLiked);
   };
 
@@ -153,7 +152,7 @@ function Post({ id, author, content, image, likes, comments, onLike, onAddCommen
         postId={id}
         comments={comments}
         onAddComment={onAddComment}
-        username={username} // Pass the logged-in user's username
+        username={username}
       />
     </View>
   );
@@ -161,17 +160,16 @@ function Post({ id, author, content, image, likes, comments, onLike, onAddCommen
 
 export default function Chat() {
   const route = useRoute();
-  const username = route.params?.username || "Guest"; // Get the logged-in user's username
+  const username = route.params?.username || "Guest";
   const [posts, setPosts] = useState([]);
   const navigation = useNavigation();
   const [activeTab, setActiveTab] = useState("Chat");
 
-  // Fetch posts from Firestore on component load
   useEffect(() => {
     const fetchPosts = async () => {
       try {
         const postsCollection = collection(db, "posts");
-        const q = query(postsCollection, orderBy("timestamp", "desc")); // Order by timestamp
+        const q = query(postsCollection, orderBy("timestamp", "desc"));
         const querySnapshot = await getDocs(q);
 
         const postsData = querySnapshot.docs.map((doc) => ({
@@ -188,29 +186,24 @@ export default function Chat() {
     fetchPosts();
   }, []);
 
-  // Add a new post to Firestore and local state
   const addPost = async ({ content, image }) => {
     try {
       const newPost = {
-        author: username, // Use the logged-in user's username
+        author: username,
         content,
         image,
         likes: 0,
         comments: [],
-        timestamp: new Date(), // Add a timestamp for ordering
+        timestamp: new Date(),
       };
 
-      // Save to Firestore
       const docRef = await addDoc(collection(db, "posts"), newPost);
-
-      // Update local state
       setPosts((prevPosts) => [{ id: docRef.id, ...newPost }, ...prevPosts]);
     } catch (error) {
       console.error("Error adding post:", error);
     }
   };
 
-  // Update likes in Firestore
   const handleLike = async (postId, likeChange) => {
     try {
       const postRef = doc(db, "posts", postId);
@@ -218,7 +211,6 @@ export default function Chat() {
         likes: increment(likeChange),
       });
 
-      // Update local state
       setPosts((prevPosts) =>
         prevPosts.map((post) =>
           post.id === postId
@@ -231,7 +223,6 @@ export default function Chat() {
     }
   };
 
-  // Add a comment to Firestore
   const handleAddComment = async (postId, comment) => {
     try {
       const postRef = doc(db, "posts", postId);
@@ -239,7 +230,6 @@ export default function Chat() {
         comments: arrayUnion(comment),
       });
 
-      // Update local state
       setPosts((prevPosts) =>
         prevPosts.map((post) =>
           post.id === postId
@@ -258,28 +248,40 @@ export default function Chat() {
   };
 
   return (
-    <View style={styles.container}>
-      <View style={styles.header}>
-        <Text style={styles.headerText}>Post</Text>
-      </View>
-      <FlatList
-        ListHeaderComponent={<PostForm onAddPost={addPost} />}
-        data={posts}
-        keyExtractor={(item) => item.id.toString()}
-        renderItem={({ item }) => (
-          <Post
-            id={item.id}
-            author={item.author}
-            content={item.content}
-            image={item.image}
-            likes={item.likes}
-            comments={item.comments}
-            onLike={handleLike}
-            onAddComment={handleAddComment}
-            username={username} // Pass the logged-in user's username
+    <View style={{ flex: 1 }}>
+      <KeyboardAvoidingView
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        style={{ flex: 1 }}
+        keyboardVerticalOffset={Platform.OS === "ios" ? 90 : 0}
+      >
+        <View style={styles.container}>
+          <View style={styles.header}>
+            <Text style={styles.headerText}>Post</Text>
+          </View>
+          
+          <FlatList
+            ListHeaderComponent={<PostForm onAddPost={addPost} />}
+            data={posts}
+            keyExtractor={(item) => item.id.toString()}
+            renderItem={({ item }) => (
+              <Post
+                id={item.id}
+                author={item.author}
+                content={item.content}
+                image={item.image}
+                likes={item.likes}
+                comments={item.comments}
+                onLike={handleLike}
+                onAddComment={handleAddComment}
+                username={username}
+              />
+            )}
+            contentContainerStyle={styles.flatListContent}
           />
-        )}
-      />
+        </View>
+      </KeyboardAvoidingView>
+
+      {/* Fixed Navigation Bar */}
       <View style={styles.bottomNav}>
         {[
           { icon: "home", label: "Home", screen: "HomePage" },

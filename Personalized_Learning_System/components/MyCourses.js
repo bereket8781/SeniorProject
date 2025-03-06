@@ -7,9 +7,11 @@ import {
   TextInput,
   Image,
   Alert,
+  KeyboardAvoidingView,
+  Platform,
 } from "react-native";
-import { db, auth } from "../firebaseConfig"; // Import Firebase db and auth
-import { collection, onSnapshot, query, where, getDocs } from "firebase/firestore"; // Import Firestore functions
+import { db, auth } from "../firebaseConfig";
+import { collection, onSnapshot, query, where, getDocs } from "firebase/firestore";
 import { Feather, MaterialIcons } from "@expo/vector-icons";
 import styles from "./mycourseStyles";
 
@@ -19,21 +21,17 @@ const MyCourses = ({ navigation }) => {
   const [searchKeyword, setSearchKeyword] = useState("");
   const [filteredCourses, setFilteredCourses] = useState([]);
 
-  // Fetch completed courses from Firestore
   useEffect(() => {
     if (activeTab === "Completed") {
-      const userId = auth.currentUser.uid; // Get current user ID
-      const userCoursesRef = collection(db, "userCourses", userId, "completedCourses");
+      const userId = auth.currentUser?.uid;
+      if (!userId) return;
 
+      const userCoursesRef = collection(db, "userCourses", userId, "completedCourses");
       const unsubscribe = onSnapshot(userCoursesRef, (querySnapshot) => {
-        const courses = [];
-        querySnapshot.forEach((doc) => {
-          courses.push({ id: doc.id, ...doc.data() });
-        });
+        const courses = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
         setCompletedCourses(courses);
       });
-
-      return () => unsubscribe();
+      return unsubscribe;
     }
   }, [activeTab]);
 
@@ -49,21 +47,16 @@ const MyCourses = ({ navigation }) => {
     }
 
     try {
-      const coursesCollection = collection(db, "courses");
       const q = query(
-        coursesCollection,
+        collection(db, "courses"),
         where("title", ">=", searchKeyword),
         where("title", "<=", searchKeyword + "\uf8ff")
       );
       const querySnapshot = await getDocs(q);
-
-      const coursesData = querySnapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-      }));
-
-      setFilteredCourses(coursesData); // Store filtered courses
-      navigation.navigate("SearchResult", { courses: coursesData }); // Navigate to search results page
+      const coursesData = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+      
+      setFilteredCourses(coursesData);
+      navigation.navigate("SearchResult", { courses: coursesData });
     } catch (error) {
       console.error("Error searching courses:", error);
       Alert.alert("Error", "Something went wrong. Please try again.");
@@ -71,89 +64,96 @@ const MyCourses = ({ navigation }) => {
   };
 
   return (
-    <View style={styles.container}>
-      <View style={styles.header}>
-        <TouchableOpacity
-          onPress={() => navigation.navigate("HomePage")}
-          style={styles.backButton}
-        >
-          <Feather name="chevron-left" color="#000000" size={24} />
-        </TouchableOpacity>
-        <Text style={styles.headerTitle}>My Courses</Text>
-      </View>
-
-      <ScrollView>
-        <View style={styles.searchContainer}>
-          <View style={styles.searchWrapper}>
-            <TextInput
-              placeholder="Search for..."
-              style={styles.searchInput}
-              value={searchKeyword}
-              onChangeText={(text) => setSearchKeyword(text)}
-              onSubmitEditing={handleSearch} // Trigger search on "Enter"
-            />
-            <TouchableOpacity onPress={handleSearch}>
-              <Feather name="search" style={styles.searchIcon} />
+    <View style={{ flex: 1 }}>
+      <KeyboardAvoidingView
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        style={{ flex: 1 }}
+        keyboardVerticalOffset={Platform.OS === "ios" ? 64 : 0}
+      >
+        <View style={styles.container}>
+          <View style={styles.header}>
+            <TouchableOpacity
+              onPress={() => navigation.goBack()}
+              style={styles.backButton}
+            >
+              <Feather name="chevron-left" color="#000000" size={24} />
             </TouchableOpacity>
+            <Text style={styles.headerTitle}>My Courses</Text>
           </View>
 
-          <View style={styles.filterContainer}>
-            <TouchableOpacity
-              style={[styles.filterButton, styles.filterButtonCompleted]}
-              onPress={() => setActiveTab("Completed")}
-            >
-              <Text style={styles.filterTextCompleted}>Completed</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={[styles.filterButton, styles.filterButtonOngoing]}
-              onPress={() => navigation.navigate("OngoingCourses")}
-            >
-              <Text style={styles.filterTextOngoing}>Ongoing</Text>
-            </TouchableOpacity>
-          </View>
+          <ScrollView contentContainerStyle={styles.scrollContent}>
+            <View style={styles.searchContainer}>
+              <View style={styles.searchWrapper}>
+                <TextInput
+                  placeholder="Search for..."
+                  style={styles.searchInput}
+                  value={searchKeyword}
+                  onChangeText={setSearchKeyword}
+                  onSubmitEditing={handleSearch}
+                />
+                <TouchableOpacity onPress={handleSearch}>
+                  <Feather name="search" style={styles.searchIcon} />
+                </TouchableOpacity>
+              </View>
+
+              <View style={styles.filterContainer}>
+                <TouchableOpacity
+                  style={[
+                    styles.filterButton,
+                    styles.filterButtonCompleted,
+                    activeTab === "Completed" && styles.activeFilter,
+                  ]}
+                  onPress={() => setActiveTab("Completed")}
+                >
+                  <Text style={styles.filterTextCompleted}>Completed</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={[
+                    styles.filterButton,
+                    styles.filterButtonOngoing,
+                    activeTab === "Ongoing" && styles.activeFilter,
+                  ]}
+                  onPress={() => navigation.navigate("OngoingCourses")}
+                >
+                  <Text style={styles.filterTextOngoing}>Ongoing</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+
+            {activeTab === "Completed" && (
+              <View style={styles.courseList}>
+                {completedCourses.map((course) => (
+                  <TouchableOpacity
+                    key={course.id}
+                    style={styles.courseItem}
+                    //onPress={() => navigation.navigate("MyCourseLessons", { course })}
+                  >
+                    <View style={styles.courseImageContainer}>
+                      <Image
+                        source={{ uri: course.image || "https://via.placeholder.com/150" }}
+                        style={styles.courseImage}
+                      />
+                      <View style={styles.checkCircle}>
+                        <MaterialIcons
+                          name="check-circle"
+                          color="#10b981"
+                          size={24}
+                        />
+                      </View>
+                    </View>
+                    <View style={styles.courseDetails}>
+                      <Text style={styles.courseTitle}>{course.title}</Text>
+                      <Text style={styles.courseProvider}>{course.provider}</Text>
+                    </View>
+                  </TouchableOpacity>
+                ))}
+              </View>
+            )}
+          </ScrollView>
         </View>
+      </KeyboardAvoidingView>
 
-        {/* Display Completed Courses */}
-        {activeTab === "Completed" && (
-          <View style={styles.courseList}>
-            {completedCourses.map((course) => (
-              <TouchableOpacity
-                key={course.id}
-                style={styles.courseItem}
-                onPress={() => navigation.navigate("MyCourseLessons", { course })}
-              >
-                <View style={styles.courseImageContainer}>
-                  <Image
-                    source={{
-                      uri: course.image || "https://images.unsplash.com/photo-1531403009284-440f080d1e12?w=500&q=80",
-                    }}
-                    style={styles.courseImage}
-                  />
-                  <View style={styles.checkCircle}>
-                    <MaterialIcons
-                      name="check-circle"
-                      color="#10b981"
-                      size={24}
-                    />
-                  </View>
-                </View>
-                <View style={styles.courseDetails}>
-                  <Text style={styles.courseTitle}>{course.title}</Text>
-                  <Text style={styles.courseProvider}>{course.provider}</Text>
-                </View>
-              </TouchableOpacity>
-            ))}
-          </View>
-        )}
-
-        {/* Display Ongoing Courses */}
-        {activeTab === "Ongoing" && (
-          <View style={styles.courseList}>
-            {/* Render ongoing courses here */}
-          </View>
-        )}
-      </ScrollView>
-
+      {/* Fixed Navigation Bar */}
       <View style={styles.bottomNav}>
         {[
           { icon: "home", label: "Home", screen: "HomePage" },
