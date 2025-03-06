@@ -7,15 +7,16 @@ import {
   Image,
   ScrollView,
   ActivityIndicator,
+  Alert,
 } from "react-native";
 import { Picker } from "@react-native-picker/picker";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import * as ImagePicker from "expo-image-picker";
 import { Ionicons } from "@expo/vector-icons";
 import styles from "./completeproStyles";
-import { db, auth } from "../firebaseConfig"; // No need for storage
+import { db, auth } from "../firebaseConfig";
 import { doc, setDoc } from "firebase/firestore";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, sendEmailVerification } from "firebase/auth";
 
 const ProfileCompletion = ({ route, navigation }) => {
   const { email, password } = route.params;
@@ -25,7 +26,7 @@ const ProfileCompletion = ({ route, navigation }) => {
   const [birthdate, setBirthdate] = useState(new Date());
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [profileImage, setProfileImage] = useState(null);
-  const [uploading, setUploading] = useState(false); // Track upload status
+  const [uploading, setUploading] = useState(false);
   const [error, setError] = useState("");
 
   const handleDateChange = (event, selectedDate) => {
@@ -46,7 +47,7 @@ const ProfileCompletion = ({ route, navigation }) => {
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
       aspect: [4, 3],
-      quality: 0.5, // Reduce quality to minimize Base64 size
+      quality: 0.5,
     });
 
     if (!result.canceled) {
@@ -60,9 +61,7 @@ const ProfileCompletion = ({ route, navigation }) => {
       const blob = await response.blob();
       return new Promise((resolve, reject) => {
         const reader = new FileReader();
-        reader.onloadend = () => {
-          resolve(reader.result); // Base64 string
-        };
+        reader.onloadend = () => resolve(reader.result);
         reader.onerror = reject;
         reader.readAsDataURL(blob);
       });
@@ -81,34 +80,50 @@ const ProfileCompletion = ({ route, navigation }) => {
     }
 
     try {
-      setUploading(true); // Start uploading
+      setUploading(true);
 
-      // Convert the profile image to Base64
+      // Convert profile image to Base64
       let profileImageBase64 = null;
       if (profileImage) {
         profileImageBase64 = await convertImageToBase64(profileImage);
       }
 
-      // Create user in Firebase Authentication
+      // Create user account
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-      const userId = userCredential.user.uid;
+      
+      // Send verification email
+      await sendEmailVerification(userCredential.user);
 
-      // Save additional data to Firestore
+      // Save user data to Firestore
+      const userId = userCredential.user.uid;
       await setDoc(doc(db, "users", userId), {
         username,
         email,
         phoneNumber,
         gender,
         birthdate: birthdate.toISOString(),
-        profileImage: profileImageBase64, // Store the Base64 string
+        profileImage: profileImageBase64,
+        emailVerified: false,
+        createdAt: new Date().toISOString()
       });
 
-      navigation.navigate("LearningAssessmentForm");
+      // Show success alert
+      Alert.alert(
+        "Verify Account Creation",
+        "A verification email has been sent to your email address. Please verify your email to continue.",
+        [
+          {
+            text: "OK",
+            onPress: () => navigation.navigate("LearningAssessmentForm")
+          }
+        ]
+      );
     } catch (error) {
-      console.error("Error creating account:", error);
+      console.error("Account creation failed:", error);
       setError(error.message);
+      Alert.alert("Error", error.message);
     } finally {
-      setUploading(false); // Stop uploading
+      setUploading(false);
     }
   };
 
@@ -200,7 +215,7 @@ const ProfileCompletion = ({ route, navigation }) => {
         <TouchableOpacity
           style={styles.createButton}
           onPress={handleCreateAccount}
-          disabled={uploading} // Disable button while uploading
+          disabled={uploading}
         >
           {uploading ? (
             <ActivityIndicator color="#fff" />
