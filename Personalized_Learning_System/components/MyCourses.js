@@ -13,9 +13,11 @@ import {
 import { db, auth } from "../firebaseConfig";
 import { collection, onSnapshot, query, where, getDocs } from "firebase/firestore";
 import { Feather, MaterialIcons } from "@expo/vector-icons";
+import { useRoute } from "@react-navigation/native";
 import styles from "./mycourseStyles";
 
 const MyCourses = ({ navigation }) => {
+  const route = useRoute();
   const [activeTab, setActiveTab] = useState("MyCourses");
   const [completedCourses, setCompletedCourses] = useState([]);
   const [searchKeyword, setSearchKeyword] = useState("");
@@ -34,6 +36,10 @@ const MyCourses = ({ navigation }) => {
       return unsubscribe;
     }
   }, [activeTab]);
+
+    useEffect(() => {
+      setActiveTab(route.name);
+    }, [route.name]);
 
   const handleNavigation = (screen) => {
     setActiveTab(screen);

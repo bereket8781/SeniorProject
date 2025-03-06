@@ -242,6 +242,10 @@ export default function Chat() {
     }
   };
 
+  useEffect(() => {
+    setActiveTab(route.name);
+  }, [route.name]);
+
   const handleNavigation = (screen) => {
     setActiveTab(screen);
     navigation.navigate(screen);

@@ -113,6 +113,10 @@ const HomePage = () => {
     fetchFavorites();
   }, []);
 
+  useEffect(() => {
+    setActiveTab(route.name);
+  }, [route.name]);
+
   const handleNavigation = (screen) => {
     setActiveTab(screen);
     navigation.navigate(screen, { username });

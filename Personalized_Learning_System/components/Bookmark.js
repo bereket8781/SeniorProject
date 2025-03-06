@@ -15,15 +15,21 @@ import { Feather, Ionicons } from "@expo/vector-icons";
 import { auth, db } from "../firebaseConfig";
 import { collection, getDocs, doc, getDoc, onSnapshot, setDoc } from "firebase/firestore";
 import { useNavigation } from "@react-navigation/native";
+import { useRoute } from "@react-navigation/native";
 import styles from "./bookmarkStyles";
 
 const Bookmark = () => {
+  const route = useRoute();
   const navigation = useNavigation();
   const [activeTab, setActiveTab] = useState("Bookmark");
   const [favoriteCourses, setFavoriteCourses] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
   const [courseToRemove, setCourseToRemove] = useState(null);
+
+  useEffect(() => {
+    setActiveTab(route.name);
+  }, [route.name]);
 
   const handleNavigation = (screen) => {
     setActiveTab(screen);
