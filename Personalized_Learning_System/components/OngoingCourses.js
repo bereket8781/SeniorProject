@@ -28,13 +28,9 @@ const OngoingCourses = ({ navigation }) => {
       const courseRef = doc(db, "userCourses", userId, "ongoingCourses", course.id);
       const newProgress = Math.min(course.progress + 10, 100);
       await updateDoc(courseRef, { progress: newProgress });
-
-      // Navigate to quiz if progress is 100%, otherwise open course URL
-      if (newProgress === 100) {
-        navigation.navigate("Quizzes", { courseId: course.id, courseTitle: course.title, enrolledAt: course.enrolledAt });
-      } else {
-        Linking.openURL(course.url);
-      }
+      
+      // Always open course URL regardless of progress
+      Linking.openURL(course.url);
     } catch (error) {
       console.error("Error continuing course:", error);
       Alert.alert("Error", "Failed to continue course.");
@@ -43,11 +39,15 @@ const OngoingCourses = ({ navigation }) => {
 
   const handleMarkComplete = async (course) => {
     try {
-/*       if (course.progress < 100) {
-        Alert.alert("Incomplete", "Please complete the course before marking it as done.");
-        return;
-      } */
+      // First navigate to quiz
+      navigation.navigate("Quizzes", { 
+        courseId: course.id, 
+        courseTitle: course.title, 
+        enrolledAt: course.enrolledAt 
+      });
 
+      // Then mark as complete after quiz completion
+      // (This should be moved to execute after successful quiz completion)
       const userId = auth.currentUser.uid;
       const ongoingCourseRef = doc(db, "userCourses", userId, "ongoingCourses", course.id);
       const completedCourseRef = doc(db, "userCourses", userId, "completedCourses", course.id);
@@ -61,11 +61,10 @@ const OngoingCourses = ({ navigation }) => {
         userId,
         progress: 100,
         completedAt,
-        timeSpent,
+        timeSpent: timeSpent,
       });
 
       await deleteDoc(ongoingCourseRef);
-      Alert.alert("Success", "Course marked as completed!");
     } catch (error) {
       console.error("Error marking course as completed:", error);
       Alert.alert("Error", "Failed to mark course as completed.");

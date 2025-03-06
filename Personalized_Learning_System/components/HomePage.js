@@ -56,7 +56,7 @@ const HomePage = () => {
           if (userDoc.exists()) {
             const userData = userDoc.data();
             setUsername(userData.username || "");
-            setProfileImage(userData.profileImage || null);
+            setProfileImage(userData.profileImage || "");
           }
         }
       } catch (error) {
@@ -161,7 +161,7 @@ const HomePage = () => {
                 {profileImage ? (
                   <Image
                     source={{ uri: profileImage }}
-                    style={styles.profileImage}
+                    style={{ width: 40, height: 40, borderRadius: 20 }}
                   />
                 ) : (
                   <Image
