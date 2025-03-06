@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, ScrollView, TouchableOpacity, Alert, Linking } from "react-native";
+import { View, Text, ScrollView, TouchableOpacity, Alert, Linking, AppState } from "react-native";
 import { db, auth } from "../firebaseConfig";
 import { collection, doc, onSnapshot, updateDoc, deleteDoc, setDoc } from "firebase/firestore";
 import styles from "./ongoingStyles";
 
 const OngoingCourses = ({ navigation }) => {
   const [ongoingCourses, setOngoingCourses] = useState([]);
+  const [pendingCourse, setPendingCourse] = useState(null);
 
   useEffect(() => {
     const userId = auth.currentUser.uid;
@@ -22,32 +23,50 @@ const OngoingCourses = ({ navigation }) => {
     return () => unsubscribe();
   }, []);
 
-  const handleContinueCourse = async (course) => {
+  useEffect(() => {
+    const handleAppStateChange = async (nextAppState) => {
+      if (nextAppState === 'active' && pendingCourse) {
+        try {
+          const userId = auth.currentUser.uid;
+          const courseRef = doc(db, "userCourses", userId, "ongoingCourses", pendingCourse.id);
+          const newProgress = Math.min(pendingCourse.currentProgress + 10, 100);
+          
+          await updateDoc(courseRef, { progress: newProgress });
+          //Alert.alert("Progress Updated", `Your progress is now ${newProgress}%`);
+        } catch (error) {
+          console.error("Error updating progress:", error);
+          Alert.alert("Error", "Failed to update course progress.");
+        } finally {
+          setPendingCourse(null);
+        }
+      }
+    };
+
+    const subscription = AppState.addEventListener('change', handleAppStateChange);
+    return () => subscription.remove();
+  }, [pendingCourse]);
+
+  const handleContinueCourse = (course) => {
     try {
-      const userId = auth.currentUser.uid;
-      const courseRef = doc(db, "userCourses", userId, "ongoingCourses", course.id);
-      const newProgress = Math.min(course.progress + 10, 100);
-      await updateDoc(courseRef, { progress: newProgress });
-      
-      // Always open course URL regardless of progress
+      setPendingCourse({
+        id: course.id,
+        currentProgress: course.progress
+      });
       Linking.openURL(course.url);
     } catch (error) {
-      console.error("Error continuing course:", error);
-      Alert.alert("Error", "Failed to continue course.");
+      console.error("Error opening course:", error);
+      Alert.alert("Error", "Could not open course link.");
     }
   };
 
   const handleMarkComplete = async (course) => {
     try {
-      // First navigate to quiz
       navigation.navigate("Quizzes", { 
         courseId: course.id, 
         courseTitle: course.title, 
         enrolledAt: course.enrolledAt 
       });
 
-      // Then mark as complete after quiz completion
-      // (This should be moved to execute after successful quiz completion)
       const userId = auth.currentUser.uid;
       const ongoingCourseRef = doc(db, "userCourses", userId, "ongoingCourses", course.id);
       const completedCourseRef = doc(db, "userCourses", userId, "completedCourses", course.id);
@@ -61,7 +80,7 @@ const OngoingCourses = ({ navigation }) => {
         userId,
         progress: 100,
         completedAt,
-        timeSpent: timeSpent,
+        timeSpent,
       });
 
       await deleteDoc(ongoingCourseRef);
